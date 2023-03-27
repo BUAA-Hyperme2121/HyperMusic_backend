@@ -1,6 +1,6 @@
 # Project_backend
 
-这是网易云网页版后端
+这是HyperMusic网页版后端
 开发环境：
 
 **Linux ubuntu0.22.04.2**
