@@ -3,7 +3,7 @@
 这是HyperMusic网页版后端
 开发环境：
 
-**Linux ubuntu0.22.04.2**
+**Window 10**
 
 **python 3.6**
 
