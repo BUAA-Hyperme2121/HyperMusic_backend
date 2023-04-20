@@ -49,12 +49,12 @@ def cre_complain(request):
         username = request.session['username']
         #检测用户是否登录
         if username is None:
-            return JsonResponse({'errno': 1001, 'msg': "还未登录"})
+            return JsonResponse({'errno': 1002, 'msg': "还未登录"})
 
         #从数据库获取用户
         user = User.objects.filter(username=username)
         if not user.exists():
-            return JsonResponse({'errno': 1002, 'msg': "用户不存在"})
+            return JsonResponse({'errno': 1003, 'msg': "用户不存在"})
         user = user[1]
 
         user_id = user.id
@@ -79,12 +79,12 @@ def cre_complain(request):
         username = request.session['username']
         # 检测用户是否登录
         if username is None:
-            return JsonResponse({'errno': 1001, 'msg': "还未登录"})
+            return JsonResponse({'errno': 1002, 'msg': "还未登录"})
 
         # 从数据库获取用户
         user = User.objects.filter(username=username)
         if not user.exists():
-            return JsonResponse({'errno': 1002, 'msg': "用户不存在"})
+            return JsonResponse({'errno': 1003, 'msg': "用户不存在"})
         user = user[1]
 
         user_id = user.id
