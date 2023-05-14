@@ -8,14 +8,15 @@ from User.models import User, Singer
 # 歌曲
 class Music(models.Model):
     id = models.AutoField(primary_key=True)
-    create_date = models.DateTimeField(auto_now_add=True)
+    create_time = models.DateTimeField('创建时间',auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Music_Uploader')
     file_loc = models.CharField(max_length=100)
-    likes = models.IntegerField()
-    listen_times = models.IntegerField()
+    likes = models.IntegerField(default=0)
+    listen_time = models.IntegerField(default=0)
     # music_comments = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='Comment')
     # music_complains = models.ForeignKey(Complain, on_delete=models.CASCADE, related_name='Complain')
-    music_cover_path = models.CharField()
+    music_front = models.ImageField()
+    front_path = models.CharField()
     music_name = models.CharField(max_length=100)
     description = models.TextField()
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Music_Creator')
@@ -31,16 +32,16 @@ class Music(models.Model):
             'singer_id': self.singer.id,
             'singer_name': self.singer.name,
             'creator': self.creator,
-            'music_cover_path': self.music_cover_path,
+            'front_path': self.front_path,
             'likes': self.likes,
-            'listen_times': self.listen_times
+            'listen_time': self.listen_time
         }
 
     def get_words(self):
         return self.words
 
     def add_listen_times(self):
-        self.listen_times += 1
+        self.listen_time += 1
         self.save(update_fields="listen_times")
 
     def add_likes(self):
@@ -60,8 +61,9 @@ class Album(models.Model):
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Singer')
     music_num = models.IntegerField(default=0)
     cover_path = models.CharField()
+    cover = models.ImageField()
     publish_date = models.DateField()
-    description = models.TextField(max_length=200)
+    introduction = models.TextField(max_length=200)
 
     def to_dic_id(self):
         return {
@@ -76,7 +78,7 @@ class Album(models.Model):
             'name': self.name,
             'cover_path': self.cover_path,
             'publish_date': self.publish_date,
-            'description': self.description
+            'description': self.introduction
         }
 
 
@@ -85,30 +87,35 @@ class MusicList(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     create_date = models.DateTimeField(auto_now_add=True)
-    music_list_profile = models.TextField()
     music = models.ManyToManyField(to=Music)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='MusicList_Creator')
-    views = models.IntegerField()
     music_num = models.IntegerField(default=0)
-    cover_path = models.CharField()
+    music_list_front = models.ImageField()
+    front_path = models.CharField()
+    description = models.TextField(max_length=200)
+    listen_time = models.IntegerField(default=0)
+    # 歌单类型type: 1 收藏夹 2 喜欢歌单
+    type = models.IntegerField()
+    # 是否公开分享，默认不分开
+    is_share = models.BooleanField(default=False)
 
     def to_dic_id(self):
         return {
             "name": self.name,
             "id": self.id,
-            "cover_path": self.cover_path,
+            "cover_path": self.front_path,
             "music_num": self.music_num
         }
 
     def to_dic(self):
         return {
             "name": self.name,
-            "cover_path": self.cover_path,
+            "cover_path": self.front_path,
             "song_count": self.music_num
         }
 
     def change_cover(self, new_path):
-        self.cover_path = new_path
+        self.front_path = new_path
         self.save(update_fields='cover_path')
 
     def add_music_num(self):
@@ -126,6 +133,7 @@ class Label(models.Model):
     label_name = models.CharField(max_length=100)
     label_music = models.ManyToManyField(to=Music)
     label_music_list = models.ManyToManyField(to=MusicList)
+    label_singer = models.ManyToManyField(to=Singer)
 
 
 # 歌手的歌曲
