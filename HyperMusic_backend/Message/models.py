@@ -12,8 +12,9 @@ class Comment(models.Model):
     content = models.TextField()
     #0 是音乐 1 是歌单 2 是动态
     type = models.IntegerField(verbose_name='评论种类')
+
     likes = models.IntegerField(verbose_name='点赞数')
-    title = models.CharField(max_length=50)
+
     def to_dic(self):
         return {
             "id": self.id,
@@ -23,6 +24,7 @@ class Comment(models.Model):
             "poster_id": self.poster_id,
             "content": self.content,
             "likes": self.likes,
+            "type": self.type,
         }
 
     def add_like(self):
@@ -33,13 +35,14 @@ class Comment(models.Model):
 class Complain(models.Model):
     id = models.AutoField(primary_key=True)
     create_date = models.DateTimeField(auto_now_add=True)
-    music_id = models.IntegerField(verbose_name='投诉音乐id', default=-1)
+    object_id = models.IntegerField(verbose_name='投诉对象id', default=-1)
     poster_id = models.IntegerField(verbose_name='投诉发表者id', default=-1)
     content = models.TextField()
+    #投诉种类 0 为歌曲 1为歌单
     type = models.IntegerField(verbose_name='评论种类')
     #0 未审核 1 通过审核 2未通过
     state = models.IntegerField(verbose_name='状态')
-    title = models.IntegerField(verbose_name='')
+
     def to_dic(self):
         return {
             "id": self.id,
@@ -47,6 +50,8 @@ class Complain(models.Model):
             "music_id": self.music_id,
             "poster_id": self.poster_id,
             "content": self.content,
+            "type": self.type,
+            "state": self.state,
         }
 
 
@@ -137,3 +142,16 @@ class PostToComment(models.Model):
     comment_id = models.IntegerField(verbose_name='评论', default=0)
 
 
+class MusicListToComment(models.Model):
+    musiclist_id = models.IntegerField(verbose_name='音乐主体', default=0)
+    comment_id = models.IntegerField(verbose_name='评论', default=0)
+
+
+class PostToComment(models.Model):
+    post_id = models.IntegerField(verbose_name='音乐主体', default=0)
+    comment_id = models.IntegerField(verbose_name='评论', default=0)
+
+
+class MusicListToComplain(models.Model):
+    musiclist_id = models.IntegerField(verbose_name='音乐主体', default=0)
+    complain_id = models.IntegerField(verbose_name='评论', default=0)
