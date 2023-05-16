@@ -8,7 +8,7 @@ from User.models import User, Singer
 # 歌曲
 class Music(models.Model):
     id = models.AutoField(primary_key=True)
-    create_time = models.DateTimeField('创建时间',auto_now_add=True)
+    create_time = models.DateTimeField('创建时间', auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Music_Uploader')
     file_loc = models.CharField(max_length=100)
     likes = models.IntegerField(default=0)
@@ -80,6 +80,12 @@ class Album(models.Model):
             'publish_date': self.publish_date,
             'description': self.introduction
         }
+
+    def add_music(self):
+        self.music_num += 1
+
+    def del_music(self):
+        self.music_num -= 1
 
 
 # 用户创建的歌单/收藏夹

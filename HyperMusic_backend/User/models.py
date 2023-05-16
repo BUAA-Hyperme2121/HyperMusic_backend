@@ -61,6 +61,15 @@ class User(models.Model):
             'location': self.location
         }
 
+    def to_dic_simple(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'location': self.location,
+            'avatar_path': self.avatar_path,
+            'gender': self.gender
+        }
+
     # 增加粉丝
     def add_fan(self):
         self.fan_num += 1

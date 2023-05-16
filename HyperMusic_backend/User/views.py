@@ -27,7 +27,6 @@ def trans_password(password):
     return transed_password
 
 
-
 # 注册
 def register(request):
     if request.method == 'POST':
@@ -108,7 +107,7 @@ def login(request):
         }
         # JWT令牌
         JWT = jwt.enconde(token, 'secret', algorithm='HS256')
-        result = {'result': 1, 'message': "登录成功！", 'JWT': JWT, 'user': user.to_dic_id()}
+        result = {'result': 1, 'message': "登录成功！", 'JWT': JWT, 'user': user.to_dic_simple()}
         return JsonResponse(result)
     else:
         result = {'result': 0, 'message': '请求方式错误'}
@@ -465,19 +464,19 @@ def get_most_listen_music_list(request):
         except Exception as e:
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
-        type = request.POST.get('type')
-        if type == 1:
+        get_type = request.POST.get('type')
+        if get_type == 1:
             # 先找出该用户最近一周听歌记录
             monday = datetime.today()
             one_day = timedelta(days=-1)
             while monday.weekday() != 0:
                 monday += one_day
             listen_history = UserListenHistory.objects.filter(user_id=user_id, create_date__gte=monday). \
-                                 values('music_id').annotate(times=Count('music_id')).order_by('-times')[:10]
+                                                              values('music_id').annotate(times=Count('music_id')).order_by('-times')[:10]
             if not listen_history.exists():
                 result = {'result': 1, 'message': '用户这周还没有听歌记录哦'}
                 return JsonResponse(result)
-        elif type == 2:
+        elif get_type == 2:
             listen_history = UserListenHistory.objects.filter(user_id=user_id). \
                                  values('music_id').annotate(times=Count('music_id')).order_by('-times')[:10]
             if not listen_history.exists():
@@ -492,7 +491,7 @@ def get_most_listen_music_list(request):
             # 增加用户听这首歌的次数
             dic['user_listen_times'] = music.times
             music_list.append(dic)
-        if type == 1:
+        if get_type == 1:
             result = {'result': 1, 'message': '成功获取用户当周听歌历史', 'music_list': music_list}
         else:
             result = {'result': 1, 'message': '成功获取用户当前听歌历史', 'music_list': music_list}
@@ -524,9 +523,42 @@ def like_music(request):
             result = {'result': 0, 'message': '此歌曲已经在您喜爱的歌曲列表中'}
             return JsonResponse(result)
         music = Music.objects.get(id=music_id)
+        # 歌曲喜欢数加1
+        music.add_likes()
         like_music_list.music.add(music)
         like_music_list.save()
         result = {'result': 1, 'message': '已成功添加到喜爱歌曲列表'}
+        return JsonResponse(result)
+    else:
+        result = {'result': 0, 'message': "请求方式错误！"}
+        return JsonResponse(result)
+
+
+# 取消喜欢歌曲
+def unlike_music(request):
+    if request.method == 'POST':
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        music_id = request.POST.get('music_id')
+        if not Music.objects.filter(id=music_id).exists():
+            result = {'result': 0, 'message': '该歌曲不存在'}
+            return JsonResponse(result)
+        user = User.objects.filter(id=user_id)
+        like_music_list = MusicList.objects.get(creator=user, type=2)
+        if not like_music_list.music.objects.filter(id=music_id).exists():
+            result = {'result': 0, 'message': '此歌曲未在喜欢的歌曲列表中'}
+            return JsonResponse(result)
+        music = Music.objects.get(id=music_id)
+        # 歌曲喜欢数减1
+        music.del_likes()
+        like_music_list.music.remove(music)
+        like_music_list.save()
+        result = {'result': 1, 'message': '已成功取消喜欢此歌曲'}
         return JsonResponse(result)
     else:
         result = {'result': 0, 'message': "请求方式错误！"}
@@ -547,9 +579,9 @@ def create_favorites(request):
         # 创建收藏夹需要提供名称 TODO 考虑重名？
         create_name = request.POST.get('create_name')
         user = User.objects.get(id=user_id)
-        new_favorites = MusicList(name=create_name,creator=user,type=1)
+        new_favorites = MusicList(name=create_name, creator=user, type=1)
         description = request.POST.get('description')
-        if not description is None:
+        if description is not None:
             new_favorites.description = description
         new_favorites.save()
         result = {'result': 1, 'message': '收藏夹创建成功'}
@@ -572,7 +604,7 @@ def get_favorites(request):
         user = User.objects.get(id=user_id)
         if not MusicList.objects.filter(creator=user, type=1).exists():
             result = {'result': 0, 'message': '当前用户未创建收藏夹'}
-            return  JsonResponse(result)
+            return JsonResponse(result)
         favorites = MusicList.objects.filter(creator=user, type=1).all()
         favorites_list = [x.to_dic_id() for x in favorites]
         result = {'result': 1, 'message': '获取用户收藏夹成功', 'favorites_list': favorites_list}
@@ -660,7 +692,7 @@ def mark_music(request):
         return JsonResponse(result)
 
 
-# 批量收藏歌曲
+# 从他人分享歌单中批量收藏歌曲
 def mark_music_list(request):
     if request.method == 'POST':
         # 检查表单信息
