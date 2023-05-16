@@ -1,15 +1,15 @@
-import time
+import random
 from datetime import datetime
 
+import jwt
+from django.core.mail import send_mail
 from django.http import JsonResponse
-from django.shortcuts import render
-from google.auth import jwt
 
 from Message.models import *
 from Message.models import VerifyCode
 from User.models import User
-from django.core.mail import send_mail
-import random
+
+
 #获取用户发表的评论列表
 def get_user_comment_list_simple(user_id):
     return [x.id for x in UserToComment.objects.filter(user_id=user_id)]

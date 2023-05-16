@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from Music.models import MusicList, SingerToMusic, SingerToAlbum, Album
+from Music.models import MusicList, SingerToMusic, SingerToAlbum, Album, Music
 from User.models import Singer
 
 
@@ -85,6 +85,50 @@ def get_album_info(request):
     else:
         result = {'result': 0, 'message': '请求方式错误'}
         return JsonResponse(result)
+
+
+# 将一首歌曲添加到专辑/从专辑中删除
+def modify_music_to_album(music_id, album_id, opration):
+    if not Music.objects.filter(id=music_id).exists():
+        return '歌曲不存在', False
+    music = Music.objects.get(id=music_id)
+    if not Album.objects.filter(id=album_id).exists():
+        return '专辑不存在', False
+    album = Album.objects.get(id=album_id)
+    if opration == 1:
+        if not album.music.objects.filter(music_id).exists():
+            album.music.add(music)
+            album.add_music()
+            album.save()
+            return '添加歌曲到专辑成功', True
+        else:
+            return '歌曲已经在专辑中', False
+    else:
+        if album.music.objects.filter(music_id).exists():
+            album.music.remove(music)
+            album.del_music()
+            album.save()
+            return '从专辑中删除歌曲成功', True
+        else:
+            return '歌曲不在专辑中', False
+
+
+# 添加专辑
+def create_album(name, publish_date, singer_name, introduction):
+    if name is None or singer_name is None:
+        return '专辑名字和歌手名字不能为空', False
+    if Album.objects.filter(name=name).exists():
+        return '已有同名专辑,请修改名字', False
+    if not Singer.objects.filter(name=singer_name).exists():
+        return '歌手不存在', False
+    if publish_date is None:
+        return '发行日期不能为空', False
+    singer = Singer.objects.get(name=singer_name)
+    if introduction is None:
+        introduction = str(singer.name) + '的专辑'
+    album = Album(name=name, publish_date=publish_date, singer=singer, introduction=introduction)
+    album.save()
+    return '创建专辑成功', False
 
 
 # 播放歌曲
