@@ -15,7 +15,7 @@ class Music(models.Model):
     listen_times = models.IntegerField()
     # music_comments = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='Comment')
     # music_complains = models.ForeignKey(Complain, on_delete=models.CASCADE, related_name='Complain')
-    music_cover_path = models.CharField()
+    music_cover_path = models.CharField(max_length=100)
     music_name = models.CharField(max_length=100)
     description = models.TextField()
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Music_Creator')
@@ -59,7 +59,7 @@ class Album(models.Model):
     music = models.ManyToManyField(to=Music)
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Singer')
     music_num = models.IntegerField(default=0)
-    cover_path = models.CharField()
+    cover_path = models.CharField(max_length=100)
     publish_date = models.DateField()
     description = models.TextField(max_length=200)
 
@@ -90,7 +90,7 @@ class MusicList(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='MusicList_Creator')
     views = models.IntegerField()
     music_num = models.IntegerField(default=0)
-    cover_path = models.CharField()
+    cover_path = models.CharField(max_length=100)
 
     def to_dic_id(self):
         return {

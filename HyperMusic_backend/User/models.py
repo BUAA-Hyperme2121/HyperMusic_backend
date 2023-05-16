@@ -9,8 +9,8 @@ class Singer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     introduction = models.TextField(max_length=150)
-    cover_path = models.CharField()
-    album_num = models.IntegerField()
+    cover_path = models.CharField(max_length=100)
+    album_num = models.IntegerField(max_length=100)
 
     def to_dic_id(self):
         return {
@@ -40,7 +40,7 @@ class User(models.Model):
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
     # 头像,个人简介,所在地, 性别
-    avatar_path = models.CharField()
+    avatar_path = models.CharField(max_length=100)
     introduction = models.TextField(max_length=150)
     location = models.CharField(max_length=30)
     gender = models.CharField(max_length=10)

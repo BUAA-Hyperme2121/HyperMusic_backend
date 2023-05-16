@@ -8,7 +8,7 @@ from User.models import *
 from django.http import JsonResponse
 # Create your views here.
 import hashlib
-import jwt
+from google.auth import jwt
 
 
 def check_password(password):

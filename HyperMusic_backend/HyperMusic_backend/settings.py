@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'User',
     'Music',
-    'Message'
-
+    'Message',
+    'bucket_manager',
 ]
 
 MIDDLEWARE = [
