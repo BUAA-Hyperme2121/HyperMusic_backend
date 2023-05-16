@@ -90,7 +90,6 @@ class VerifyCode(models.Model):
     cre_date = models.DateTimeField(auto_now_add=True)
     email = models.CharField(max_length=32)
 
-
     def to_dic(self):
         return {
 
