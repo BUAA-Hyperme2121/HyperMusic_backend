@@ -194,3 +194,21 @@ spawned uWSGI worker 4 (pid: 101753, cores: 2)
 Not Found: /api
 WARNING:django.request:Not Found: /api
 [pid: 101753|app: 0|req: 1/1] 219.239.227.216 () {42 vars in 861 bytes} [Wed May 17 10:12:58 2023] GET /api => generated 2549 bytes in 109 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 0)
+Not Found: /api
+WARNING:django.request:Not Found: /api
+[pid: 101753|app: 0|req: 2/2] 1.202.122.101 () {42 vars in 998 bytes} [Wed May 17 10:23:00 2023] GET /api => generated 2549 bytes in 5 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 1)
+Not Found: /api
+WARNING:django.request:Not Found: /api
+[pid: 101753|app: 0|req: 3/3] 1.202.122.101 () {42 vars in 998 bytes} [Wed May 17 10:25:05 2023] GET /api => generated 2549 bytes in 5 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 0)
+Not Found: /api
+WARNING:django.request:Not Found: /api
+[pid: 101753|app: 0|req: 4/4] 219.239.227.125 () {40 vars in 770 bytes} [Wed May 17 10:27:57 2023] GET /api => generated 2549 bytes in 5 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 1)
+Not Found: /api/music
+WARNING:django.request:Not Found: /api/music
+[pid: 101753|app: 0|req: 5/5] 219.239.227.125 () {36 vars in 475 bytes} [Wed May 17 10:28:49 2023] GET /api/music?id=1 => generated 2572 bytes in 6 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 0)
+Not Found: /api/music
+WARNING:django.request:Not Found: /api/music
+[pid: 101750|app: 0|req: 1/6] 219.239.227.125 () {36 vars in 466 bytes} [Wed May 17 10:29:23 2023] GET /api/music => generated 2567 bytes in 105 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 0)
+Not Found: /api
+WARNING:django.request:Not Found: /api
+[pid: 101753|app: 0|req: 6/7] 54.248.195.229 () {38 vars in 740 bytes} [Wed May 17 10:37:15 2023] GET /api => generated 2549 bytes in 5 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 1)
