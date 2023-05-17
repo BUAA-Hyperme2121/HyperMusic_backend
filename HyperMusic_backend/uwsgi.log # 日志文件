@@ -1,0 +1,45 @@
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 17 10:04:30 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+writing pidfile to /root/HyperMusic_backend/HyperMusic_backend/uwsgi.pid # 进程号文件
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend # 后端项目路径，注意是manage.py所在的文件夹位置
+chdir(): No such file or directory [core/uwsgi.c line 2625]
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 17 10:04:38 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+writing pidfile to /root/HyperMusic_backend/HyperMusic_backend/uwsgi.pid # 进程号文件
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend # 后端项目路径，注意是manage.py所在的文件夹位置
+chdir(): No such file or directory [core/uwsgi.c line 2625]
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 17 10:04:55 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+writing pidfile to /root/HyperMusic_backend/HyperMusic_backend/uwsgi.pid # 进程号文件
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend # 后端项目路径，注意是manage.py所在的文件夹位置
+chdir(): No such file or directory [core/uwsgi.c line 2625]

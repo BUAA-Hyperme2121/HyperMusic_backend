@@ -4,9 +4,8 @@ from qcloud_cos import CosS3Client
 import sys
 import logging
 import os
-import pylab
 
-import numpy as np
+#import numpy as np
 from key import *
 
 

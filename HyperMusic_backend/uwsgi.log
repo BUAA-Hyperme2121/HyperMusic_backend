@@ -1,0 +1,196 @@
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 17 10:06:04 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+writing pidfile to /root/HyperMusic_backend/HyperMusic_backend/uwsgi.pid
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+your processes number limit is 7287
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Nov 14 2022, 12:59:47)  [GCC 9.4.0]
+Python main interpreter initialized at 0x556fccb638d0
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1031270 bytes (1007 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+/usr/local/lib/python3.8/dist-packages/django/db/models/base.py:366: RuntimeWarning: Model 'Message.posttocomment' was already registered. Reloading models is not advised as it can lead to inconsistencies, most notably with related models.
+  new_class._meta.apps.register_model(new_class._meta.app_label, new_class)
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x556fccb638d0 pid: 101036 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 101036)
+spawned uWSGI worker 1 (pid: 101040, cores: 2)
+spawned uWSGI worker 2 (pid: 101041, cores: 2)
+spawned uWSGI worker 3 (pid: 101043, cores: 2)
+spawned uWSGI worker 4 (pid: 101044, cores: 2)
+...gracefully killing workers...
+Gracefully killing worker 1 (pid: 101040)...
+Gracefully killing worker 3 (pid: 101043)...
+Gracefully killing worker 2 (pid: 101041)...
+Gracefully killing worker 4 (pid: 101044)...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+binary reloading uWSGI...
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+closing all non-uwsgi socket fds > 2 (max_fd = 65535)...
+found fd 3 mapped to socket 0 (127.0.0.1:8000)
+running /usr/local/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 17 10:07:47 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+your processes number limit is 7287
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Nov 14 2022, 12:59:47)  [GCC 9.4.0]
+Python main interpreter initialized at 0x556e3fdd4340
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1031270 bytes (1007 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+/usr/local/lib/python3.8/dist-packages/django/db/models/base.py:366: RuntimeWarning: Model 'Message.posttocomment' was already registered. Reloading models is not advised as it can lead to inconsistencies, most notably with related models.
+  new_class._meta.apps.register_model(new_class._meta.app_label, new_class)
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x556e3fdd4340 pid: 101036 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 101036)
+spawned uWSGI worker 1 (pid: 101542, cores: 2)
+spawned uWSGI worker 2 (pid: 101543, cores: 2)
+spawned uWSGI worker 3 (pid: 101545, cores: 2)
+spawned uWSGI worker 4 (pid: 101546, cores: 2)
+Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/usr/local/lib/python3.8/dist-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
+Bad Request: /api
+WARNING:django.request:Bad Request: /api
+[pid: 101546|app: 0|req: 1/1] 219.239.227.216 () {40 vars in 830 bytes} [Wed May 17 10:08:01 2023] GET /api => generated 58523 bytes in 133 msecs (HTTP/1.1 400) 4 headers in 172 bytes (1 switches on core 0)
+Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/usr/local/lib/python3.8/dist-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
+ERROR:django.security.DisallowedHost:Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/usr/local/lib/python3.8/dist-packages/django/http/request.py", line 150, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
+Bad Request: /api
+WARNING:django.request:Bad Request: /api
+[pid: 101546|app: 0|req: 2/2] 61.151.231.107 () {36 vars in 637 bytes} [Wed May 17 10:12:01 2023] GET /api => generated 57966 bytes in 22 msecs (HTTP/1.1 400) 4 headers in 172 bytes (1 switches on core 1)
+...gracefully killing workers...
+Gracefully killing worker 1 (pid: 101542)...
+Gracefully killing worker 3 (pid: 101545)...
+Gracefully killing worker 2 (pid: 101543)...
+Gracefully killing worker 4 (pid: 101546)...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+binary reloading uWSGI...
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+closing all non-uwsgi socket fds > 2 (max_fd = 65535)...
+found fd 3 mapped to socket 0 (127.0.0.1:8000)
+running /usr/local/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 17 10:12:52 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+your processes number limit is 7287
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Nov 14 2022, 12:59:47)  [GCC 9.4.0]
+Python main interpreter initialized at 0x563829408340
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1031270 bytes (1007 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+/usr/local/lib/python3.8/dist-packages/django/db/models/base.py:366: RuntimeWarning: Model 'Message.posttocomment' was already registered. Reloading models is not advised as it can lead to inconsistencies, most notably with related models.
+  new_class._meta.apps.register_model(new_class._meta.app_label, new_class)
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x563829408340 pid: 101036 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 101036)
+spawned uWSGI worker 1 (pid: 101749, cores: 2)
+spawned uWSGI worker 2 (pid: 101750, cores: 2)
+spawned uWSGI worker 3 (pid: 101752, cores: 2)
+spawned uWSGI worker 4 (pid: 101753, cores: 2)
+Not Found: /api
+WARNING:django.request:Not Found: /api
+[pid: 101753|app: 0|req: 1/1] 219.239.227.216 () {42 vars in 861 bytes} [Wed May 17 10:12:58 2023] GET /api => generated 2549 bytes in 109 msecs (HTTP/1.1 404) 6 headers in 215 bytes (1 switches on core 0)

@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-3p-#gr1dy1q(k0=7w3(=iv^tf)#&zxzywv_%@q)pi#+hxvxh8(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['8.130.12.73','http://8.130.12.73/']
 
 
 # Application definition
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'HyperMusic_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'HyperMusic',
+        'NAME': 'hypermusic',
         'USER': key.db_user_name,
         'PASSWORD': key.db_user_password,
         'HOST': '127.0.0.1',
