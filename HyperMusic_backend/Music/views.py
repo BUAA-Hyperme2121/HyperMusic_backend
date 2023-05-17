@@ -2,7 +2,7 @@ from django.http import JsonResponse
 
 from Music.models import MusicList, SingerToMusic, SingerToAlbum, Album, Music
 from User.models import Singer
-
+import jwt
 
 # Create your views here.
 

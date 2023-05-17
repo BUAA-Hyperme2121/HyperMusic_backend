@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from Message.views import verify_code
 # Create your views here.
 import hashlib
-from google.auth import jwt
+import jwt
 
 
 def check_password(password):
@@ -60,7 +60,7 @@ def register(request):
         elif verify_code(email, sms_code) == 2:
             result = {'result': 0, 'message': '验证码已失效，请重新获取验证码'}
             return JsonResponse(result)
-        if verify_code(email, sms_code) != 0:
+        if verify_code(email, sms_code) != 1:
             result = {'result': 0, 'message': '未知错误'}
             return JsonResponse(result)
 
@@ -71,7 +71,7 @@ def register(request):
         # 默认给用户创建个人喜爱列表,type 2表示喜欢歌单列表
         like_list = MusicList(creator=user, name=username + '喜爱的歌曲列表', type=2)
         like_list.save()
-        user.like_list = like_list
+        user.like_list = like_list.id
         user.save()
 
         result = {'result': 1, 'message': '注册成功'}
@@ -106,8 +106,8 @@ def login(request):
             'is_admin': user.is_admin
         }
         # JWT令牌
-        JWT = jwt.enconde(token, 'secret', algorithm='HS256')
-        result = {'result': 1, 'message': "登录成功！", 'JWT': JWT, 'user': user.to_dic_simple()}
+        JWT = jwt.encode(token, 'secret', algorithm='HS256')
+        result = {'result': 1, 'message': "登录成功！", 'JWT': str(JWT), 'user': user.to_dic_simple()}
         return JsonResponse(result)
     else:
         result = {'result': 0, 'message': '请求方式错误'}

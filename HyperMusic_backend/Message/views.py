@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from Message.models import *
 from Message.models import VerifyCode
 from User.models import User
-
+from django.utils import timezone
 
 #获取用户发表的评论列表
 def get_user_comment_list_simple(user_id):
@@ -328,11 +328,12 @@ def send_email_register(request):
         sms_code = '%06d' % random.randint(0, 999999)
 
         if send_sms_code(email, sms_code) == 1:
+            verify_code = VerifyCode(email=email, num=sms_code)
+            verify_code.save()
             return JsonResponse({'errno': 0, 'msg': "发送邮件成功"})
         else:
             return JsonResponse({'errno': 1002, 'msg': "发送邮件失败"})
-        verify_code = VerifyCode(email=email, num=sms_code)
-        verify_code.save()
+
 
     else:
         return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
@@ -358,17 +359,17 @@ def send_sms_code(to_email,sms_code):
 
 def verify_code(email, sms_code):
     codes = VerifyCode.objects.filter(email=email , num=sms_code)
-    if not codes.exist():
+    if not codes.exists():
         return 0
     code = codes[0]
 
     code_time = code.cre_date
-    interval_time = (datetime.now() - code_time).total_seconds()
-
-
+    interval_time = (timezone.now().replace(tzinfo=None) - code_time.replace(tzinfo=None)).total_seconds()
+    #print(timezone.now().replace(tzinfo=None))
+    #print(code_time.replace(tzinfo=None))
 
     #超时
-    if interval_time > 120:
+    if interval_time > 1800:
         return 2
     #正常
     else:

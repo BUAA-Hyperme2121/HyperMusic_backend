@@ -181,11 +181,11 @@ class Bucket:
 
 #
 
-
-
+"""
+#查询 返回对象地址
 b=Bucket()
 res=b.query_object('hypermusic','m1.mp3')
-
+print(res)
 #res=b.music_audit_submit('hypermusic', 'm1.mp3')
 res=b.music_audit_query('hypermusic', 'm1.mp3', 'sa4a72629cf3c411edaa4752540084c07b')
 
@@ -194,3 +194,4 @@ job_id = res.get("JobId")
 label = res.get("Label")
 
 print( str(result) +" " + str(job_id) + " " + str(label) )
+"""

@@ -1,5 +1,5 @@
 from django.db import models
-from Music.models import MusicList
+
 # Create your models here.
 
 
@@ -9,7 +9,7 @@ class Singer(models.Model):
     name = models.CharField(max_length=100)
     introduction = models.TextField(max_length=150)
     cover = models.ImageField()
-    cover_path = models.CharField()
+    cover_path = models.CharField(max_length=100)
     album_num = models.IntegerField()
 
     def to_dic_id(self):
@@ -39,10 +39,10 @@ class User(models.Model):
     password = models.CharField(max_length=100)
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
-    like_list = models.IntegerField(verbose_name="个人喜爱歌单id")
+    like_list = models.IntegerField(verbose_name="个人喜爱歌单id", null=True, blank=True)
     created_time = models.DateTimeField('创建时间', auto_now_add=True)    # 头像,个人简介,所在地, 性别
     avatar = models.ImageField()
-    avatar_path = models.CharField()
+    avatar_path = models.CharField(max_length=100)
     introduction = models.TextField(max_length=150)
     location = models.CharField(max_length=30)
     gender = models.CharField(max_length=10)
