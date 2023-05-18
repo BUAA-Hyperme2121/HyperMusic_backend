@@ -1,5 +1,6 @@
 from django.db import models
-from Music.models import MusicList
+
+
 # Create your models here.
 
 
@@ -7,9 +8,8 @@ from Music.models import MusicList
 class Singer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    introduction = models.TextField(max_length=150)
-    cover = models.ImageField()
-    cover_path = models.CharField()
+    introduction = models.TextField(max_length=150, default='暂无介绍')
+    cover_path = models.CharField(max_length=100, default='')
     album_num = models.IntegerField()
 
     def to_dic_id(self):
@@ -40,34 +40,29 @@ class User(models.Model):
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
     like_list = models.IntegerField(verbose_name="个人喜爱歌单id")
-    created_time = models.DateTimeField('创建时间', auto_now_add=True)    # 头像,个人简介,所在地, 性别
-    avatar = models.ImageField()
-    avatar_path = models.CharField()
-    introduction = models.TextField(max_length=150)
-    location = models.CharField(max_length=30)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)  # 头像,个人简介,所在地, 性别
+    avatar_path = models.CharField(max_length=100, default='')
+    introduction = models.TextField(max_length=150, default='暂无介绍')
+    location = models.CharField(max_length=30, default='暂无')
     gender = models.CharField(max_length=10)
     # 最近播放记录数量
     max_record = models.IntegerField(default=20)
     is_admin = models.BooleanField(default=False)
+    # 动态数量
+    activity_num = models.IntegerField(default=0)
 
     def to_dic(self):
         return {
             'id': self.id,
             'username': self.username,
+            'introduction': self.introduction if self.introduction is not None else '暂无',
+            'location': self.location if self.location is not None else '暂无',
+            'gender': self.gender,
+            'avatar_path': self.avatar_path,
             'follow_num': self.follow_num,
             'fan_num': self.fan_num,
-            'avatar': self.avatar_path,
-            'introduction': self.introduction,
-            'location': self.location
-        }
-
-    def to_dic_simple(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'location': self.location,
-            'avatar_path': self.avatar_path,
-            'gender': self.gender
+            'activity_num': self.activity_num,
+            'max_record': self.max_record
         }
 
     # 增加粉丝
@@ -138,6 +133,3 @@ class UserToComment(models.Model):
 class UserToComplain(models.Model):
     user_id = models.IntegerField(verbose_name='用户', default=0)
     complain_id = models.IntegerField(verbose_name='投诉', default=0)
-
-
-

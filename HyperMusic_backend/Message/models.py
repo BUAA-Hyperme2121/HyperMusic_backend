@@ -146,9 +146,6 @@ class MusicListToComment(models.Model):
     comment_id = models.IntegerField(verbose_name='评论', default=0)
 
 
-class PostToComment(models.Model):
-    post_id = models.IntegerField(verbose_name='音乐主体', default=0)
-    comment_id = models.IntegerField(verbose_name='评论', default=0)
 
 
 class MusicListToComplain(models.Model):

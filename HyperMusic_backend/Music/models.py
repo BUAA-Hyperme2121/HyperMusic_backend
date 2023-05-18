@@ -10,13 +10,13 @@ class Music(models.Model):
     id = models.AutoField(primary_key=True)
     create_time = models.DateTimeField('创建时间', auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Music_Uploader')
-    file_loc = models.CharField(max_length=100)
+    music_path = models.CharField(max_length=100, default='')
+    music = models.FileField(default='')
     likes = models.IntegerField(default=0)
     listen_time = models.IntegerField(default=0)
     # music_comments = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='Comment')
     # music_complains = models.ForeignKey(Complain, on_delete=models.CASCADE, related_name='Complain')
-    music_front = models.ImageField()
-    front_path = models.CharField()
+    front_path = models.CharField(max_length=100, default='')
     music_name = models.CharField(max_length=100)
     description = models.TextField()
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Music_Creator')
@@ -31,7 +31,7 @@ class Music(models.Model):
             'duration': self.duration,
             'singer_id': self.singer.id,
             'singer_name': self.singer.name,
-            'creator': self.creator,
+            'creator': self.creator.name,
             'front_path': self.front_path,
             'likes': self.likes,
             'listen_time': self.listen_time
@@ -60,10 +60,9 @@ class Album(models.Model):
     music = models.ManyToManyField(to=Music)
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Singer')
     music_num = models.IntegerField(default=0)
-    cover_path = models.CharField()
-    cover = models.ImageField()
+    cover_path = models.CharField(max_length=100, default='')
     publish_date = models.DateField()
-    introduction = models.TextField(max_length=200)
+    introduction = models.TextField(max_length=200, default='暂无介绍')
 
     def to_dic_id(self):
         return {
@@ -96,9 +95,8 @@ class MusicList(models.Model):
     music = models.ManyToManyField(to=Music)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='MusicList_Creator')
     music_num = models.IntegerField(default=0)
-    music_list_front = models.ImageField()
-    front_path = models.CharField()
-    description = models.TextField(max_length=200)
+    front_path = models.CharField(max_length=100, default='')
+    description = models.TextField(max_length=200, default='暂无介绍')
     listen_time = models.IntegerField(default=0)
     # 歌单类型type: 1 收藏夹 2 喜欢歌单
     type = models.IntegerField()
@@ -107,8 +105,8 @@ class MusicList(models.Model):
 
     def to_dic_id(self):
         return {
-            "name": self.name,
             "id": self.id,
+            "name": self.name,
             "cover_path": self.front_path,
             "music_num": self.music_num
         }
@@ -124,11 +122,11 @@ class MusicList(models.Model):
         self.front_path = new_path
         self.save(update_fields='cover_path')
 
-    def add_music_num(self):
+    def add_music(self):
         self.music_num += 1
         self.save(update_fields='music_num')
 
-    def del_music_num(self):
+    def del_music(self):
         self.music_num -= 1
         self.save(update_fields='music_num')
 
