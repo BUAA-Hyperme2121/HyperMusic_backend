@@ -87,7 +87,7 @@ class Album(models.Model):
         self.music_num -= 1
 
 
-# 用户创建的歌单/收藏夹
+# 用户创建的收藏夹/分享的歌单
 class MusicList(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -99,7 +99,7 @@ class MusicList(models.Model):
     description = models.TextField(max_length=200, default='暂无介绍')
     listen_time = models.IntegerField(default=0)
     # 歌单类型type: 1 收藏夹 2 喜欢歌单
-    type = models.IntegerField()
+    type = models.IntegerField(default=1)
     # 是否公开分享，默认不分开
     is_share = models.BooleanField(default=False)
 
