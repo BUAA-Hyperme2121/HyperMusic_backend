@@ -21,5 +21,6 @@ urlpatterns = [
     path('api/message/', include('Message.urls')),
     path('api/music/', include('Music.urls')),
     path('api/user/', include('User.urls')),
+    path('api/index/', include('Index.urls')),
     path('api/bucket_manager/', include('bucket_manager.urls')),
 ]

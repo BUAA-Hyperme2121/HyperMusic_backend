@@ -56,7 +56,7 @@ class User(models.Model):
             'username': self.username,
             'follow_num': self.follow_num,
             'fan_num': self.fan_num,
-            'avatar': self.avatar_path,
+            'avatar_path': self.avatar_path,
             'introduction': self.introduction,
             'location': self.location
         }

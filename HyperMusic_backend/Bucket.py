@@ -10,7 +10,7 @@ from key import *
 
 
 class Bucket:
-    base_path = os.path.dirname(os.path.dirname(__file__))
+    base_path = os.path.dirname(__file__)
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     proxies = {
         'http': '127.0.0.1:80',
@@ -53,8 +53,7 @@ class Bucket:
         try:
             self.client.upload_file(
                 Bucket=bucket_name + self.app_id,
-                #LocalFilePath=self.base_path + '/media/' + file_name,
-                LocalFilePath=file_name,
+                LocalFilePath=self.base_path + '/media/' + file_name,
                 Key=key_name,
                 PartSize=1,
                 MAXThread=10
@@ -179,7 +178,9 @@ class Bucket:
         return {'result': -1, 'job_id': None}
 
 #
-
+b=Bucket()
+print(b.base_path)
+b.upload_file('hypermusic','p.py','example.py')
 """
 #查询 返回对象地址
 b=Bucket()
@@ -193,4 +194,5 @@ job_id = res.get("JobId")
 label = res.get("Label")
 
 print( str(result) +" " + str(job_id) + " " + str(label) )
+
 """

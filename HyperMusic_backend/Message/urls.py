@@ -10,5 +10,5 @@ urlpatterns = [
     path('send_message/', send_message),
     path('send_email_register/', send_email_register),
     path('get_user_message/', get_user_message),
-
+    path('del_o')
 ]
