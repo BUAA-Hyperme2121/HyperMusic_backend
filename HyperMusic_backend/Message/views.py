@@ -247,7 +247,7 @@ def get_reply(request):
             like = Likes.objects.filter(user_id=user_id, type=3,object_id=dict[id])
             if like.exists():
                 dict['is_liked'] = 1
-            else
+            else:
                 dict['is_liked'] = 0
             replys.append(dict)
 
@@ -342,7 +342,7 @@ def list_object_comment(request):
             like = Likes.objects.filter(user_id=user_id, type=2, object_id=dict[id])
             if like.exists():
                 dict['is_liked'] = 1
-            else
+            else:
                 dict['is_liked'] = 0
             comments.append(dict)
         return JsonResponse({'result': 0,
