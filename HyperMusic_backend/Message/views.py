@@ -9,6 +9,9 @@ from Message.models import *
 from User.models import User
 from django.utils import timezone
 
+from User.views import get_follow_list_simple_user
+
+
 #获取用户发表的评论列表
 def get_user_comment_list_simple(user_id):
     return [x.id for x in UserToComment.objects.filter(user_id=user_id)]
@@ -49,6 +52,27 @@ def get_music_complain_list_detail(music_id):
     return [Complain.objects.get(id=x).to_dic() for x in get_music_complain_list_simple(music_id)]
 
 
+def like(request):
+    if request.method == 'POST':
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+
+        user_id = user_id
+        object_id = request.POST.get("object_id")
+        type = request.POST.get("type")
+        like = Likes(user_id=user_id, object_id=object_id, type=type)
+        like.save()
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
 #投诉种类 1 为歌曲 2为歌单
 def cre_complain(request):
     if request.method == 'POST':  # 判断请求方式是否为 POST（要求POST方式）
@@ -85,7 +109,7 @@ def cre_complain(request):
             music=Music.objects.filter(id=object_id)
 
             if not music.exists():
-                return JsonResponse({'result': 0, 'msg': "音乐不存在"})
+                return JsonResponse({'result': 0, 'message': "音乐不存在"})
             MusicToComplain(music_id=object_id, complain_id=complain_id).save()
         # 投诉类型为歌单
 
@@ -94,17 +118,17 @@ def cre_complain(request):
             musiclist = MusicList.objects.filter(id=object_id)
             print(musiclist)
             if not musiclist.exists():
-                return JsonResponse({'result': 0, 'msg': "歌单不存在"})
+                return JsonResponse({'result': 0, 'message': "歌单不存在"})
             MusicListToComplain(musiclist_id=object_id, complain_id=complain_id).save()
 
         return JsonResponse({
                             'result': 0,
-                            'msg': "投诉成功",
+                            'message': "投诉成功",
                             'state':new_complain.state,
                              })
 
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 #0 是音乐 1 是歌单 2 是动态
@@ -120,7 +144,7 @@ def cre_comment(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
 
-        user_id = user.id
+
         object_id = request.POST.get("object_id")
         content = request.POST.get("content")
         type = request.POST.get("type")
@@ -134,14 +158,14 @@ def cre_comment(request):
             music = Music.objects.filter(id=object_id)
 
             if not music.exists():
-                return JsonResponse({'result': 0, 'msg': "音乐不存在"})
+                return JsonResponse({'result': 0, 'message': "音乐不存在"})
             MusicToComment(music_id=object_id, comment_id=comment_id).save()
         #歌单
         elif type == 2:
             musiclist = MusicList.objects.filter(id=object_id)
 
             if not musiclist.exists():
-                return JsonResponse({'result': 0, 'msg': "歌单不存在"})
+                return JsonResponse({'result': 0, 'message': "歌单不存在"})
 
             MusicListToComplain(musiclist_id=object_id, comment_id=comment_id).save()
 
@@ -150,15 +174,36 @@ def cre_comment(request):
             post = Post.objects.filter(id=object_id)
 
             if not post.exists():
-                return JsonResponse({'result': 0, 'msg': "动态不存在"})
+                return JsonResponse({'result': 0, 'message': "动态不存在"})
             PostToComment(post_id=object_id, comment_id=comment_id)
 
 
         UserToComment(user_id, comment_id).save()
-        return JsonResponse({'result': 1, 'msg': "评论成功"})
+        return JsonResponse({'result': 1, 'message': "评论成功"})
 
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+def cre_post(request):
+    if request.method == 'POST':
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        poster_id = user_id
+        content = request.POST.get('content')
+        type = request.POST.get('type')
+        object_id = request.POST.get('object_id')
+        post = Post(poster_id=poster_id, content=content, type=type, object_id=object_id)
+        post.save()
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 def cre_reply(request):
@@ -180,7 +225,7 @@ def cre_reply(request):
         reply.save()
 
     else:
-        return JsonResponse({'result': 0,'msg':"请求方式错误" })
+        return JsonResponse({'result': 0,'message':"请求方式错误" })
 
 
 def get_reply(request):
@@ -195,15 +240,25 @@ def get_reply(request):
             return JsonResponse(result)
         root_id = request.GET.get('root_id')
         replys = Reply.objects.filter(root_id=root_id).order_by('-create_date')
-        replys = [x.to_dic for x in replys]
+        tmp = replys
+        replys = []
+        for x in tmp:
+            dict = x.to_dic()
+            like = Likes.objects.filter(user_id=user_id, type=3,object_id=dict[id])
+            if like.exists():
+                dict['is_liked'] = 1
+            else
+                dict['is_liked'] = 0
+            replys.append(dict)
+
         return JsonResponse({
-            "result":1,
-            "msg":"获取成功",
-            "replys":replys,
+            "result": 1,
+            "message": "获取成功",
+            "replys": replys,
         })
     else:
         return JsonResponse({'result':0 ,
-                             'msg':"请求方式错误"})
+                             'message':"请求方式错误"})
 
 
 #获取所有投诉列表
@@ -228,11 +283,11 @@ def list_complain(request):
         complains = [x.to_dic() for x in complains]
 
         return JsonResponse({"result": 1,
-                             "msg": "获取成功成功",
+                             "message": "获取成功成功",
                              "music_complain_list": complains})
 
     else:
-        return JsonResponse({'errno': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 """
@@ -242,12 +297,12 @@ def list_user_complain(request):
         username = request.session['username']
         # 检测用户是否登录
         if username is None:
-            return JsonResponse({'errno': 1002, 'msg': "还未登录"})
+            return JsonResponse({'errno': 1002, 'message': "还未登录"})
 
         # 从数据库获取用户
         user = User.objects.filter(username=username)
         if not user.exists():
-            return JsonResponse({'errno': 1003, 'msg': "用户不存在"})
+            return JsonResponse({'errno': 1003, 'message': "用户不存在"})
         user = user[1]
         user_id = user.id
 
@@ -255,11 +310,11 @@ def list_user_complain(request):
         complains = [x.to_dic() for x in complains]
 
         return JsonResponse({'errno': 0,
-                             'msg': "获取成功成功",
+                             'message': "获取成功成功",
                              'music_complain_list': complains})
 
     else:
-        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+        return JsonResponse({'errno': 1001, 'message': "请求方式错误"})
 """
 
 
@@ -280,14 +335,22 @@ def list_object_comment(request):
         object_id = request.POST.get("object_id")
 
         comments = Comment.objects.filter(object_id=object_id, type=type).order_by('-create_date')
-        comments = [x.to_dic() for x in comments]
-
-        return JsonResponse({'errno': 0,
-                             'msg': "获取成功成功",
+        tmp = comments
+        comments = []
+        for x in tmp:
+            dict = x.to_dic()
+            like = Likes.objects.filter(user_id=user_id, type=2, object_id=dict[id])
+            if like.exists():
+                dict['is_liked'] = 1
+            else
+                dict['is_liked'] = 0
+            comments.append(dict)
+        return JsonResponse({'result': 0,
+                             'message': "获取成功成功",
                              'music_comment_list': comments})
 
     else:
-        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 #获取用户评论列表
@@ -306,11 +369,11 @@ def list_user_comment(request):
         comments = [x.to_dic() for x in comments]
 
         return JsonResponse({'result': 1,
-                             'msg': "获取成功成功",
+                             'message': "获取成功成功",
                              'music_comment_list': comments})
 
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 #创建一条信息
@@ -320,6 +383,74 @@ def cre_message(poster_id, receiver_id, title, content, message_type, type, obje
     new_message.save()
     UTM=UserToMessage(user_id=receiver_id, message_id=new_message.id)
     UTM.save()
+
+
+def get_follow_post(request):
+    if request.method == 'GET':
+        JWT = request.GET.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        #获取当前用户的关注列表
+        followers = get_follow_list_simple_user(user_id)
+        #获取关注用户所有动态
+        follower_posts =[]
+        #遍历每个用户id
+        for follower_id in followers:
+            posts = Post.objects.filter(poster_id=follower_id)
+            posts = [x.to_dic() for x in posts]
+            #获取此用户下的所有动态，添加读状态
+            for x in posts:
+                if Likes.objects.filter(user_id=user_id, type=1, object_id=x['object_id']).exists():
+                    x['is_liked'] = 1
+                else:
+                    x['is_liked'] = 0
+                follower_posts.append(x)
+        #按日期降序排序
+        follower_posts = sorted(follower_posts, key=lambda i: i['create_date'],reverse=True)
+        return JsonResponse({'result':1, 'message':"获取成功", 'posts':follower_posts})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+def get_user_post(request):
+    if request.method == 'GET':
+        JWT = request.POST.get('JWT')
+        if JWT != -1:
+            try:
+                token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+                user_id = token.get('user_id')
+                user = User.objects.get(id=user_id)
+            except Exception as e:
+                result = {'result': 0, 'message': "请先登录!"}
+                return JsonResponse(result)
+        else:
+            user_id = -1
+        #获取访问空间用户的id
+        spaceuser_id = request.GET.get('user_id')
+        #获取空间用户的动态
+        posts = Post.objects.filter(poster_id=spaceuser_id)
+        posts = [x.to_dic() for x in posts]
+        tmp = posts
+        posts = []
+        #添加当前登录用户是否点赞状态
+        for x in tmp:
+            if Likes.objects.filter(user_id=user_id, type=1, object_id=x['object_id']).exists():
+                x['is_liked'] = 1
+            else:
+                x['is_liked'] = 0
+            posts.append(x)
+
+        return JsonResponse({'result': 1,'message':"获取用户下的动态成功",'posts':posts})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+
 
 
 #当前用户发送消息 系统消息实现，可用通过管理员给用户发消息实现
@@ -350,9 +481,9 @@ def send_message(request):
 
 
         return JsonResponse({'result': 1,
-                             'msg': "消息发送成功"})
+                             'message': "消息发送成功"})
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 
@@ -376,13 +507,13 @@ def get_user_message(request):
 
 
 
-        return JsonResponse({'errno': 0,
-                             'msg': "获取用户消息成功",
+        return JsonResponse({'result': 1,
+                             'message': "获取用户消息成功",
                              'messages': messages
                              })
 
     else:
-        return JsonResponse({'errno': 1001, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 #用户删除评论
@@ -400,12 +531,12 @@ def del_comment(request):
         comment = Comment.objects.filter(id=comment_id)
         comment=comment[0]
         if comment.poster_id != user_id:
-            return JsonResponse({'result': 0, 'msg': "不是评论的发出者"})
+            return JsonResponse({'result': 0, 'message': "不是评论的发出者"})
         comment.delete()
 
-        return JsonResponse({'result': 1, 'msg': "删除成功"})
+        return JsonResponse({'result': 1, 'message': "删除成功"})
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 #用户删除动态
@@ -423,16 +554,16 @@ def del_post(request):
         post = Post.objects.filter(id=post_id)
         post = post[0]
         if post.poster_id != user_id:
-            return JsonResponse({'result': 0, 'msg': "不是动态的发出者"})
+            return JsonResponse({'result': 0, 'message': "不是动态的发出者"})
         post.delete()
         PostToComment.objects.filter(post_id=post_id).delete()
 
-        return JsonResponse({'result': 1, 'msg': "删除成功"})
+        return JsonResponse({'result': 1, 'message': "删除成功"})
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
-#管理员删除评论、动态
+#管理员删除 1 - 评论、2 - 动态
 def del_object(request):
     if request.method == 'POST':
         #获取用户信息
@@ -454,13 +585,39 @@ def del_object(request):
         #管理员可以删除所有对象
         else:
 
-            object_type = request.POST.get('object_type')
+            object_type = request.POST.get('type')
+            object_id = request.POST.get('object_id')
+            #删除评论
+            if object_type == 1:
+                #删除评论本身
+                comment =  Comment.objects.get(object_id=object_id)
+                comment.delete()
+                # 删除评论下的所有回复
+                replys = Reply.objects.filter(root_id=object_id)
+                replys.delete()
 
+                return JsonResponse({'result': 1, 'message': "删除评论成功"})
+            #删除动态
+            elif object_type == 2:
+                post = Post.objects.get(object_id)
+                post.delete()
+                # 删除动态下的评论
+                comments = Comment.objects.filter(type=3,object_id=object_id)
+                comments.delete()
+                # 删除评论下的所有回复
+                replys = Reply.objects.filter(root_id=object_id)
+                replys.delete()
+                return JsonResponse({'result': 1, 'message': "删除动态成功"})
+            #删除回复
+            elif object_type == 3:
 
-
+                # 删除评论下的所有回复
+                replys = Reply.objects.filter(id=object_id)
+                replys.delete()
+                return JsonResponse({'result': 1, 'message': "删除回复成功"})
 
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 def verify_code(email, sms_code):
@@ -475,14 +632,14 @@ def verify_code(email, sms_code):
     #print(code_time.replace(tzinfo=None))
 
     #超时
-    if interval_time > 1800:
-        return 2
+    #if interval_time > 1800:
+    #    return 2
     #正常
-    else:
-        return 1
+    #else:
+    return 1
 
 
-def send_sms_code(to_email,sms_code):
+def send_sms_code(to_email, sms_code):
     """
     发送邮箱验证码
     :param to_mail: 发到这个邮箱
@@ -502,30 +659,107 @@ def send_email_register(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         sms_code = '%06d' % random.randint(0, 999999)
+
         #验证码是否已经存在
         if verify_code(email, sms_code) != 0:
+
             #未超时，不可发送
             if verify_code(email, sms_code) == 1:
-                return JsonResponse({'result':0, 'msg':'验证码已发送，请勿短期重复发送'})
+                return JsonResponse({'result':0, 'message':'验证码已发送，请勿短期重复发送'})
             #已超时，删除重发
             elif verify_code(email, sms_code) == 2:
-                verify_code = VerifyCode.objects.get(email, sms_code)
-                verify_code.delete()
+                code = VerifyCode.objects.get(email, sms_code)
+                code.delete()
 
         if send_sms_code(email, sms_code) == 1:
-            verify_code = VerifyCode(email=email, num=sms_code)
-            verify_code.save()
-            return JsonResponse({'result': 1, 'msg': "发送邮件成功"})
+            code = VerifyCode(email=email, num=sms_code)
+            code.save()
+            return JsonResponse({'result': 1, 'message': "发送邮件成功"})
         else:
-            return JsonResponse({'result': 0, 'msg': "邮件发送异常"})
+            return JsonResponse({'result': 0, 'message': "邮件发送异常"})
 
 
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
+def audit(request):
+    if request.method == 'POST':
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        if user.is_admin == False:
+            return JsonResponse({"result":0,'message': "没有访问权限"})
+        complain_id = request.POST.get('complain_id')
+        complain = Complain.objects.filter(complain_id)
+        if not complain.exists():
+            return JsonResponse({'result':0, 'message':"数据库中不存在相应投诉"})
+        result = request.POST.get('result')
+        reason = request.POST.get('reason')
+
+        complain = complain[0]
+        complain.audit_time = datetime.now()
+        complain.state = 2
+        complain.result= result
+        complain.reason = reason
+        complain.save()
 
 
+        #审核通关
+        if result == 1:
+
+            return JsonResponse({'result':1,'message':"审核结果为：通过"})
+
+        #审核未通过,改变文件为不可见
+
+        elif result == 2:
+            type = complain.type
+
+            object_id = complain.object_id
+            #删除音乐
+            if type == 1:
+                music = Music.objects.get(id=object_id)
+                music.delete()
+
+            #隐藏歌单
+            elif type == 2:
+                musiclist = MusicList.objects.get(id=object_id)
+                musiclist.is_public = False
+                musiclist.save()
+
+
+            return JsonResponse({'result':1, 'message':"审核结果为：不通过"})
+    else:
+        return JsonResponse({'result':0, 'message':"请求方式错误"})
+
+
+def get_complain_detail(request):
+    if request.method == 'POST':
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+
+        if user.is_admin == False:
+            result = {'result': 0, 'message': "没有访问权限"}
+            return JsonResponse(result)
+
+        complain_id = request.POST.get('complain_id')
+        complain = Complain.objects.get(complain_id)
+
+        return JsonResponse({'result':1, 'complain': complain.to_dic_detail(),'message':"获取投诉成功"})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+        
 
 
 

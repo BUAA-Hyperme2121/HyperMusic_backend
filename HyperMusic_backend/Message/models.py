@@ -33,6 +33,7 @@ class Comment(models.Model):
 
         }
 
+
     def add_like(self):
         self.like_num += 1
         self.save(update_fields="like_num")
@@ -61,17 +62,28 @@ class Complain(models.Model):
         return {
             "id": self.id,
             "create_date": self.create_date,
-            "music_id": self.music_id,
+            "object_id": self.object_id,
             "poster_id": self.poster_id,
-            "content": self.content,
             "type": self.type,
             "state": self.state,
             "title":self.title,
-            "result":self.result,
-            "reason":self.reason,
-            "audit_time":self.audit_time,
-        }
+            "result": self.result,
 
+        }
+    def to_dic_detail(self):
+        return {
+            "id": self.id,
+            "create_date": self.create_date,
+            "object_id": self.object_id,
+            "poster_id": self.poster_id,
+            "type": self.type,
+            "state": self.state,
+            "title": self.title,
+            "result": self.result,
+            "reason": self.reason,
+            "audit_time": self.audit_time,
+            "content": self.content,
+        }
 
 #用户间的私信
 class Message(models.Model):
@@ -81,7 +93,7 @@ class Message(models.Model):
     poster_id = models.IntegerField(verbose_name='发送私信者的id', default=0)
     receiver_id = models.IntegerField(verbose_name='收到私信者的id', default=0)
     content = models.TextField(verbose_name='私信内容')
-    cre_date = models.DateTimeField(auto_now_add=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     object_id = models.IntegerField(verbose_name="消息对应的对象id", blank=True)
     #1-歌曲 2- 歌单 3 - 动态
     type = models.IntegerField(verbose_name="消息对应的对象种类", blank=True)
@@ -103,12 +115,16 @@ class Message(models.Model):
             "receiver_id": self.receiver_id,
             "poster_id": self.poster_id,
             "content": self.content,
-            "cre_date": self.cre_date,
+            "create_date": self.create_date,
             "object_id":self.object_id,
             "type":self.type,
             "state":self.state,
             "message_type":self.message_type,
         }
+
+
+    def to_dic_detail(self):
+        return {}
 
 
 class VerifyCode(models.Model):
@@ -120,7 +136,6 @@ class VerifyCode(models.Model):
 
     def to_dic(self):
         return {
-
             "num": self.num,
             "cre_date": self.cre_date,
             "user_id": self.user_id,
@@ -129,12 +144,12 @@ class VerifyCode(models.Model):
 
 class Post(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField('标题', max_length=32)
     poster_id = models.IntegerField(verbose_name='发送私信者的id', default=0)
     content = models.TextField(verbose_name='私信内容')
-    cre_date = models.DateTimeField(auto_now_add=True)
-    like_num = models.IntegerField(verbose_name='点赞数')
-    comment_num = models.IntegerField(verbose_name='评论数')
+    create_date = models.DateTimeField(auto_now_add=True)
+    like_num = models.IntegerField(verbose_name='点赞数', default=0)
+    comment_num = models.IntegerField(verbose_name='评论数', default=0)
+    #type：1 - 歌曲 2 - 歌单
     type = models.IntegerField(verbose_name="分享对象的种类")
     object_id = models.IntegerField(verbose_name="分享对象的id")
 
@@ -145,7 +160,7 @@ class Post(models.Model):
             "title":self.title,
             "poster_id":self.poster_id,
             "content":self.content,
-            "cre_date":self.cre_date,
+            "create_date":self.create_date,
             "like_num":self.like_num,
             "comment_num":self.comment_num,
             "type":self.type,
@@ -160,7 +175,7 @@ class Post(models.Model):
 
 class Reply(models.Model):
     id = models.AutoField(primary_key=True)
-    cre_date = models.DateTimeField(auto_now_add=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     replyer_id = models.IntegerField(verbose_name="回复者id")
     content = models.TextField(verbose_name="回复内容")
     #根评论
@@ -173,7 +188,7 @@ class Reply(models.Model):
     def to_dic(self):
         return {
             "id":self.id,
-            "cre_ate":self.cre_date,
+            "create_date":self.create_date,
             "replyer_id":self.replyer_id,
             "content":self.content,
             "root_id":self.root_id,
@@ -183,6 +198,11 @@ class Reply(models.Model):
         }
 
 
+class Likes(models.Model):
+    id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField(verbose_name="点赞用户id")
+    object_id = models.IntegerField(verbose_name="点赞对象id")
+    type = models.IntegerField(verbose_name="点赞对象种类")
 
 class UserToComment(models.Model):
     user_id = models.IntegerField(verbose_name='用户 主体', default=0)

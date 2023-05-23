@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/user/', include('User.urls')),
     path('api/index/', include('Index.urls')),
     path('api/bucket_manager/', include('bucket_manager.urls')),
+    path('api/page/', include('Page.urls')),
 ]

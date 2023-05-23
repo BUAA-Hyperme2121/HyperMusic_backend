@@ -10,22 +10,22 @@ from Music.models import *
 def music_search(request):
     if request.method == 'GET':
         keywords = request.GET.get('keywords')
-        musics= Music.objects.filter(music_name__icontains=keywords)
+        musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
 
         musics= [ x.to_dic() for x in musics]
-        JsonResponse({  'result': 1, 'msg':'搜索音乐成功', 'musics':musics    })
+        JsonResponse({  'result': 1, 'message':'搜索音乐成功', 'musics':musics    })
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 def musiclist_search(request):
     if request.method == "GET":
         keywords = request.GET.get('keywords')
-        musiclists = MusicList.objects.filter(name__icontains=keywords)
+        musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
 
         musiclists = [x.to_dic() for x in musiclists]
-        JsonResponse({'result': 1, 'msg': '搜索歌单成功', 'musiclists': musiclists})
+        JsonResponse({'result': 1, 'message': '搜索歌单成功', 'musiclists': musiclists})
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 def singer_search(request):
@@ -34,17 +34,17 @@ def singer_search(request):
         singers = Singer.objects.filter(name__icontains=keywords)
 
         singers = [x.to_dic() for x in singers]
-        JsonResponse({'result': 1, 'msg': '搜索歌手成功', 'singers': singers})
+        JsonResponse({'result': 1, 'message': '搜索歌手成功', 'singers': singers})
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 def user_search(request):
     if request.method == "GET":
         keywords = request.GET.get('keywords')
-        users = User.objects.filter(name__icontains=keywords)
+        users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
 
         users = [x.to_dic() for x in users]
-        JsonResponse({'result': 1, 'msg': '搜索用户成功', 'users': users})
+        JsonResponse({'result': 1, 'message': '搜索用户成功', 'users': users})
     else:
-        return JsonResponse({'result': 0, 'msg': "请求方式错误"})
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})

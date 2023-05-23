@@ -10,5 +10,16 @@ urlpatterns = [
     path('send_message/', send_message),
     path('send_email_register/', send_email_register),
     path('get_user_message/', get_user_message),
-    path('del_o')
+    path('get_reply/', get_reply),
+    path('del_commment/', del_comment),
+    path('del_post/', del_post),
+    path('del_object/', del_object),
+    path('audit/', audit),
+    path('get_complain_detail/', get_complain_detail),
+    path('like/',like),
+    path('cre_post/',cre_post),
+    path('cre_reply/',cre_reply),
+    path('get_follow_post/', get_follow_post),
+    path('get_user_post/', get_user_post),
+    path('get_complain_detail/', get_complain_detail),
 ]

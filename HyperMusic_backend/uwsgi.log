@@ -105,7 +105,7 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 48, in process_request
     host = request.get_host()
   File "/usr/local/lib/python3.8/dist-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
+    raise DisallowedHost(message)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
 Bad Request: /api
 WARNING:django.request:Bad Request: /api
@@ -119,7 +119,7 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 48, in process_request
     host = request.get_host()
   File "/usr/local/lib/python3.8/dist-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
+    raise DisallowedHost(message)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
 ERROR:django.security.DisallowedHost:Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
 Traceback (most recent call last):
@@ -130,7 +130,7 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 48, in process_request
     host = request.get_host()
   File "/usr/local/lib/python3.8/dist-packages/django/http/request.py", line 150, in get_host
-    raise DisallowedHost(msg)
+    raise DisallowedHost(message)
 django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '8.130.12.73'. You may need to add '8.130.12.73' to ALLOWED_HOSTS.
 Bad Request: /api
 WARNING:django.request:Bad Request: /api
