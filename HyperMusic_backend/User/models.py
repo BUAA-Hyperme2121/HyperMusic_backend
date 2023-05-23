@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -7,17 +8,15 @@ from django.db import models
 class Singer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    introduction = models.TextField(max_length=150)
-    cover = models.ImageField()
-    cover_path = models.CharField(max_length=100)
-    album_num = models.IntegerField()
+    introduction = models.TextField(max_length=150, default='暂无介绍')
+    cover_path = models.CharField(max_length=100, default='')
 
     def to_dic_id(self):
         return {
             'id': self.id,
             'name': self.name,
             'cover_path': self.cover_path,
-            'album_num': self.album_num
+            'introduction': self.introduction
         }
 
     def to_dic(self):
@@ -27,47 +26,51 @@ class Singer(models.Model):
             'introduction': self.introduction
         }
 
-    def add_album(self):
-        self.album_num += 1
-        self.save(update_fields='album_num')
-
 
 class User(models.Model):
+    # 基本信息
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100)
-    # encoded password
     password = models.CharField(max_length=100)
+    created_time = models.DateTimeField('创建时间', auto_now_add=True)  # 头像,个人简介,所在地, 性别
+
+    # 维护信息
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
-    like_list = models.IntegerField(verbose_name="个人喜爱歌单id", null=True, blank=True)
-    created_time = models.DateTimeField('创建时间', auto_now_add=True)    # 头像,个人简介,所在地, 性别
-    avatar = models.ImageField()
-    avatar_path = models.CharField(max_length=100)
-    introduction = models.TextField(max_length=150)
-    location = models.CharField(max_length=30)
-    gender = models.CharField(max_length=10)
-    # 最近播放记录数量
-    max_record = models.IntegerField(default=20)
+    like_list = models.IntegerField(verbose_name="个人喜爱歌单id")
+
+    # 头像路径
+    avatar_path = models.CharField(max_length=100, default='')
+
+    # 可选信息: 简介,所在地,性别
+    introduction = models.TextField(max_length=150, default='这个人很懒，什么也没有留下')
+    location = models.CharField(max_length=30, default='暂无')
+    gender = models.CharField(max_length=10, default='未知')
+
+    # 个性设置: 最近播放记录数量
+    history_record = models.IntegerField(default=20)
+
+    # 动态数量
+    post_num = models.IntegerField(default=0)
+
+    # 判断信息: 歌手认证, 管理员认证
+    is_singer = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     def to_dic(self):
         return {
             'id': self.id,
             'username': self.username,
+            'introduction': self.introduction if self.introduction is not None else '暂无',
+            'location': self.location if self.location is not None else '暂无',
+            'gender': self.gender,
+            'avatar_path': self.avatar_path,
             'follow_num': self.follow_num,
             'fan_num': self.fan_num,
-            'avatar_path': self.avatar_path,
-            'introduction': self.introduction,
-            'location': self.location
-        }
-
-    def to_dic_simple(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'location': self.location,
-            'avatar_path': self.avatar_path,
-            'gender': self.gender
+            'post_num': self.post_num,
+            'activity_num': self.post_num,
+            'history_record': self.history_record,
+            'is_singer': self.is_singer,
         }
 
     # 增加粉丝
@@ -138,6 +141,3 @@ class UserToComment(models.Model):
 class UserToComplain(models.Model):
     user_id = models.IntegerField(verbose_name='用户', default=0)
     complain_id = models.IntegerField(verbose_name='投诉', default=0)
-
-
-
