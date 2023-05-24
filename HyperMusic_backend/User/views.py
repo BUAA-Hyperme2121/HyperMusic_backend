@@ -127,7 +127,7 @@ def login(request):
             'is_admin': user.is_admin
         }
         # JWT令牌
-        JWT = jwt.encode(token, 'secret', algorithm='HS256').decode('ascii')
+        JWT = jwt.encode(token, 'secret', algorithm='HS256')
         result = {'result': 1, 'message': "登录成功", 'JWT': JWT, 'user': user.to_dic()}
         return JsonResponse(result)
     else:

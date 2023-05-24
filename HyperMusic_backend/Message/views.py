@@ -66,7 +66,7 @@ def like(request):
             return JsonResponse(result)
 
         user_id = user_id
-        object_id = request.POST.get("object_id".'-1')
+        object_id = request.POST.get("object_id",'-1')
         type = request.POST.get("type",'-1')
         like = Likes(user_id=user_id, object_id=object_id, type=type)
         like.save()
