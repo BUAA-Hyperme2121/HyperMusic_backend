@@ -149,7 +149,7 @@ class Post(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     like_num = models.IntegerField(verbose_name='点赞数', default=0)
     comment_num = models.IntegerField(verbose_name='评论数', default=0)
-    #type：1 - 歌曲 2 - 歌单
+    #type：1 - 歌曲 2 - 歌单 0 -不含对象
     type = models.IntegerField(verbose_name="分享对象的种类")
     object_id = models.IntegerField(verbose_name="分享对象的id")
 
@@ -196,6 +196,8 @@ class Reply(models.Model):
             "like_num": self.like_num,
             "isLevel2":self.isLevel2
         }
+
+
 
 
 class Likes(models.Model):

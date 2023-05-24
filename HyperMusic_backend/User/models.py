@@ -25,7 +25,7 @@ class User(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    created_date = models.DateTimeField('创建时间', auto_now_add=True)  # 头像,个人简介,所在地, 性别
+    create_date = models.DateTimeField('创建时间', auto_now_add=True)  # 头像,个人简介,所在地, 性别
 
     # 维护信息
     follow_num = models.IntegerField(default=0)

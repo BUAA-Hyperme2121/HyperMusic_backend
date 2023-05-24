@@ -42,7 +42,7 @@ def singer_search(request):
 def user_search(request):
     if request.method == "GET":
         keywords = request.GET.get('keywords')
-        users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
+        users = User.objects.filter(username__icontains=keywords).order_by('-create_date')
 
         users = [x.to_dic() for x in users]
         return JsonResponse({'result': 1, 'message': '搜索用户成功', 'users': users})

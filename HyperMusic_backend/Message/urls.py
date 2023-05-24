@@ -22,4 +22,5 @@ urlpatterns = [
     path('get_follow_post/', get_follow_post),
     path('get_user_post/', get_user_post),
     path('get_complain_detail/', get_complain_detail),
+    path('cancel_like/', cancel_like)
 ]
