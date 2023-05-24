@@ -6,11 +6,12 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 from Music.models import *
 from Message.models import *
-from User.models import User
+from User.models import User,UserToFollow
 from django.utils import timezone
 
-from User.views import get_follow_list_simple_user
 
+def get_follow_list_simple_user(user_id):
+    return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
 
 #获取用户发表的评论列表
 def get_user_comment_list_simple(user_id):
