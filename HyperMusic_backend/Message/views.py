@@ -9,9 +9,9 @@ from Message.models import *
 from User.models import User,UserToFollow
 from django.utils import timezone
 
-
 def get_follow_list_simple_user(user_id):
     return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
+
 
 #获取用户发表的评论列表
 def get_user_comment_list_simple(user_id):

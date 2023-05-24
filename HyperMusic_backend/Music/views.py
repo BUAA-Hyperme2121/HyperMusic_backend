@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.db.models import Count
 from django.http import JsonResponse
 
-from Music.models import MusicList, SingerToMusic, SingerToAlbum, Album, Music, Label
+from Music.models import MusicList, SingerToMusic, SingerToAlbum, Music, Label
 from User.models import Singer, UserListenHistory
 
 
@@ -80,7 +80,7 @@ def get_singer_list(request):
         result = {'result': 0, 'message': '请求方式错误'}
         return JsonResponse(result)
 
-
+"""
 # 获取某一专辑信息
 def get_album_info(request):
     if request.method == 'GET':
@@ -142,7 +142,7 @@ def create_album(name, publish_date, singer_name, introduction):
     album = Album(name=name, publish_date=publish_date, singer=singer, introduction=introduction)
     album.save()
     return '创建专辑成功', False
-
+"""
 
 
 
