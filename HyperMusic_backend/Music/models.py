@@ -51,40 +51,6 @@ class Music(models.Model):
         self.save(update_fields='likes')
 
 
-# # 歌手专辑
-# class Album(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     name = models.CharField(max_length=50)
-#     music = models.ManyToManyField(to=Music)
-#     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Singer')
-#     music_num = models.IntegerField(default=0)
-#     cover_path = models.CharField(max_length=100, default='')
-#     publish_date = models.DateField()
-#     introduction = models.TextField(max_length=200, default='暂无介绍')
-#
-#     def to_dic_id(self):
-#         return {
-#             'id': self.id,
-#             'name': self.name,
-#             'cover_path': self.cover_path,
-#             'music_num': self.music_num
-#         }
-#
-#     def to_dic(self):
-#         return {
-#             'name': self.name,
-#             'cover_path': self.cover_path,
-#             'publish_date': self.publish_date,
-#             'description': self.introduction
-#         }
-#
-#     def add_music(self):
-#         self.music_num += 1
-#
-#     def del_music(self):
-#         self.music_num -= 1
-
-
 # 用户创建的收藏夹/分享的歌单
 class MusicList(models.Model):
     # 基本信息
@@ -118,6 +84,7 @@ class MusicList(models.Model):
             'cover_path': self.front_path,
             'music_num': self.music_num,
             'is_public': self.is_public,
+            'type': self.type
         }
 
     def change_cover(self, new_path):
@@ -148,7 +115,3 @@ class SingerToMusic(models.Model):
     music_id = models.IntegerField(verbose_name='歌曲', default=0)
 
 
-# 歌手的专辑
-class SingerToAlbum(models.Model):
-    singer_id = models.IntegerField(verbose_name='歌手', default=0)
-    album_id = models.IntegerField(verbose_name='专辑', default=0)

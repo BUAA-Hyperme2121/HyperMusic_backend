@@ -11,16 +11,9 @@ class Singer(models.Model):
     introduction = models.TextField(max_length=150, default='暂无介绍')
     cover_path = models.CharField(max_length=100, default='')
 
-    def to_dic_id(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'cover_path': self.cover_path,
-            'introduction': self.introduction
-        }
-
     def to_dic(self):
         return {
+            'id': self.id,
             'name': self.name,
             'cover_path': self.cover_path,
             'introduction': self.introduction
@@ -68,9 +61,9 @@ class User(models.Model):
             'follow_num': self.follow_num,
             'fan_num': self.fan_num,
             'post_num': self.post_num,
-            'activity_num': self.post_num,
             'history_record': self.history_record,
             'is_singer': self.is_singer,
+            'is_admin': self.is_admin
         }
 
     # 增加粉丝
@@ -118,12 +111,6 @@ class UserToSinger(models.Model):
 class UserToMusicList(models.Model):
     user_id = models.IntegerField(verbose_name='用户', default=0)
     music_list_id = models.IntegerField(verbose_name='创建歌单', default=0)
-
-
-# 个人喜欢歌单
-class UserToLikeMusicList(models.Model):
-    user_id = models.IntegerField(verbose_name='用户', default=0)
-    music_list_id = models.IntegerField(verbose_name='喜爱歌单', default=0)
 
 
 # 查询个人听歌历史
