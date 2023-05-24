@@ -11,7 +11,6 @@ urlpatterns = [
     path('get_follow_list/', get_follow_list),
     path('get_fan_list/', get_fan_list),
     path('get_create_music_list/', get_create_music_list),
-    path('get_like_music_list/', get_like_music_list),
     path('get_like_singer_simple/', get_like_singer_simple),
     path('get_recent_listen_music_list/', get_recent_listen_music_list),
     path('get_most_listen_music_list/', get_most_listen_music_list),
@@ -24,5 +23,5 @@ urlpatterns = [
     path('share_favorites', share_favorites),
     path('unshare_favorites', unshare_favorites),
     path('mark_music_list', mark_music_list),
-    path('set_max_record', set_max_record),
+    path('set_max_record', set_history_record),
 ]

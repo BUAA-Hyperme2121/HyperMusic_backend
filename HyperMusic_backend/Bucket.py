@@ -178,9 +178,9 @@ class Bucket:
         return {'result': -1, 'job_id': None}
 
 #
-b=Bucket()
-print(b.base_path)
-b.upload_file('hypermusic','p.py','example.py')
+#b=Bucket()
+#print(b.base_path)
+#b.upload_file('hypermusic','p.py','example.py')
 """
 #查询 返回对象地址
 b=Bucket()
