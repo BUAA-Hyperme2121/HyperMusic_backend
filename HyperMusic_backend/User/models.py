@@ -30,7 +30,7 @@ class User(models.Model):
     # 维护信息
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
-    like_list = models.IntegerField(verbose_name="个人喜爱歌单id")
+    like_list = models.IntegerField(verbose_name="个人喜爱歌单id", default=0)
 
     # 头像路径
     avatar_path = models.CharField(max_length=100, default='')

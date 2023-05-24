@@ -87,11 +87,11 @@ def register(request):
 
         password = trans_password(password_1)
         user = User(username=username, password=password)
-
+        user.save()
         # 默认给用户创建个人喜爱列表,type 2表示喜欢歌单列表
         like_list = MusicList(creator=user, name=username + '喜爱的歌曲列表', type=2)
         like_list.save()
-        user.like_list = like_list
+        user.like_list = like_list.id
         user.save()
 
         result = {'result': 1, 'message': '注册成功'}

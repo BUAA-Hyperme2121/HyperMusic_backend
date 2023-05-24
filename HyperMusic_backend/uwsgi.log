@@ -801,3 +801,1041 @@ Traceback (most recent call last):
     raise FieldError(
 django.core.exceptions.FieldError: Cannot resolve keyword 'create_date' into field. Choices are: cover_path, create_time, creator, creator_id, description, id, is_original, label, likes, listen_nums, lyrics_path, music_name, music_path, musiclist, singer, singer_id
 [pid: 132136|app: 0|req: 14/23] 219.239.227.110 () {36 vars in 517 bytes} [Wed May 24 16:14:52 2023] GET /api/index/music_search/?keywords=11 => generated 70471 bytes in 31 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+[pid: 132136|app: 0|req: 15/24] 219.239.227.148 () {46 vars in 839 bytes} [Wed May 24 16:20:24 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1176 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+[pid: 132136|app: 0|req: 16/25] 219.239.227.148 () {46 vars in 839 bytes} [Wed May 24 16:23:42 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1024 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 0)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 132136|app: 0|req: 17/26] 219.239.227.148 () {46 vars in 811 bytes} [Wed May 24 16:23:53 2023] POST /api/user/register => generated 61155 bytes in 31 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+[pid: 132137|app: 0|req: 3/27] 87.121.33.200 () {48 vars in 847 bytes} [Wed May 24 16:23:58 2023] OPTIONS /api/api/user/like_music/ => generated 0 bytes in 0 msecs (HTTP/1.1 200) 8 headers in 459 bytes (1 switches on core 0)
+Not Found: /api/api/user/like_music/
+WARNING:django.request:Not Found: /api/api/user/like_music/
+[pid: 132137|app: 0|req: 4/28] 103.142.141.72 () {46 vars in 834 bytes} [Wed May 24 16:23:59 2023] POST /api/api/user/like_music/ => generated 2832 bytes in 9 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 132136|app: 0|req: 18/29] 219.239.227.148 () {46 vars in 811 bytes} [Wed May 24 16:24:00 2023] POST /api/user/register => generated 61155 bytes in 26 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Not Found: /api/api/user/like_music/
+WARNING:django.request:Not Found: /api/api/user/like_music/
+[pid: 132136|app: 0|req: 19/30] 50.114.59.20 () {46 vars in 833 bytes} [Wed May 24 16:24:08 2023] POST /api/api/user/like_music/ => generated 2832 bytes in 5 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 1)
+[pid: 132136|app: 0|req: 20/31] 219.239.227.110 () {40 vars in 854 bytes} [Wed May 24 16:25:48 2023] GET /api/user/login/ => generated 64 bytes in 0 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+Not Found: /api/
+WARNING:django.request:Not Found: /api/
+[pid: 132136|app: 0|req: 21/32] 219.239.227.110 () {40 vars in 832 bytes} [Wed May 24 16:25:52 2023] GET /api/ => generated 2771 bytes in 6 msecs (HTTP/1.1 404) 7 headers in 229 bytes (1 switches on core 0)
+Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+ERROR:django.request:Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+[pid: 132136|app: 0|req: 22/33] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 16:26:01 2023] POST /api/message/send_email_register/ => generated 85073 bytes in 1048 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+...gracefully killing workers...
+Gracefully killing worker 1 (pid: 132135)...
+Gracefully killing worker 2 (pid: 132136)...
+Gracefully killing worker 3 (pid: 132137)...
+Gracefully killing worker 4 (pid: 132139)...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+binary reloading uWSGI...
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+closing all non-uwsgi socket fds > 2 (max_fd = 65535)...
+found fd 3 mapped to socket 0 (127.0.0.1:8000)
+running /usr/local/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 24 16:26:43 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+your processes number limit is 7287
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Nov 14 2022, 12:59:47)  [GCC 9.4.0]
+Python main interpreter initialized at 0x564d3cf70350
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1031270 bytes (1007 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x564d3cf70350 pid: 131327 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 131327)
+spawned uWSGI worker 1 (pid: 134012, cores: 2)
+spawned uWSGI worker 2 (pid: 134013, cores: 2)
+spawned uWSGI worker 3 (pid: 134015, cores: 2)
+spawned uWSGI worker 4 (pid: 134016, cores: 2)
+Not Found: /api/
+WARNING:django.request:Not Found: /api/
+[pid: 134015|app: 0|req: 1/1] 219.239.227.110 () {42 vars in 863 bytes} [Wed May 24 16:26:47 2023] GET /api/ => generated 2771 bytes in 106 msecs (HTTP/1.1 404) 7 headers in 229 bytes (1 switches on core 0)
+Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+ERROR:django.request:Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+[pid: 134015|app: 0|req: 2/2] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 16:26:51 2023] POST /api/message/send_email_register/ => generated 85074 bytes in 1004 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+Not Found: /api/api/user/like_music/
+WARNING:django.request:Not Found: /api/api/user/like_music/
+[pid: 134015|app: 0|req: 3/3] 103.169.216.18 () {46 vars in 835 bytes} [Wed May 24 16:27:07 2023] POST /api/api/user/like_music/ => generated 2832 bytes in 5 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 0)
+Not Found: /api/api/user/like_music/
+WARNING:django.request:Not Found: /api/api/user/like_music/
+[pid: 134016|app: 0|req: 1/4] 104.249.174.124 () {46 vars in 836 bytes} [Wed May 24 16:27:15 2023] POST /api/api/user/like_music/ => generated 2832 bytes in 108 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 0)
+[pid: 134016|app: 0|req: 2/5] 219.239.227.127 () {46 vars in 839 bytes} [Wed May 24 16:28:00 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1024 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134015|app: 0|req: 4/6] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:28:12 2023] POST /api/user/register => generated 61502 bytes in 28 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+ERROR:django.request:Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+[pid: 134015|app: 0|req: 5/7] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 16:28:56 2023] POST /api/message/send_email_register/ => generated 85073 bytes in 996 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+[pid: 134016|app: 0|req: 3/8] 219.239.227.110 () {42 vars in 917 bytes} [Wed May 24 16:29:45 2023] GET /api/message/send_email_register/ => generated 64 bytes in 1 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+ERROR:django.request:Internal Server Error: /api/message/send_email_register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 675, in send_email_register
+    if send_sms_code(email, sms_code) == 1:
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Message/views.py", line 654, in send_sms_code
+    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/__init__.py", line 87, in send_mail
+    return mail.send()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/message.py", line 298, in send
+    return self.get_connection(fail_silently).send_messages([self])
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 134, in send_messages
+    sent = self._send(message)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/mail/backends/smtp.py", line 152, in _send
+    self.connection.sendmail(
+  File "/usr/lib/python3.8/smtplib.py", line 901, in sendmail
+    raise SMTPDataError(code, resp)
+smtplib.SMTPDataError: (550, b'The recipient may contain a non-existent account, please check the recipient address.')
+[pid: 134015|app: 0|req: 6/9] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 16:29:49 2023] POST /api/message/send_email_register/ => generated 85074 bytes in 1151 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+[pid: 134013|app: 0|req: 1/10] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 16:31:04 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1140 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+[pid: 134016|app: 0|req: 4/11] 219.239.227.127 () {46 vars in 839 bytes} [Wed May 24 16:31:26 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1036 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134016|app: 0|req: 5/12] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:31:46 2023] POST /api/user/register => generated 61502 bytes in 32 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+[pid: 134013|app: 0|req: 2/13] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 16:35:44 2023] POST /api/user/register/ => generated 94 bytes in 6 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 1)
+[pid: 134016|app: 0|req: 6/14] 219.239.227.127 () {46 vars in 839 bytes} [Wed May 24 16:40:31 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1070 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134015|app: 0|req: 7/15] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:40:40 2023] POST /api/user/register => generated 61502 bytes in 25 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134015|app: 0|req: 8/16] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:40:50 2023] POST /api/user/register => generated 61502 bytes in 26 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134015|app: 0|req: 9/17] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:41:08 2023] POST /api/user/register => generated 61502 bytes in 27 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+[pid: 134016|app: 0|req: 7/18] 219.239.227.127 () {46 vars in 839 bytes} [Wed May 24 16:42:24 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1021 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 0)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134013|app: 0|req: 3/19] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:42:35 2023] POST /api/user/register => generated 61502 bytes in 43 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134015|app: 0|req: 10/20] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:43:27 2023] POST /api/user/register => generated 61502 bytes in 27 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+[pid: 134016|app: 0|req: 8/21] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 16:43:36 2023] POST /api/user/register/ => generated 94 bytes in 4 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134013|app: 0|req: 4/22] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:45:20 2023] POST /api/user/register => generated 61502 bytes in 29 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/register
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/register/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 134012|app: 0|req: 1/23] 219.239.227.127 () {46 vars in 809 bytes} [Wed May 24 16:45:28 2023] POST /api/user/register => generated 61502 bytes in 134 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+[pid: 134012|app: 0|req: 2/24] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 16:50:35 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1247 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 1)
+Internal Server Error: /api/user/register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./User/views.py", line 93, in register
+    like_list.save()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 1093, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'creator'.
+ERROR:django.request:Internal Server Error: /api/user/register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./User/views.py", line 93, in register
+    like_list.save()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 1093, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'creator'.
+[pid: 134015|app: 0|req: 11/25] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 16:51:16 2023] POST /api/user/register/ => generated 66547 bytes in 37 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+...gracefully killing workers...
+Gracefully killing worker 1 (pid: 134012)...
+Gracefully killing worker 2 (pid: 134013)...
+Gracefully killing worker 3 (pid: 134015)...
+Gracefully killing worker 4 (pid: 134016)...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+binary reloading uWSGI...
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+closing all non-uwsgi socket fds > 2 (max_fd = 65535)...
+found fd 3 mapped to socket 0 (127.0.0.1:8000)
+running /usr/local/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 24 16:54:19 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+your processes number limit is 7287
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Nov 14 2022, 12:59:47)  [GCC 9.4.0]
+Python main interpreter initialized at 0x55a640c8d350
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1031270 bytes (1007 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x55a640c8d350 pid: 131327 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 131327)
+spawned uWSGI worker 1 (pid: 136781, cores: 2)
+spawned uWSGI worker 2 (pid: 136782, cores: 2)
+spawned uWSGI worker 3 (pid: 136784, cores: 2)
+spawned uWSGI worker 4 (pid: 136785, cores: 2)
+Internal Server Error: /api/user/register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./User/views.py", line 95, in register
+    user.save()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 990, in _save_table
+    updated = self._do_update(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 1054, in _do_update
+    return filtered._update(values) > 0
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1231, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/compiler.py", line 1982, in execute_sql
+    cursor = super().execute_sql(result_type)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/compiler.py", line 1547, in execute_sql
+    sql, params = self.as_sql()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/backends/mysql/compiler.py", line 57, in as_sql
+    update_query, update_params = super().as_sql()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/compiler.py", line 1940, in as_sql
+    raise TypeError(
+TypeError: Tried to update field User.User.like_list with a model instance, <MusicList: MusicList object (1)>. Use a value compatible with IntegerField.
+ERROR:django.request:Internal Server Error: /api/user/register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./User/views.py", line 95, in register
+    user.save()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 814, in save
+    self.save_base(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 877, in save_base
+    updated = self._save_table(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 990, in _save_table
+    updated = self._do_update(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 1054, in _do_update
+    return filtered._update(values) > 0
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1231, in _update
+    return query.get_compiler(self.db).execute_sql(CURSOR)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/compiler.py", line 1982, in execute_sql
+    cursor = super().execute_sql(result_type)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/compiler.py", line 1547, in execute_sql
+    sql, params = self.as_sql()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/backends/mysql/compiler.py", line 57, in as_sql
+    update_query, update_params = super().as_sql()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/compiler.py", line 1940, in as_sql
+    raise TypeError(
+TypeError: Tried to update field User.User.like_list with a model instance, <MusicList: MusicList object (1)>. Use a value compatible with IntegerField.
+[pid: 136784|app: 0|req: 1/1] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 16:54:27 2023] POST /api/user/register/ => generated 105703 bytes in 165 msecs (HTTP/1.1 500) 7 headers in 251 bytes (1 switches on core 0)
+[pid: 136785|app: 0|req: 1/2] 219.239.227.127 () {46 vars in 992 bytes} [Wed May 24 16:56:23 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1151 msecs (HTTP/1.1 200) 9 headers in 334 bytes (1 switches on core 0)
+[pid: 136785|app: 0|req: 2/3] 219.239.227.127 () {46 vars in 964 bytes} [Wed May 24 16:57:02 2023] POST /api/user/register/ => generated 58 bytes in 1 msecs (HTTP/1.1 200) 9 headers in 334 bytes (1 switches on core 1)
+...gracefully killing workers...
+Gracefully killing worker 1 (pid: 136781)...
+Gracefully killing worker 2 (pid: 136782)...
+Gracefully killing worker 3 (pid: 136784)...
+Gracefully killing worker 4 (pid: 136785)...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+worker 3 buried after 1 seconds
+worker 4 buried after 1 seconds
+binary reloading uWSGI...
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+closing all non-uwsgi socket fds > 2 (max_fd = 65535)...
+found fd 3 mapped to socket 0 (127.0.0.1:8000)
+running /usr/local/bin/uwsgi
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.21 (64bit) on [Wed May 24 16:57:38 2023] ***
+compiled with version: 9.4.0 on 17 May 2023 00:48:53
+os: Linux-5.4.0-137-generic #154-Ubuntu SMP Thu Jan 5 17:03:22 UTC 2023
+nodename: iZ0jl2weg4xzdux0ta5gn6Z
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /root/HyperMusic_backend/HyperMusic_backend
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /root/HyperMusic_backend/HyperMusic_backend
+your processes number limit is 7287
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 inherited INET address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.8.10 (default, Nov 14 2022, 12:59:47)  [GCC 9.4.0]
+Python main interpreter initialized at 0x560c93152350
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1031270 bytes (1007 KB) for 8 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x560c93152350 pid: 131327 (default app)
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+gracefully (RE)spawned uWSGI master process (pid: 131327)
+spawned uWSGI worker 1 (pid: 137223, cores: 2)
+spawned uWSGI worker 2 (pid: 137224, cores: 2)
+spawned uWSGI worker 3 (pid: 137226, cores: 2)
+spawned uWSGI worker 4 (pid: 137227, cores: 2)
+[pid: 137227|app: 0|req: 1/1] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 16:57:47 2023] POST /api/user/register/ => generated 64 bytes in 117 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+[pid: 137227|app: 0|req: 2/2] 219.239.227.110 () {40 vars in 689 bytes} [Wed May 24 16:57:58 2023] POST /api/user/login/ => generated 501 bytes in 7 msecs (HTTP/1.1 200) 7 headers in 213 bytes (1 switches on core 1)
+[pid: 137224|app: 0|req: 1/3] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 16:59:03 2023] POST /api/user/register/ => generated 58 bytes in 100 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137224|app: 0|req: 2/4] 50.114.59.19 () {46 vars in 847 bytes} [Wed May 24 16:59:15 2023] POST /api/user/login => generated 61014 bytes in 37 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137224|app: 0|req: 3/5] 37.128.245.23 () {46 vars in 847 bytes} [Wed May 24 16:59:19 2023] POST /api/user/login => generated 61014 bytes in 28 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137223|app: 0|req: 1/6] 37.128.245.23 () {46 vars in 848 bytes} [Wed May 24 17:00:08 2023] POST /api/user/login => generated 61020 bytes in 133 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137226|app: 0|req: 1/7] 219.239.227.127 () {46 vars in 803 bytes} [Wed May 24 17:00:09 2023] POST /api/user/login => generated 61037 bytes in 136 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137226|app: 0|req: 2/8] 203.69.187.76 () {46 vars in 848 bytes} [Wed May 24 17:00:11 2023] POST /api/user/login => generated 61020 bytes in 28 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137223|app: 0|req: 2/9] 219.239.227.127 () {46 vars in 803 bytes} [Wed May 24 17:00:11 2023] POST /api/user/login => generated 61037 bytes in 26 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137224|app: 0|req: 4/10] 219.239.227.127 () {46 vars in 803 bytes} [Wed May 24 17:00:12 2023] POST /api/user/login => generated 61037 bytes in 27 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137227|app: 0|req: 3/11] 219.239.227.127 () {46 vars in 803 bytes} [Wed May 24 17:00:15 2023] POST /api/user/login => generated 61037 bytes in 39 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137227|app: 0|req: 4/12] 103.142.141.78 () {46 vars in 849 bytes} [Wed May 24 17:00:27 2023] POST /api/user/login => generated 61016 bytes in 27 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137227|app: 0|req: 5/13] 203.69.187.76 () {46 vars in 847 bytes} [Wed May 24 17:00:31 2023] POST /api/user/login => generated 61014 bytes in 31 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137226|app: 0|req: 3/14] 50.114.59.22 () {46 vars in 846 bytes} [Wed May 24 17:00:41 2023] POST /api/user/login => generated 61013 bytes in 26 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+[pid: 137226|app: 0|req: 4/15] 50.114.59.20 () {46 vars in 863 bytes} [Wed May 24 17:00:48 2023] POST /api/user/get_fan_list/ => generated 70 bytes in 1 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+[pid: 137227|app: 0|req: 6/16] 50.114.59.21 () {48 vars in 819 bytes} [Wed May 24 17:00:48 2023] OPTIONS /api/comment => generated 0 bytes in 0 msecs (HTTP/1.1 200) 8 headers in 459 bytes (1 switches on core 0)
+Not Found: /api/comment
+WARNING:django.request:Not Found: /api/comment
+[pid: 137226|app: 0|req: 5/17] 50.114.59.22 () {44 vars in 778 bytes} [Wed May 24 17:00:49 2023] GET /api/comment => generated 2792 bytes in 6 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 0)
+Internal Server Error: /api/message/get_user_post
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/message/get_user_post/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/message/get_user_post
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/message/get_user_post/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137223|app: 0|req: 3/18] 203.69.187.76 () {46 vars in 869 bytes} [Wed May 24 17:00:49 2023] POST /api/message/get_user_post => generated 61186 bytes in 29 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 1)
+Not Found: /api/user/get_user_info/
+WARNING:django.request:Not Found: /api/user/get_user_info/
+[pid: 137226|app: 0|req: 6/19] 37.128.245.24 () {46 vars in 865 bytes} [Wed May 24 17:00:56 2023] POST /api/user/get_user_info/ => generated 6652 bytes in 7 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 1)
+[pid: 137227|app: 0|req: 7/20] 219.239.227.110 () {40 vars in 695 bytes} [Wed May 24 17:00:59 2023] POST /api/user/register/ => generated 52 bytes in 24 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+[pid: 137224|app: 0|req: 5/21] 219.239.227.110 () {40 vars in 689 bytes} [Wed May 24 17:01:25 2023] POST /api/user/login/ => generated 501 bytes in 9 msecs (HTTP/1.1 200) 7 headers in 213 bytes (1 switches on core 1)
+Not Found: /api/user/get_user_info/
+WARNING:django.request:Not Found: /api/user/get_user_info/
+[pid: 137227|app: 0|req: 8/22] 37.128.245.24 () {46 vars in 866 bytes} [Wed May 24 17:02:14 2023] POST /api/user/get_user_info/ => generated 6652 bytes in 6 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 1)
+[pid: 137227|app: 0|req: 9/23] 37.128.245.23 () {46 vars in 864 bytes} [Wed May 24 17:02:14 2023] POST /api/user/get_fan_list/ => generated 70 bytes in 1 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 0)
+Not Found: /api/comment
+WARNING:django.request:Not Found: /api/comment
+[pid: 137227|app: 0|req: 10/24] 37.128.245.23 () {44 vars in 780 bytes} [Wed May 24 17:02:17 2023] GET /api/comment => generated 2792 bytes in 6 msecs (HTTP/1.1 404) 9 headers in 321 bytes (1 switches on core 1)
+Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+ERROR:django.request:Internal Server Error: /api/user/login
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/deprecation.py", line 136, in __call__
+    response = self.process_response(request, response)
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 108, in process_response
+    return self.response_redirect_class(self.get_full_path_with_slash(request))
+  File "/usr/local/lib/python3.8/dist-packages/django/middleware/common.py", line 87, in get_full_path_with_slash
+    raise RuntimeError(
+RuntimeError: You called this URL via POST, but the URL doesn't end in a slash and you have APPEND_SLASH set. Django can't redirect to the slash URL while maintaining POST data. Change your form to point to 8.130.12.73/api/user/login/ (note the trailing slash), or set APPEND_SLASH=False in your Django settings.
+[pid: 137227|app: 0|req: 11/25] 219.239.227.127 () {46 vars in 803 bytes} [Wed May 24 17:03:53 2023] POST /api/user/login => generated 61044 bytes in 28 msecs (HTTP/1.1 500) 8 headers in 319 bytes (1 switches on core 0)
+[pid: 137227|app: 0|req: 12/26] 219.239.227.127 () {46 vars in 958 bytes} [Wed May 24 17:04:43 2023] POST /api/user/login/ => generated 508 bytes in 5 msecs (HTTP/1.1 200) 9 headers in 335 bytes (1 switches on core 1)
+[pid: 137227|app: 0|req: 13/27] 219.239.227.176 () {40 vars in 689 bytes} [Wed May 24 17:05:34 2023] POST /api/user/login/ => generated 501 bytes in 5 msecs (HTTP/1.1 200) 7 headers in 213 bytes (1 switches on core 0)
+[pid: 137227|app: 0|req: 14/28] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:05:38 2023] POST /api/user/login/ => generated 508 bytes in 5 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 1)
+[pid: 137227|app: 0|req: 15/29] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:05:44 2023] POST /api/user/login/ => generated 508 bytes in 4 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 0)
+[pid: 137227|app: 0|req: 16/30] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:06:35 2023] POST /api/user/login/ => generated 508 bytes in 4 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 1)
+[pid: 137226|app: 0|req: 7/31] 219.239.227.110 () {40 vars in 689 bytes} [Wed May 24 17:06:45 2023] POST /api/user/login/ => generated 501 bytes in 10 msecs (HTTP/1.1 200) 7 headers in 213 bytes (1 switches on core 0)
+[pid: 137224|app: 0|req: 6/32] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:06:46 2023] POST /api/user/login/ => generated 508 bytes in 6 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 0)
+[pid: 137224|app: 0|req: 7/33] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:06:51 2023] POST /api/user/login/ => generated 508 bytes in 6 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 1)
+[pid: 137223|app: 0|req: 4/34] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:06:55 2023] POST /api/user/login/ => generated 508 bytes in 9 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 0)
+[pid: 137223|app: 0|req: 5/35] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:07:35 2023] POST /api/user/login/ => generated 508 bytes in 5 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 1)
+[pid: 137226|app: 0|req: 8/36] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:07:56 2023] POST /api/user/login/ => generated 508 bytes in 5 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 1)
+[pid: 137226|app: 0|req: 9/37] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:08:33 2023] POST /api/user/login/ => generated 508 bytes in 4 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 0)
+[pid: 137227|app: 0|req: 17/38] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:08:48 2023] POST /api/user/login/ => generated 508 bytes in 4 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 0)
+[pid: 137226|app: 0|req: 10/39] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:09:37 2023] POST /api/user/login/ => generated 508 bytes in 5 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 1)
+[pid: 137224|app: 0|req: 8/40] 219.239.227.127 () {46 vars in 805 bytes} [Wed May 24 17:09:53 2023] POST /api/user/login/ => generated 508 bytes in 4 msecs (HTTP/1.1 200) 9 headers in 305 bytes (1 switches on core 0)
+[pid: 137226|app: 0|req: 11/41] 219.239.227.127 () {46 vars in 839 bytes} [Wed May 24 17:13:55 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1057 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 0)
+[pid: 137226|app: 0|req: 12/42] 219.239.227.127 () {46 vars in 811 bytes} [Wed May 24 17:14:08 2023] POST /api/user/register/ => generated 52 bytes in 20 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
