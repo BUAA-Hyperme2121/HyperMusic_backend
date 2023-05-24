@@ -5,7 +5,7 @@ import jwt
 from django.db.models import Count
 from django.http import JsonResponse
 
-from Music.models import MusicList, SingerToMusic, SingerToAlbum, Album, Music, Label
+from Music.models import MusicList, SingerToMusic, Music, Label
 from User.models import Singer, UserListenHistory, User
 
 
