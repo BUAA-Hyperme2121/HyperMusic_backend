@@ -370,3 +370,434 @@ spawned uWSGI worker 1 (pid: 132135, cores: 2)
 spawned uWSGI worker 2 (pid: 132136, cores: 2)
 spawned uWSGI worker 3 (pid: 132137, cores: 2)
 spawned uWSGI worker 4 (pid: 132139, cores: 2)
+[pid: 132136|app: 0|req: 1/1] 219.239.227.110 () {40 vars in 723 bytes} [Wed May 24 15:38:58 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1238 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+[pid: 132139|app: 0|req: 1/2] 219.239.227.110 () {42 vars in 919 bytes} [Wed May 24 15:40:48 2023] GET /api/message/send_email_register/ => generated 64 bytes in 111 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+[pid: 132136|app: 0|req: 2/3] 219.239.227.148 () {46 vars in 840 bytes} [Wed May 24 15:41:09 2023] POST /api/message/send_email_register/ => generated 64 bytes in 4 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+[pid: 132139|app: 0|req: 2/4] 219.239.227.214 () {40 vars in 723 bytes} [Wed May 24 15:43:23 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1214 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 1)
+[pid: 132137|app: 0|req: 1/5] 219.239.227.148 () {46 vars in 993 bytes} [Wed May 24 15:43:42 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1165 msecs (HTTP/1.1 200) 9 headers in 334 bytes (1 switches on core 0)
+Internal Server Error: /api/user/register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./User/views.py", line 93, in register
+    like_list.save()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 1093, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'creator'.
+ERROR:django.request:Internal Server Error: /api/user/register/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./User/views.py", line 93, in register
+    like_list.save()
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 778, in save
+    self._prepare_related_fields_for_save(operation_name="save")
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/base.py", line 1093, in _prepare_related_fields_for_save
+    raise ValueError(
+ValueError: save() prohibited to prevent data loss due to unsaved related object 'creator'.
+[pid: 132135|app: 0|req: 1/6] 219.239.227.214 () {40 vars in 695 bytes} [Wed May 24 15:44:06 2023] POST /api/user/register/ => generated 66549 bytes in 147 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+[pid: 132136|app: 0|req: 3/7] 219.239.227.148 () {46 vars in 840 bytes} [Wed May 24 15:45:43 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1058 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+[pid: 132137|app: 0|req: 2/8] 219.239.227.148 () {46 vars in 840 bytes} [Wed May 24 15:47:59 2023] POST /api/message/send_email_register/ => generated 64 bytes in 1156 msecs (HTTP/1.1 200) 9 headers in 304 bytes (1 switches on core 1)
+Not Found: /api/Index/user_search/
+WARNING:django.request:Not Found: /api/Index/user_search/
+[pid: 132136|app: 0|req: 4/9] 219.239.227.110 () {40 vars in 702 bytes} [Wed May 24 15:52:35 2023] GET /api/Index/user_search/ => generated 2825 bytes in 11 msecs (HTTP/1.1 404) 7 headers in 229 bytes (1 switches on core 0)
+Not Found: /api/Index/user_search/
+WARNING:django.request:Not Found: /api/Index/user_search/
+[pid: 132136|app: 0|req: 5/10] 219.239.227.110 () {40 vars in 868 bytes} [Wed May 24 15:52:48 2023] GET /api/Index/user_search/ => generated 2825 bytes in 5 msecs (HTTP/1.1 404) 7 headers in 229 bytes (1 switches on core 1)
+Not Found: /api/Iindex/user_search/
+WARNING:django.request:Not Found: /api/Iindex/user_search/
+[pid: 132136|app: 0|req: 6/11] 219.239.227.110 () {40 vars in 870 bytes} [Wed May 24 15:53:01 2023] GET /api/Iindex/user_search/ => generated 2828 bytes in 6 msecs (HTTP/1.1 404) 7 headers in 229 bytes (1 switches on core 0)
+Internal Server Error: /api/index/user_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 45, in user_search
+    users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1383, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1193, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1681, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'name' into field. Choices are: MusicList_Creator, Music_Uploader, avatar_path, created_time, fan_num, follow_num, gender, history_record, id, introduction, is_admin, is_singer, like_list, location, password, post_num, username
+ERROR:django.request:Internal Server Error: /api/index/user_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 45, in user_search
+    users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1383, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1193, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1681, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'name' into field. Choices are: MusicList_Creator, Music_Uploader, avatar_path, created_time, fan_num, follow_num, gender, history_record, id, introduction, is_admin, is_singer, like_list, location, password, post_num, username
+[pid: 132135|app: 0|req: 2/12] 219.239.227.110 () {40 vars in 868 bytes} [Wed May 24 15:53:05 2023] GET /api/index/user_search/ => generated 99362 bytes in 38 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+Internal Server Error: /api/index/user_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 45, in user_search
+    users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1383, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1193, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1681, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'name' into field. Choices are: MusicList_Creator, Music_Uploader, avatar_path, created_time, fan_num, follow_num, gender, history_record, id, introduction, is_admin, is_singer, like_list, location, password, post_num, username
+ERROR:django.request:Internal Server Error: /api/index/user_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 45, in user_search
+    users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1383, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1193, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1681, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'name' into field. Choices are: MusicList_Creator, Music_Uploader, avatar_path, created_time, fan_num, follow_num, gender, history_record, id, introduction, is_admin, is_singer, like_list, location, password, post_num, username
+[pid: 132139|app: 0|req: 3/13] 219.239.227.110 () {40 vars in 702 bytes} [Wed May 24 15:53:24 2023] GET /api/index/user_search/ => generated 98959 bytes in 48 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+Not Found: /api/Index/music_search/
+WARNING:django.request:Not Found: /api/Index/music_search/
+[pid: 132139|app: 0|req: 4/14] 219.239.227.110 () {40 vars in 704 bytes} [Wed May 24 15:55:01 2023] GET /api/Index/music_search/ => generated 2828 bytes in 6 msecs (HTTP/1.1 404) 7 headers in 229 bytes (1 switches on core 1)
+Internal Server Error: /api/index/music_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 13, in music_search
+    musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+ERROR:django.request:Internal Server Error: /api/index/music_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 13, in music_search
+    musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+[pid: 132136|app: 0|req: 7/15] 219.239.227.110 () {40 vars in 704 bytes} [Wed May 24 15:55:42 2023] GET /api/index/music_search/ => generated 95089 bytes in 43 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 23, in musiclist_search
+    musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+ERROR:django.request:Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 23, in musiclist_search
+    musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+[pid: 132136|app: 0|req: 8/16] 219.239.227.110 () {40 vars in 712 bytes} [Wed May 24 15:57:02 2023] GET /api/index/musiclist_search/ => generated 95355 bytes in 39 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 23, in musiclist_search
+    musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+ERROR:django.request:Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 23, in musiclist_search
+    musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+[pid: 132136|app: 0|req: 9/17] 219.239.227.110 () {40 vars in 712 bytes} [Wed May 24 15:57:05 2023] GET /api/index/musiclist_search/ => generated 95355 bytes in 34 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 23, in musiclist_search
+    musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+ERROR:django.request:Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 23, in musiclist_search
+    musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1533, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1448, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1280, in build_lookup
+    raise ValueError("Cannot use None as a query value")
+ValueError: Cannot use None as a query value
+[pid: 132136|app: 0|req: 10/18] 219.239.227.110 () {40 vars in 712 bytes} [Wed May 24 16:00:49 2023] GET /api/index/musiclist_search/ => generated 95355 bytes in 36 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+[pid: 132136|app: 0|req: 11/19] 219.239.227.176 () {40 vars in 689 bytes} [Wed May 24 16:11:32 2023] POST /api/user/login/ => generated 64 bytes in 4 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 1)
+Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 204, in _get_response
+    self.check_response(response, callback)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 332, in check_response
+    raise ValueError(
+ValueError: The view Index.views.musiclist_search didn't return an HttpResponse object. It returned None instead.
+ERROR:django.request:Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 204, in _get_response
+    self.check_response(response, callback)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 332, in check_response
+    raise ValueError(
+ValueError: The view Index.views.musiclist_search didn't return an HttpResponse object. It returned None instead.
+[pid: 132136|app: 0|req: 12/20] 219.239.227.110 () {36 vars in 525 bytes} [Wed May 24 16:11:40 2023] GET /api/index/musiclist_search/?keywords=11 => generated 55766 bytes in 24 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
+[pid: 132135|app: 0|req: 3/21] 219.239.227.176 () {40 vars in 699 bytes} [Wed May 24 16:12:34 2023] POST /api/user/like_music/ => generated 52 bytes in 2 msecs (HTTP/1.1 200) 7 headers in 212 bytes (1 switches on core 0)
+Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 204, in _get_response
+    self.check_response(response, callback)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 332, in check_response
+    raise ValueError(
+ValueError: The view Index.views.musiclist_search didn't return an HttpResponse object. It returned None instead.
+ERROR:django.request:Internal Server Error: /api/index/musiclist_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 204, in _get_response
+    self.check_response(response, callback)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 332, in check_response
+    raise ValueError(
+ValueError: The view Index.views.musiclist_search didn't return an HttpResponse object. It returned None instead.
+[pid: 132136|app: 0|req: 13/22] 219.239.227.110 () {36 vars in 525 bytes} [Wed May 24 16:12:44 2023] GET /api/index/musiclist_search/?keywords=11 => generated 55766 bytes in 23 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 1)
+Internal Server Error: /api/index/music_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 13, in music_search
+    musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1659, in order_by
+    obj.query.add_ordering(*field_names)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 2178, in add_ordering
+    self.names_to_path(item.split(LOOKUP_SEP), self.model._meta)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1681, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'create_date' into field. Choices are: cover_path, create_time, creator, creator_id, description, id, is_original, label, likes, listen_nums, lyrics_path, music_name, music_path, musiclist, singer, singer_id
+ERROR:django.request:Internal Server Error: /api/index/music_search/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/root/HyperMusic_backend/HyperMusic_backend/./Index/views.py", line 13, in music_search
+    musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/query.py", line 1659, in order_by
+    obj.query.add_ordering(*field_names)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 2178, in add_ordering
+    self.names_to_path(item.split(LOOKUP_SEP), self.model._meta)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/sql/query.py", line 1681, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'create_date' into field. Choices are: cover_path, create_time, creator, creator_id, description, id, is_original, label, likes, listen_nums, lyrics_path, music_name, music_path, musiclist, singer, singer_id
+[pid: 132136|app: 0|req: 14/23] 219.239.227.110 () {36 vars in 517 bytes} [Wed May 24 16:14:52 2023] GET /api/index/music_search/?keywords=11 => generated 70471 bytes in 31 msecs (HTTP/1.1 500) 7 headers in 250 bytes (1 switches on core 0)
