@@ -13,7 +13,7 @@ def music_search(request):
         musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
 
         musics= [ x.to_dic() for x in musics]
-        JsonResponse({  'result': 1, 'message':'搜索音乐成功', 'musics':musics    })
+        return JsonResponse({  'result': 1, 'message':'搜索音乐成功', 'musics':musics    })
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -23,7 +23,7 @@ def musiclist_search(request):
         musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
 
         musiclists = [x.to_dic() for x in musiclists]
-        JsonResponse({'result': 1, 'message': '搜索歌单成功', 'musiclists': musiclists})
+        return JsonResponse({'result': 1, 'message': '搜索歌单成功', 'musiclists': musiclists})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -34,7 +34,7 @@ def singer_search(request):
         singers = Singer.objects.filter(name__icontains=keywords)
 
         singers = [x.to_dic() for x in singers]
-        JsonResponse({'result': 1, 'message': '搜索歌手成功', 'singers': singers})
+        return JsonResponse({'result': 1, 'message': '搜索歌手成功', 'singers': singers})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -45,6 +45,6 @@ def user_search(request):
         users = User.objects.filter(name__icontains=keywords).order_by('-create_date')
 
         users = [x.to_dic() for x in users]
-        JsonResponse({'result': 1, 'message': '搜索用户成功', 'users': users})
+        return JsonResponse({'result': 1, 'message': '搜索用户成功', 'users': users})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
