@@ -123,7 +123,7 @@ class Bucket:
                 return {'result': result, 'label': response.get('Label')}
         return {'result': -1, 'label': None}
 
-    def music_audit_submit(self, bucket_name, key_name, host='http://127.0.0.1/'):
+    def music_audit_submit(self, bucket_name, key_name, host='http://8.130.12.73/'):
         """
         :param bucket_name: bucket's name
         :param key_name: key's name in bucket
@@ -132,7 +132,7 @@ class Bucket:
         -1: this key_name not exists\n
         1: request success\n
         """
-        callback = host + 'api/bucket_manager/callback'
+        callback = host + 'api/Message/ai_audit'
         if re.match(r'^.*\.(mp3|wav|aac|flac|amr|3gp|m4a|wma|ogg|ape)$', key_name) is not None:
             try:
                 response = self.client.ci_auditing_audio_submit(
@@ -172,10 +172,11 @@ class Bucket:
                 )
             except Exception:
                 pass
-            else:
-                job_id = response.get('JobsDetail')
-                return job_id
-        return {'result': -1, 'job_id': None}
+
+            job_id = response.get('JobsDetail')
+            return job_id
+        else:
+            return {'result': -1, 'job_id': None}
 
 #
 #b=Bucket()
