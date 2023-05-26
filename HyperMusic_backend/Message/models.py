@@ -50,9 +50,9 @@ class Complain(models.Model):
     # 1 审核中 2审核完成
     state = models.IntegerField(verbose_name='审核状态')
     # 审核完成时间
-    audit_time = models.DateTimeField(blank=True)
+    audit_time = models.DateTimeField(blank=True, null=True)
     #result: 1 -成功 2 -失败
-    result = models.IntegerField(verbose_name="审核结果", blank=True)
+    result = models.IntegerField(verbose_name="审核结果", blank=True, null=True)
     #失败原因
     reason = models.TextField(verbose_name="失败原因", blank=True)
     title = models.CharField(max_length=200)
@@ -149,7 +149,7 @@ class Post(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     like_num = models.IntegerField(verbose_name='点赞数', default=0)
     comment_num = models.IntegerField(verbose_name='评论数', default=0)
-    #type：1 - 歌曲 2 - 歌单
+    #type：1 - 歌曲 2 - 歌单 0 -不含对象
     type = models.IntegerField(verbose_name="分享对象的种类")
     object_id = models.IntegerField(verbose_name="分享对象的id")
 
@@ -157,7 +157,6 @@ class Post(models.Model):
     def to_dic(self):
         return {
             "id":self.id,
-            "title":self.title,
             "poster_id":self.poster_id,
             "content":self.content,
             "create_date":self.create_date,
@@ -171,6 +170,11 @@ class Post(models.Model):
     def add_like(self):
         self.like_num += 1
         self.save(update_fields="like_num")
+
+
+class JobToMusic(models.Model):
+    job_id = models.CharField(verbose_name='审核任务id', max_length=114, default='')
+    music_id = models.IntegerField(verbose_name='音乐id', default=0)
 
 
 class Reply(models.Model):
@@ -198,8 +202,10 @@ class Reply(models.Model):
         }
 
 
+
+
 class Likes(models.Model):
-    id = models.IntegerField(primary_key=True)
+
     user_id = models.IntegerField(verbose_name="点赞用户id")
     object_id = models.IntegerField(verbose_name="点赞对象id")
     type = models.IntegerField(verbose_name="点赞对象种类")

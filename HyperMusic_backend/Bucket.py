@@ -123,7 +123,7 @@ class Bucket:
                 return {'result': result, 'label': response.get('Label')}
         return {'result': -1, 'label': None}
 
-    def music_audit_submit(self, bucket_name, key_name, host='http://127.0.0.1/'):
+    def music_audit_submit(self, bucket_name, key_name, host='http://8.130.12.73/'):
         """
         :param bucket_name: bucket's name
         :param key_name: key's name in bucket
@@ -132,7 +132,7 @@ class Bucket:
         -1: this key_name not exists\n
         1: request success\n
         """
-        callback = host + 'api/bucket_manager/callback'
+        callback = host + 'api/message/ai_audit/'
         if re.match(r'^.*\.(mp3|wav|aac|flac|amr|3gp|m4a|wma|ogg|ape)$', key_name) is not None:
             try:
                 response = self.client.ci_auditing_audio_submit(
@@ -172,27 +172,13 @@ class Bucket:
                 )
             except Exception:
                 pass
-            else:
-                job_id = response.get('JobsDetail')
-                return job_id
-        return {'result': -1, 'job_id': None}
+
+            job_id = response.get('JobsDetail')
+            return job_id
+        else:
+            return {'result': -1, 'job_id': None}
 
 #
 #b=Bucket()
 #print(b.base_path)
 #b.upload_file('hypermusic','p.py','example.py')
-"""
-#查询 返回对象地址
-b=Bucket()
-res=b.query_object('hypermusic','m1.mp3')
-print(res)
-#res=b.music_audit_submit('hypermusic', 'm1.mp3')
-res=b.music_audit_query('hypermusic', 'm1.mp3', 'sa4a72629cf3c411edaa4752540084c07b')
-
-result = res.get("Result")
-job_id = res.get("JobId")
-label = res.get("Label")
-
-print( str(result) +" " + str(job_id) + " " + str(label) )
-
-"""

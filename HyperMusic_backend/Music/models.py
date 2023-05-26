@@ -24,7 +24,7 @@ class Music(models.Model):
     is_original = models.BooleanField(default=False)
     # 可选信息: 歌曲描述
     description = models.TextField(default='这首歌还没有介绍哦')
-
+    is_audit = models.BooleanField(default=False)
     def to_dic(self):
         return {
             'id': self.id,

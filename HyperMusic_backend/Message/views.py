@@ -1,3 +1,4 @@
+import json
 import random
 from datetime import datetime
 
@@ -53,9 +54,10 @@ def get_music_complain_list_detail(music_id):
     return [Complain.objects.get(id=x).to_dic() for x in get_music_complain_list_simple(music_id)]
 
 
+# 动态 -1 评论 -2 回复 - 3
 def like(request):
     if request.method == 'POST':
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT','-1')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -65,20 +67,68 @@ def like(request):
             return JsonResponse(result)
 
         user_id = user_id
-        object_id = request.POST.get("object_id")
-        type = request.POST.get("type")
+        object_id = request.POST.get("object_id", '-1')
+        type = request.POST.get("type",'-1')
         like = Likes(user_id=user_id, object_id=object_id, type=type)
         like.save()
+        if type == 1:
+            post=Post.objects.get(id = object_id)
+            post.add_like()
+            post.save()
+        elif type == 2:
+            comment = Comment.objects.get(id=object_id)
+            comment.add_like()
+            comment.save()
+        elif type == 3:
+            reply = Reply.objects.get(id=object_id)
+            reply.like_num +=1
+            reply.save()
 
+        return JsonResponse({'result': 1, 'message': "点赞成功"})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
+def cancel_like(request):
+    if request.method == 'POST':
+        JWT = request.POST.get('JWT','-1')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+
+        user_id = user_id
+        object_id = request.POST.get("object_id", '-1')
+        type = request.POST.get("type",'-1')
+        #消除点赞关系
+        like = Likes.objects.filter(user_id=user_id, object_id=object_id, type=type)
+        like.delete()
+        #减少对象点赞数
+        if type == 1:
+            post = Post.objects.get(id=object_id)
+            post.like_num-=1
+            post.save()
+        elif type == 2:
+            comment = Comment.objects.get(id=object_id)
+            comment.like_num-=1
+            comment.save()
+        elif type == 3:
+            reply = Reply.objects.get(id=object_id)
+            reply.like_num -= 1
+            reply.save()
+
+        return JsonResponse({'result': 1, 'message': "取消点赞成功"})
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 #投诉种类 1 为歌曲 2为歌单
 def cre_complain(request):
     if request.method == 'POST':  # 判断请求方式是否为 POST（要求POST方式）
         # 从数据库获取用户
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT','-1')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -90,11 +140,11 @@ def cre_complain(request):
 
 
         user_id = user.id
-        object_id = request.POST.get("object_id")
-        content = request.POST.get("content")
-        type = request.POST.get("type")
-        title = request.POST.get("title")
-
+        object_id = request.POST.get("object_id",'')
+        content = request.POST.get("content",'')
+        type = request.POST.get("type",'')
+        title = request.POST.get("title", '')
+        print(type(type))
 
         new_complain = Complain(poster_id=user_id, object_id=object_id, content=content, type=type, state=1)
         new_complain.save()
@@ -104,7 +154,7 @@ def cre_complain(request):
         UserToComplain(user_id, complain_id).save()
 
         # 投诉类型为音乐
-        print(type)
+
 
         if type == '1':
             music=Music.objects.filter(id=object_id)
@@ -136,7 +186,7 @@ def cre_complain(request):
 def cre_comment(request):
     if request.method == 'POST':  # 判断请求方式是否为 POST（要求POST方式）
 
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT','-1')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -146,9 +196,9 @@ def cre_comment(request):
             return JsonResponse(result)
 
 
-        object_id = request.POST.get("object_id")
-        content = request.POST.get("content")
-        type = request.POST.get("type")
+        object_id = request.POST.get("object_id", '-1')
+        content = request.POST.get("content", '-1')
+        type = request.POST.get("type", '-1')
 
         new_comment = Comment(poster_id=user_id, object_id=object_id, content=content, type=type)
         new_comment.save()
@@ -180,7 +230,7 @@ def cre_comment(request):
 
 
         UserToComment(user_id, comment_id).save()
-        return JsonResponse({'result': 1, 'message': "评论成功"})
+        return JsonResponse({'result': 1, 'message': "评论成功", "comment": new_comment.to_dic()})
 
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
@@ -197,12 +247,12 @@ def cre_post(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
         poster_id = user_id
-        content = request.POST.get('content')
-        type = request.POST.get('type')
-        object_id = request.POST.get('object_id')
+        content = request.POST.get('content','-1')
+        type = request.POST.get('type','-1')
+        object_id = request.POST.get('object_id','-1')
         post = Post(poster_id=poster_id, content=content, type=type, object_id=object_id)
         post.save()
-
+        return JsonResponse({"result": 1, "message": "创建动态成功"})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -224,7 +274,7 @@ def cre_reply(request):
 
         reply = Reply(replyer_id=user_id,fa_id=fa_id,root_id=root_id,isLevel2=isLevel2,content=content )
         reply.save()
-
+        return JsonResponse({'result': 1,'message':"创建回复成功" })
     else:
         return JsonResponse({'result': 0,'message':"请求方式错误" })
 
@@ -245,7 +295,7 @@ def get_reply(request):
         replys = []
         for x in tmp:
             dict = x.to_dic()
-            like = Likes.objects.filter(user_id=user_id, type=3,object_id=dict[id])
+            like = Likes.objects.filter(user_id=user_id, type=3,object_id=dict['id'])
             if like.exists():
                 dict['is_liked'] = 1
             else:
@@ -265,12 +315,13 @@ def get_reply(request):
 #获取所有投诉列表
 def list_complain(request):
     if request.method == 'GET':  # 判断请求方式是否为 POST（要求POST方式）
-        JWT = request.POST.get('JWT')
+        JWT = request.GET.get('JWT')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
             user = User.objects.get(id=user_id)
         except Exception as e:
+            print(e)
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
 
@@ -291,38 +342,38 @@ def list_complain(request):
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
-"""
+
 #获取用户投诉列表
 def list_user_complain(request):
     if request.method == 'GET':  # 判断请求方式是否为 POST（要求POST方式）
-        username = request.session['username']
-        # 检测用户是否登录
-        if username is None:
-            return JsonResponse({'errno': 1002, 'message': "还未登录"})
+        JWT = request.GET.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            print(e)
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
 
         # 从数据库获取用户
-        user = User.objects.filter(username=username)
-        if not user.exists():
-            return JsonResponse({'errno': 1003, 'message': "用户不存在"})
-        user = user[1]
-        user_id = user.id
 
-        complains = Complain.objects.filter(user_id=user_id).order_by('-create_date')
+        complains = Complain.objects.filter(poster_id=user_id).order_by('-create_date')
         complains = [x.to_dic() for x in complains]
 
         return JsonResponse({'errno': 0,
-                             'message': "获取成功成功",
+                             'message': "获取当前用户成功",
                              'music_complain_list': complains})
 
     else:
         return JsonResponse({'errno': 1001, 'message': "请求方式错误"})
-"""
+
 
 
 #获取对象评论列表
 def list_object_comment(request):
     if request.method == 'GET':  # 判断请求方式是否为 GET（要求GET方式）
-        JWT = request.POST.get('JWT')
+        JWT = request.GET.get('JWT')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -332,15 +383,17 @@ def list_object_comment(request):
             return JsonResponse(result)
 
 
-        type = request.POST.get("type")
-        object_id = request.POST.get("object_id")
+        type = request.GET.get("type")
+        object_id = request.GET.get("object_id")
 
         comments = Comment.objects.filter(object_id=object_id, type=type).order_by('-create_date')
+
         tmp = comments
         comments = []
         for x in tmp:
             dict = x.to_dic()
-            like = Likes.objects.filter(user_id=user_id, type=2, object_id=dict[id])
+
+            like = Likes.objects.filter(user_id=user_id, type=2, object_id=dict.get('id'))
             if like.exists():
                 dict['is_liked'] = 1
             else:
@@ -357,7 +410,7 @@ def list_object_comment(request):
 #获取用户评论列表
 def list_user_comment(request):
     if request.method == 'GET':  # 判断请求方式是否为 GET（要求GET方式）
-        JWT = request.POST.get('JWT')
+        JWT = request.GET.get('JWT')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -420,7 +473,7 @@ def get_follow_post(request):
 
 def get_user_post(request):
     if request.method == 'GET':
-        JWT = request.POST.get('JWT')
+        JWT = request.GET.get('JWT')
         if JWT != -1:
             try:
                 token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
@@ -493,7 +546,7 @@ def send_message(request):
 #获取当前用户下的所有消息。
 def get_user_message(request):
     if request.method == 'GET':  # 判断请求方式是否为 GET（要求GET方式）
-        JWT = request.POST.get('JWT')
+        JWT = request.GET.get('JWT')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -519,8 +572,8 @@ def get_user_message(request):
 
 #用户删除评论
 def del_comment(request):
-    if request.method == 'POST':
-        JWT = request.POST.get('JWT')
+    if request.method == 'GET':
+        JWT = request.GET.get('JWT')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -528,7 +581,7 @@ def del_comment(request):
         except Exception as e:
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
-        comment_id=request.POST.get('comment_id')
+        comment_id=request.GET.get('comment_id')
         comment = Comment.objects.filter(id=comment_id)
         comment=comment[0]
         if comment.poster_id != user_id:
@@ -536,6 +589,30 @@ def del_comment(request):
         comment.delete()
 
         return JsonResponse({'result': 1, 'message': "删除成功"})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+def modify_comment(request):
+    if request.method == 'GET':
+        JWT = request.GET.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        comment_id=request.GET.get('comment_id')
+        content=request.GET.get('content')
+        comment = Comment.objects.filter(id=comment_id)
+        comment=comment[0]
+        if comment.poster_id != user_id:
+            return JsonResponse({'result': 0, 'message': "不是评论的发出者"})
+        comment.content = content
+        comment.save()
+
+        return JsonResponse({'result': 1, 'message': "修改评论成功"})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -589,9 +666,10 @@ def del_object(request):
             object_type = request.POST.get('type')
             object_id = request.POST.get('object_id')
             #删除评论
-            if object_type == 1:
+
+            if object_type == '1':
                 #删除评论本身
-                comment =  Comment.objects.get(object_id=object_id)
+                comment =  Comment.objects.get(id=object_id)
                 comment.delete()
                 # 删除评论下的所有回复
                 replys = Reply.objects.filter(root_id=object_id)
@@ -599,18 +677,18 @@ def del_object(request):
 
                 return JsonResponse({'result': 1, 'message': "删除评论成功"})
             #删除动态
-            elif object_type == 2:
-                post = Post.objects.get(object_id)
+            elif object_type == '2':
+                post = Post.objects.get(id=object_id)
                 post.delete()
                 # 删除动态下的评论
-                comments = Comment.objects.filter(type=3,object_id=object_id)
+                comments = Comment.objects.filter(type=3, object_id=object_id)
                 comments.delete()
                 # 删除评论下的所有回复
                 replys = Reply.objects.filter(root_id=object_id)
                 replys.delete()
                 return JsonResponse({'result': 1, 'message': "删除动态成功"})
             #删除回复
-            elif object_type == 3:
+            elif object_type == '3':
 
                 # 删除评论下的所有回复
                 replys = Reply.objects.filter(id=object_id)
@@ -640,7 +718,7 @@ def verify_code(email, sms_code):
     return 1
 
 
-def send_sms_code(to_email, sms_code):
+def send_sms_code(to_email, title, content):
     """
     发送邮箱验证码
     :param to_mail: 发到这个邮箱
@@ -649,8 +727,10 @@ def send_sms_code(to_email, sms_code):
     # 生成邮箱验证码
 
     EMAIL_FROM = "2522820243@qq.com"  # 邮箱来自
-    email_title = '邮箱激活'
-    email_body = "您的邮箱注册验证码为：{0}, 该验证码有效时间为两分钟，请及时进行验证。".format(sms_code)
+    email_title = title
+
+    email_body = content
+
     send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
 
     return send_status
@@ -671,8 +751,14 @@ def send_email_register(request):
             elif verify_code(email, sms_code) == 2:
                 code = VerifyCode.objects.get(email, sms_code)
                 code.delete()
+        title='欢迎注册HyperMuisc音乐平台'
+        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为两分钟，请及时进行验证。".format(sms_code)
+        try:
+            res = send_sms_code(email, title,content)
+        except Exception as e:
+            return JsonResponse({'result':0, 'message':"邮箱错误"})
 
-        if send_sms_code(email, sms_code) == 1:
+        if res == 1:
             code = VerifyCode(email=email, num=sms_code)
             code.save()
             return JsonResponse({'result': 1, 'message': "发送邮件成功"})
@@ -706,7 +792,7 @@ def audit(request):
         complain = complain[0]
         complain.audit_time = datetime.now()
         complain.state = 2
-        complain.result= result
+        complain.result = result
         complain.reason = reason
         complain.save()
 
@@ -740,28 +826,55 @@ def audit(request):
 
 
 def get_complain_detail(request):
-    if request.method == 'POST':
-        JWT = request.POST.get('JWT')
+    if request.method == 'GET':
+        JWT = request.GET.get('JWT')
+        print(JWT)
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+
             user_id = token.get('user_id')
             user = User.objects.get(id=user_id)
         except Exception as e:
+            print(e)
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
 
-        if user.is_admin == False:
+
+
+        complain_id = request.GET.get('complain_id')
+        complain = Complain.objects.get(id=complain_id)
+        if user.is_admin == False and user.id != complain.poster_id:
             result = {'result': 0, 'message': "没有访问权限"}
             return JsonResponse(result)
-
-        complain_id = request.POST.get('complain_id')
-        complain = Complain.objects.get(complain_id)
 
         return JsonResponse({'result':1, 'complain': complain.to_dic_detail(),'message':"获取投诉成功"})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
         
 
+def ai_audit(request):
+    if request.method == 'POST':
+
+        body = json.loads(request.body)
+        if body.get('JobsDetail') is None:
+            return {'result': 0,'message':"审核返回结果异常"}
+        else:
+            result = body.get('JobsDetail').get('Result')
+            label = body.get('JobsDetail').get('Label')
+            job_id = body.get('JobsDetail').get('JobId')
+            print(job_id)
+            job = JobToMusic.objects.filter(job_id=job_id)
+            music_id = job[0].music_id
+            music = Music.objects.get(id=music_id)
+            #审核通过
+            if result == 0:
+                music.is_audit = True
+                music.save()
+                return JsonResponse({"message":"通过审核",'job_id':job_id})
+            #TODO 审核未通过
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
 
