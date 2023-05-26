@@ -132,7 +132,7 @@ class Bucket:
         -1: this key_name not exists\n
         1: request success\n
         """
-        callback = host + 'api/Message/ai_audit'
+        callback = host + 'api/message/ai_audit/'
         if re.match(r'^.*\.(mp3|wav|aac|flac|amr|3gp|m4a|wma|ogg|ape)$', key_name) is not None:
             try:
                 response = self.client.ci_auditing_audio_submit(
