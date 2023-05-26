@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('username', models.CharField(max_length=100)),
                 ('password', models.CharField(max_length=100)),
-                ('created_time', models.DateTimeField(auto_now_add=True, verbose_name='创建时间')),
+                ('create_date', models.DateTimeField(auto_now_add=True, verbose_name='创建时间')),
                 ('follow_num', models.IntegerField(default=0)),
                 ('fan_num', models.IntegerField(default=0)),
                 ('like_list', models.IntegerField(default=0, verbose_name='个人喜爱歌单id')),
