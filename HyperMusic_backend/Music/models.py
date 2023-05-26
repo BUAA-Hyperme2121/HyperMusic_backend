@@ -25,6 +25,7 @@ class Music(models.Model):
     # 可选信息: 歌曲描述
     description = models.TextField(default='这首歌还没有介绍哦')
     is_audit = models.BooleanField(default=False)
+
     def to_dic(self):
         return {
             'id': self.id,
@@ -40,15 +41,15 @@ class Music(models.Model):
 
     def add_listen_times(self):
         self.listen_nums += 1
-        self.save(update_fields="listen_times")
+        self.save(update_fields=['listen_nums'])
 
     def add_likes(self):
         self.likes += 1
-        self.save(update_fields='likes')
+        self.save(update_fields=['likes'])
 
     def del_likes(self):
         self.likes -= 1
-        self.save(update_fields='likes')
+        self.save(update_fields=['likes'])
 
 
 # 用户创建的收藏夹/分享的歌单
@@ -80,8 +81,8 @@ class MusicList(models.Model):
             'name': self.name,
             'description': self.description,
             'creator_id': self.creator.id,
-            'creator_name': self.creator.name,
-            'cover_path': self.front_path,
+            'creator_name': self.creator.username,
+            'cover_path': self.cover_path,
             'music_num': self.music_num,
             'is_public': self.is_public,
             'type': self.type
@@ -89,15 +90,15 @@ class MusicList(models.Model):
 
     def change_cover(self, new_path):
         self.front_path = new_path
-        self.save(update_fields='cover_path')
+        self.save(update_fields=['new_path'])
 
     def add_music(self):
         self.music_num += 1
-        self.save(update_fields='music_num')
+        self.save(update_fields=['music_num'])
 
     def del_music(self):
         self.music_num -= 1
-        self.save(update_fields='music_num')
+        self.save(update_fields=['music_num'])
 
 
 # 歌曲标签
@@ -113,5 +114,3 @@ class Label(models.Model):
 class SingerToMusic(models.Model):
     singer_id = models.IntegerField(verbose_name='歌手', default=0)
     music_id = models.IntegerField(verbose_name='歌曲', default=0)
-
-
