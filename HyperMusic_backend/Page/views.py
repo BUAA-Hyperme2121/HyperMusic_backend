@@ -16,7 +16,7 @@ from User.models import User, UserListenHistory, Singer, UserToFollow
 def get_user_info(request):
     if request.method == 'GET':
         # 检查表单信息
-        JWT = request.POST.get('JWT')
+        JWT = request.GET.get('JWT')
         user = None
         if JWT != "-1":
             try:

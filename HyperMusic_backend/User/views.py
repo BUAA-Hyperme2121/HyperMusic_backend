@@ -235,12 +235,10 @@ def upload_music(request):
             return JsonResponse(result)
 
         labels_music = request.POST.get('music_labels', '')
-        labels_singer = request.POST.get('singer_labels', '')
         music_name = request.POST.get('music_name', '')
         music_cover = request.FILES.get('music_cover', None)
         description = request.POST.get('description', '')
         singer_name = request.POST.get('singer_name', '')
-        singer_cover = request.FILES.get('singer_cover', None)
         lyrics = request.FILES.get('lyrics', None)
 
         if music_name == '' or labels_music == '' or singer_name == '':
@@ -250,17 +248,21 @@ def upload_music(request):
         if len(music_name) > 100:
             result = {'result': 0, 'message': '歌曲名过长'}
             return JsonResponse(result)
-        # 歌曲重名
-        if Music.objects.filter(singer_name=singer_name, music_name=music_name).exists():
-            result = {'result': 0, 'message': '歌曲已存在'}
-            return JsonResponse(result)
+
         # 音源文件不存在
         music_upload = request.FILES.get('music', None)
         if not music_upload:
             result = {'result': 0, 'message': '上传歌曲不能为空'}
             return JsonResponse(result)
 
-        music = Music(music_name=music_name, description=description, creator=user)
+        # 设置歌手,有就记录,无就新建
+        if not Singer.objects.filter(name=singer_name).exists():
+            singer = Singer(name=singer_name)
+            singer.save()
+        singer = Singer.objects.get(name=singer_name)
+        singer_id = singer.id
+
+        music = Music(music_name=music_name, description=description, creator=user, singer=singer)
         music.save()
 
         bucket = Bucket()
@@ -286,8 +288,9 @@ def upload_music(request):
             key = create_code()
             upload_result = bucket.upload_file('music_cover', key + suffix_music_cover, music_cover.name)
             if upload_result == -1:
-                # 删除歌曲对象
+                # 删除歌曲,歌手对象
                 Music.objects.get(id=music_id).delete()
+                singer.delete()
                 result = {'result': 0, 'message': '上传失败'}
                 # 删除本地存储
                 os.remove(music_cover_dir)
@@ -296,7 +299,9 @@ def upload_music(request):
             audit_dic = bucket.image_audit('music_cover', key + suffix_music_cover)
             if audit_dic.get('result') != 0:
                 bucket.delete_object('music_cover', key + suffix_music_cover)
+                # 删除歌曲,歌手对象
                 Music.objects.get(id=music_id).delete()
+                singer.delete()
                 os.remove(music_cover_dir)
                 result = {'result': 0, 'message': '歌曲封面审核失败'}
                 return JsonResponse(result)
@@ -307,6 +312,7 @@ def upload_music(request):
             upload_result = bucket.upload_file('music_cover', str(music_id) + suffix_music_cover, music_cover.name)
             if upload_result == -1:
                 Music.objects.get(id=music_id).delete()
+                singer.delete()
                 os.remove(music_cover_dir)
                 result = {'result': 0, 'message': '上传封面失败'}
                 return JsonResponse(result)
@@ -314,6 +320,7 @@ def upload_music(request):
             music_cover_path = bucket.query_object('music_cover', str(music_id) + suffix_music_cover)
             if not music_cover_path:
                 Music.objects.get(id=music_id).delete()
+                singer.delete()
                 os.remove(music_cover_dir)
                 result = {'result': 0, 'message': '上传封面失败'}
                 return JsonResponse(result)
@@ -328,6 +335,7 @@ def upload_music(request):
                 # 删除封面
                 bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
             Music.objects.get(id=music_id).delete()
+            singer.delete()
             result = {'result': 0, 'message': '音频大小不能超过20M'}
             return JsonResponse(result)
 
@@ -346,6 +354,7 @@ def upload_music(request):
                 # 删除封面
                 bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
             Music.objects.get(id=music_id).delete()
+            singer.delete()
             os.remove(music_upload_dir)
             result = {'result': 0, 'message': '上传歌曲失败'}
             return JsonResponse(result)
@@ -355,6 +364,7 @@ def upload_music(request):
             if music.cover_path != '':
                 bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
             Music.objects.get(id=music_id).delete()
+            singer.delete()
             os.remove(music_upload_dir)
             result = {'result': 0, 'message': '上传歌曲失败'}
             return JsonResponse(result)
@@ -365,6 +375,7 @@ def upload_music(request):
         # 删除本地文件
         os.remove(music_upload_dir)
 
+
         audit_dic = bucket.music_audit_submit('music', str(music_id) + suffix_music)
         if audit_dic.get('result', 0) == -1 or audit_dic.get('result', 0) == 0:
             if music.cover_path != '':
@@ -372,97 +383,11 @@ def upload_music(request):
                 bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
             bucket.delete_object('music', str(music_id) + suffix_music)
             Music.objects.get(id=music_id).delete()
+            singer.delete()
             result = {'result': 0, 'message': '上传歌曲失败'}
             return JsonResponse(result)
 
-        # 设置歌手,有就记录,无就新建
-        if Singer.objects.filter(name=singer_name).exists():
-            singer_to_music = SingerToMusic(singer_name=singer_name, music_name=music_name)
-            singer_to_music.save()
-        else:
-            singer = Singer(name=singer_name)
-            singer.save()
-        singer = Singer.objects.get(name=singer_name)
-        singer_id = singer.id
-
         suffix_singer_cover = ''
-        # 处理歌手封面
-        if singer_cover:
-            suffix_singer_cover = '.' + singer_cover.name.split('.')[-1]
-            singer_cover.name = str(singer_id) + suffix_singer_cover
-
-            # 临时保存到本地
-            singer_cover_dir = os.path.join(MEDIA_ROOT, singer_cover.name)
-            with open(singer_cover_dir, 'wb+') as destination:
-                for chunk in singer_cover.chunks():
-                    destination.write(chunk)
-
-            # 审核封面
-            key = create_code()
-            upload_result = bucket.upload_file('singer_cover', key + suffix_singer_cover, singer_cover.name)
-            if upload_result == -1:
-                # 删除桶存储歌曲，歌曲封面对象
-                if music.cover_path != '':
-                    bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
-                bucket.delete_object('music', str(music_id) + suffix_music)
-                # 删除歌曲,歌手对象
-                Music.objects.get(id=music_id).delete()
-                Singer.object.get(id=singer_id).delete()
-                # 删除本地文件
-                os.remove(singer_cover_dir)
-                result = {'result': 0, 'message': '上传歌手封面失败'}
-                return JsonResponse(result)
-
-            # 获取审核结果
-            audit_dic = bucket.image_audit('singer_cover', key + suffix_singer_cover)
-            if audit_dic.get('result') != 0:
-                if music.cover_path != '':
-                    bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
-                bucket.delete_object('music', str(music_id) + suffix_music)
-                # 删除审核对象
-                bucket.delete_object('singer_cover', key + suffix_singer_cover)
-                # 删除歌曲,歌手对象
-                Music.objects.get(id=music_id).delete()
-                Singer.object.get(id=singer_id).delete()
-                # 删除本地文件
-                os.remove(singer_cover_dir)
-                result = {'result': 0, 'message': '歌手封面审核失败'}
-                return JsonResponse(result)
-            # 审核通过则删除审核对象
-            bucket.delete_object('singer_cover', key + suffix_singer_cover)
-
-            # 正式上传封面
-            upload_result = bucket.upload_file('singer_cover', str(singer_id) + suffix_singer_cover, singer_cover.name)
-            if upload_result == -1:
-                # 删除桶存储的歌曲，歌曲封面对象
-                if music.cover_path != '':
-                    bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
-                bucket.delete_object('music', str(music_id) + suffix_music)
-                # 删除歌曲,歌手对象
-                Music.objects.get(id=music_id).delete()
-                Singer.object.get(name=singer_name).delete()
-                # 删除本地文件
-                os.remove(singer_cover_dir)
-                result = {'result': 0, 'message': '上传歌手封面失败'}
-                return JsonResponse(result)
-            # 获取存储路径
-            cover_path = bucket.query_object('singer_cover', str(singer_id) + suffix_singer_cover)
-            if not cover_path:
-                # 删除桶存储的歌曲，歌曲封面对象
-                if music.cover_path != '':
-                    bucket.delete_object('music_cover', str(music_id) + suffix_music_cover)
-                bucket.delete_object('music', str(music_id) + suffix_music)
-                # 删除歌曲,歌手对象
-                Music.objects.get(id=music_id).delete()
-                Singer.object.get(name=singer_name).delete()
-                # 删除本地文件
-                os.remove(singer_cover_dir)
-                result = {'result': 0, 'message': '上传歌手封面失败'}
-                return JsonResponse(result)
-            singer.cover_path = cover_path
-            singer.save()
-            # 删除本地文件
-            os.remove(singer_cover_dir)
 
         # TODO 设置歌手默认封面,歌曲默认封面
 
@@ -532,24 +457,11 @@ def upload_music(request):
             # 不存在就新建标签
             else:
                 label = Label(label_name=label_name)
+                label.save()
                 label.label_music.add(music)
                 label.save()
 
-        # 歌手标签
-        if labels_singer != '':
-            for label_name in labels_singer:
-                if label_name not in singer_labels:
-                    label_name = '其他歌手或乐队'
-                if Label.objects.filter(label_name=label_name).exists():
-                    label = Label.objects.get(label_name=label_name)
-                    label.label_singer.add(singer)
-                    label.save()
-                # 不存在就新建标签
-                else:
-                    label = Label(label_name=label_name)
-                    label.label_singer.add(singer)
-                    label.save()
-        # 歌手不一定有标签,贴上其他
+        # 歌手不上传标签,贴上其他
         label_name = '其他歌手或乐队'
         if Label.objects.filter(label_name=label_name).exists():
             label = Label.objects.get(label_name=label_name)
@@ -558,8 +470,12 @@ def upload_music(request):
         # 不存在就新建标签
         else:
             label = Label(label_name=label_name)
+            label.save()
             label.label_singer.add(singer)
             label.save()
+
+        singer_to_music = SingerToMusic(singer_id=singer_id, music_id=music_id)
+        singer_to_music.save()
 
         result = {'result': 1, 'message': '上传歌曲成功'}
         return JsonResponse(result)
@@ -577,7 +493,7 @@ def del_music(request):
             user_id = token.get('user_id')
             user = User.objects.get(id=user_id)
         except Exception as e:
-            result = {'result': 0, 'message': "请先登录!"}
+            result = {'result': 0, 'message': "请先登录"}
             return JsonResponse(result)
         music_id = request.POST.get('music_id')
         if not Music.objects.filter(id=music_id).exists():
@@ -1167,6 +1083,7 @@ def share_favorites(request):
             # 不存在就新建标签
             else:
                 label = Label(label_name=label_name)
+                label.save()
                 label.label_music_list.add(favorites_list)
                 label.save()
         favorites_list.is_share = True

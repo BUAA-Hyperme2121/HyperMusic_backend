@@ -10,7 +10,7 @@ class Music(models.Model):
     # 基本信息
     id = models.AutoField(primary_key=True)
     music_name = models.CharField(max_length=100)
-    create_time = models.DateTimeField('创建时间', auto_now_add=True)
+    create_date = models.DateTimeField('创建时间', auto_now_add=True)
     # 上传者和歌手
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Music_Uploader')
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Music_Singer')
