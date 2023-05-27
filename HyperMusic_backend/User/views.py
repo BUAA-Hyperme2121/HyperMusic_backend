@@ -266,11 +266,6 @@ def upload_music(request):
             result = {'result': 0, 'message': '歌曲已存在'}
             return JsonResponse(result)
 
-        # 歌曲为同一上传者同一歌手的同名歌曲，不能重复
-        if Music.objects.filter(singer=singer, creator=user, music_name=music_name).exists():
-            result = {'result': 0, 'message': '歌曲已存在'}
-            return JsonResponse(result)
-
         music = Music(music_name=music_name, description=description, creator=user, singer=singer)
         music.save()
 
@@ -507,18 +502,18 @@ def del_music(request):
         if music.creator != user:
             result = {'result': 0, 'message': '无权限删除歌曲'}
             return JsonResponse(result)
-        # # 删除桶对象
-        # bucket = Bucket()
-        # # 删除封面（上传的或默认的）
-        # suffix_music_cover = '.' + music.cover_path.split('.')[-1]
-        # bucket.delete_object('hypermusic', 'cover' + str(music_id) + suffix_music_cover)
-        # if music.lyrics_path != '':
-        #     # 删除歌词
-        #     suffix_lyrics = '.' + music.lyrics_path.split('.')[-1]
-        #     bucket.delete_object('hypermusic', 'lyrics' + str(music_id) + suffix_lyrics)
-        # # 删除音源
-        # suffix_music = '.' + music.music_path.split('.')[-1]
-        # bucket.delete_object('hypermusic', 'music' + str(music_id) + suffix_music)
+        # 删除桶对象
+        bucket = Bucket()
+        # 删除封面（上传的或默认的）
+        suffix_music_cover = '.' + music.cover_path.split('.')[-1]
+        bucket.delete_object('hypermusic', 'cover' + str(music_id) + suffix_music_cover)
+        if music.lyrics_path != '':
+            # 删除歌词
+            suffix_lyrics = '.' + music.lyrics_path.split('.')[-1]
+            bucket.delete_object('hypermusic', 'lyrics' + str(music_id) + suffix_lyrics)
+        # 删除音源
+        suffix_music = '.' + music.music_path.split('.')[-1]
+        bucket.delete_object('hypermusic', 'music' + str(music_id) + suffix_music)
         # 删除用户听歌记录
         UserListenHistory.objects.filter(music_id=music_id).delete()
         # 删除歌手对应歌曲
