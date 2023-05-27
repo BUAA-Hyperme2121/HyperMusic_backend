@@ -104,7 +104,7 @@ def get_all_music(request):
         music_list = []
         for music in music_all:
             dic = dict()
-            dic['name'] = music.music_name
+            dic['music_name'] = music.music_name
             dic['id'] = music.id
             label_list = Label.objects.all()
             labels = list()
@@ -124,7 +124,7 @@ def get_all_music(request):
 def generate_music_dic(music):
     dic = dict()
     dic['id'] = music.id
-    dic['name'] = music.music_name
+    dic['music_name'] = music.music_name
     dic['singer_name'] = music.singer.name
     dic['singer_id'] = music.singer.id
     dic['cover_path'] = music.cover_path
@@ -242,7 +242,7 @@ def get_recommend_music_list(request):
                 r = random.randint(0, 100)
                 if r < 10:
                     dic = dict()
-                    dic['name'] = music.music_name
+                    dic['music_name'] = music.music_name
                     dic['id'] = music.id
                     labels = [x.label_name for x in Label.objects.filter(label_music=music).all()]
                     dic['style'] = labels
