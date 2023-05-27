@@ -16,7 +16,7 @@ class Music(models.Model):
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, related_name='Music_Singer')
     # 音源路径,歌词路径,封面路径
     music_path = models.CharField(max_length=100, default='')
-    cover_path = models.CharField(max_length=100, default='')
+    cover_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Music_Cover.png')
     lyrics_path = models.CharField(max_length=100, default='')
     # 维护信息: 喜欢数,播放量,是否原创
     likes = models.IntegerField(default=0)
@@ -70,7 +70,7 @@ class MusicList(models.Model):
     is_public = models.BooleanField(default=False)
 
     # 封面路径
-    cover_path = models.CharField(max_length=100, default='')
+    cover_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Music_Cover.png')
     # 可选信息: 歌单简介
     description = models.TextField(max_length=200, default='此歌单还没有介绍哦')
 

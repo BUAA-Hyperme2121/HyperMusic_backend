@@ -783,7 +783,7 @@ def audit(request):
         if user.is_admin == False:
             return JsonResponse({"result":0,'message': "没有访问权限"})
         complain_id = request.POST.get('complain_id')
-        complain = Complain.objects.filter(complain_id)
+        complain = Complain.objects.filter(id=complain_id)
         if not complain.exists():
             return JsonResponse({'result':0, 'message':"数据库中不存在相应投诉"})
         result = request.POST.get('result')
@@ -798,13 +798,13 @@ def audit(request):
 
 
         #审核通关
-        if result == 1:
+        if result == '1':
 
             return JsonResponse({'result':1,'message':"审核结果为：通过"})
 
         #审核未通过,改变文件为不可见
 
-        elif result == 2:
+        elif result == '2':
             type = complain.type
 
             object_id = complain.object_id

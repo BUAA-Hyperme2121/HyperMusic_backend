@@ -9,7 +9,7 @@ class Singer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     introduction = models.TextField(max_length=150, default='暂无介绍')
-    cover_path = models.CharField(max_length=100, default='')
+    cover_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Singer_Avator.png')
 
     def to_dic(self):
         return {
@@ -33,7 +33,7 @@ class User(models.Model):
     like_list = models.IntegerField(verbose_name="个人喜爱歌单id", default=0)
 
     # 头像路径
-    avatar_path = models.CharField(max_length=100, default='')
+    avatar_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_User_Avator.png')
 
     # 可选信息: 简介,所在地,性别
     introduction = models.TextField(max_length=150, default='这个人很懒，什么也没有留下')
