@@ -1,10 +1,9 @@
-from datetime import timedelta, datetime
 import random
+from datetime import timedelta, datetime
 
 import jwt
 from django.db.models import Count
 from django.http import JsonResponse
-from django.shortcuts import render
 
 from Music.models import MusicList, Label, Music
 from User.models import User, UserListenHistory, Singer, UserToFollow
@@ -62,7 +61,7 @@ def get_all_music_list(request):
             label_list = Label.objects.all()
             labels = list()
             for label in label_list:
-                if label.label_music_list.objects.filter(id=ml.id):
+                if label.label_music_list.filter(id=ml.id):
                     labels.append(label.label_name)
             dic['labels'] = labels
             dic['cover_path'] = ml.cover_path
@@ -86,7 +85,7 @@ def get_all_singer(request):
             label_list = Label.objects.all()
             labels = list()
             for label in label_list:
-                if label.label_singer.objects.filter(id=singer.id):
+                if label.label_singer.filter(id=singer.id):
                     labels.append(label.label_name)
             dic['labels'] = labels
             dic['cover_path'] = singer.cover_path
@@ -110,7 +109,7 @@ def get_all_music(request):
             label_list = Label.objects.all()
             labels = list()
             for label in label_list:
-                if label.label_music.objects.filter(id=music.id):
+                if label.label_music.filter(id=music.id):
                     labels.append(label.label_name)
             dic['labels'] = labels
             dic['cover_path'] = music.cover_path
@@ -148,7 +147,7 @@ def get_hot_music_rank(request):
                              values('music_id').annotate(times=Count('music_id')).order_by('-times')[:10]
         hot_music_rank = []
         for history in history_record:
-            music = Music.objects.get(id=history.music_id)
+            music = Music.objects.get(id=history['music_id'])
             hot_music_rank.append(generate_music_dic(music))
         result = {'result': 1, 'message': '获取热歌榜成功', 'hot_music_rank': hot_music_rank}
         return JsonResponse(result)
@@ -167,7 +166,7 @@ def get_new_music_rank(request):
         one_week = timedelta(days=-7)
         last_monday = monday + one_week
         # 最近两周内新发布的，播放量最多的50首歌
-        new_music_list = Music.objects.filter(create_time__gte=last_monday).all().order_by('-listen_time')[:50]
+        new_music_list = Music.objects.filter(create_date__gte=last_monday).all().order_by('-listen_nums')[:50]
         new_music_rank = []
         for music in new_music_list:
             new_music_rank.append(generate_music_dic(music))
@@ -193,12 +192,12 @@ def get_surge_music_rank(request):
         music_times_list = []
         for music in times_record:
             # 不计算两周前才发布的新歌
-            if Music.objects.filter(id=music.id, create_date__gte=last_monday).exists():
-                get_music = Music.objects.get(id=music.id, create_date__gte=last_monday)
-                times = music.times
+            if Music.objects.filter(id=music['music_id'], create_date__gte=last_monday).exists():
+                get_music = Music.objects.get(id=music['music_id'], create_date__gte=last_monday)
+                times = music['times']
                 dic = generate_music_dic(get_music)
                 # 防止除0
-                dic['times'] = get_music.listen_time / (get_music.listen_time - times + 1)
+                dic['times'] = get_music.listen_nums / (get_music.listen_nums - times + 1)
                 music_times_list.append(dic)
         # 根据播放次数升高比例降序排列
         music_times_list.sort(key=lambda music_: music_['times'], reverse=True)
@@ -214,7 +213,7 @@ def get_surge_music_rank(request):
 def get_original_music_rank(request):
     if request.method == 'GET':
         # 获取原创歌曲
-        original_music_list = Music.objects.filter(is_original=True).all().order_by('-listen_time')[:50]
+        original_music_list = Music.objects.filter(is_original=True).all().order_by('-listen_nums')[:50]
         original_music_rank = []
         for music in original_music_list:
             original_music_rank.append(generate_music_dic(music))

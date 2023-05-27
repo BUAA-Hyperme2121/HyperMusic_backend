@@ -14,11 +14,14 @@ from User.models import Singer, UserListenHistory, User
 # 获取某一歌单信息
 def get_music_list_info(request):
     if request.method == 'GET':
-        music_list_id = request.method.get('music_list_id')
+        music_list_id = request.GET.get('music_list_id', '')
+        if len(music_list_id) == 0:
+            result = {'result': 0, 'message': '请指定歌单'}
+            return JsonResponse(result)
         if not MusicList.objects.filter(id=music_list_id).exists():
             result = {'result': 0, 'message': '歌单不存在'}
             return JsonResponse(result)
-        get_list = MusicList.objects.get(id=music_list_id).to_dic()
+        get_list = MusicList.objects.get(id=music_list_id)
         music_list_info = get_list.to_dic()
         if not get_list.music.exists():
             result = {'result': 1, 'message': '成功获取歌单', 'music_list_info': music_list_info,
@@ -47,7 +50,10 @@ def get_music_info(request):
             except Exception as e:
                 result = {'result': 0, 'message': "请先登录!"}
                 return JsonResponse(result)
-        music_id = request.GET.get('music_id')
+        music_id = request.GET.get('music_id', '')
+        if len(music_id) == 0:
+            result = {'result': 0, 'message': '请指定歌曲'}
+            return JsonResponse(result)
         if not Music.objects.filter(id=music_id).exists():
             result = {'result': 0, 'message': '此歌曲不存在'}
             return JsonResponse(result)
@@ -57,7 +63,7 @@ def get_music_info(request):
         # 为登录用户
         if user:
             like_list = MusicList.objects.get(id=user.like_list)
-            if like_list.music.objects.filter(id=music_id).exists():
+            if like_list.music.filter(id=music_id).exists():
                 music_info['is_like'] = True
         result = {'result': 1, 'message': '获取歌曲信息成功', 'music_info': music_info}
         return JsonResponse(result)
@@ -69,15 +75,18 @@ def get_music_info(request):
 # 获取某一歌手的基本信息，和他的歌曲列表
 def get_singer_info(request):
     if request.method == 'GET':
-        singer_id = request.POST.get('singer_id')
+        singer_id = request.GET.get('singer_id', '')
+        if len(singer_id) == 0:
+            result = {'result': 0, 'message': '请指定歌手'}
+            return JsonResponse(result)
         if not Singer.objects.filter(id=singer_id).exists():
             result = {'result': 0, 'message': '歌手不存在'}
             return JsonResponse(result)
         if not SingerToMusic.objects.filter(singer_id=singer_id).exists():
             music_list = '该歌手尚无歌曲'
         else:
-            music_id_list = SingerToMusic.objects.filter(singer_id=singer_id).all()
-            music_list = [x.to_dic() for x in music_id_list]
+            music_id_list = [x.music_id for x in SingerToMusic.objects.filter(singer_id=singer_id).all()]
+            music_list = [Music.objects.get(id=x).to_dic() for x in music_id_list]
         singer_info = Singer.objects.get(id=singer_id).to_dic()
         result = {'result': 1, 'message': '成功获取歌手基本信息', 'singer_info': singer_info, 'music_list': music_list}
         return JsonResponse(result)

@@ -161,7 +161,7 @@ def change_info(request):
         # 获取头像文件路径并改名存储
         if avatar:
             suffix = '.' + avatar.name.split('.')[-1]
-            avatar.name = str(user.id) + suffix
+            avatar.name = 'avatar' + str(user.id) + suffix
 
             # 临时保存到本地
             avatar_dir = os.path.join(MEDIA_ROOT, avatar.name)
@@ -173,31 +173,23 @@ def change_info(request):
             key = create_code()
 
             # 上传审核
-            upload_result = bucket.upload_file('avatar', key + suffix, avatar.name)
+            upload_result = bucket.upload_file('hypermusic', avatar.name, avatar.name)
             if upload_result == -1:
                 os.remove(avatar_dir)
                 result = {'result': 0, 'message': '上传失败'}
                 return JsonResponse(result)
             # 获取审核结果
-            audit_dic = bucket.image_audit('avatar', key + suffix)
+            audit_dic = bucket.image_audit('hypermusic', avatar.name)
             if audit_dic.get('result') != 0:
-                bucket.delete_object('avatar', key + suffix)
+                bucket.delete_object('hypermusic', avatar.name)
                 os.remove(avatar_dir)
                 result = {'result': 0, 'message': '审核不通过', 'user': user.to_dic()}
                 return JsonResponse(result)
-            # 删除用于审核的对象
-            bucket.delete_object('avatar', key + suffix)
 
             # TODO 判断是否默认头像，若不是，删除以前存储的，否则存储名重复
 
-            # 审核通过,正式上传
-            upload_result = bucket.upload_file('avatar', str(user_id) + suffix, avatar.name)
-            if upload_result == -1:
-                os.remove(avatar_dir)
-                result = {'result': 0, 'message': '上传失败'}
-                return JsonResponse(result)
             # 获取存储路径
-            avatar_path = bucket.query_object('avatar', str(user_id) + suffix)
+            avatar_path = bucket.query_object('hypermusic', avatar.name)
             if not avatar_path:
                 os.remove(avatar_dir)
                 result = {'result': 0, 'message': '上传失败'}
@@ -208,7 +200,13 @@ def change_info(request):
 
         location = request.POST.get('location', '')
         gender = request.POST.get('gender', '')
-        introduction = request.POST.get('introduction', '这个人很懒，什么都没有留下')
+        introduction = request.POST.get('introduction','')
+        if len(gender) == 0:
+            gender = '未知'
+        if len(introduction) == 0:
+            introduction = '这个人很懒，什么都没有留下'
+        if len(location) == 0:
+            location = '未知'
         user.username = username
         user.gender = gender
         user.location = location
@@ -234,7 +232,7 @@ def upload_music(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
 
-        labels_music = request.POST.get('music_labels', '')
+        labels_music = request.POST.getlist('music_labels', '')
         music_name = request.POST.get('music_name', '')
         music_cover = request.FILES.get('music_cover', None)
         description = request.POST.get('description', '')
@@ -428,16 +426,12 @@ def upload_music(request):
             if not lyrics_path:
                 # 删除桶存储的歌曲，歌曲封面对象
                 if music.cover_path != '':
-                    bucket.delete_object('hypermusic', str(music_id) + suffix_music_cover)
-                bucket.delete_object('hypermusic', str(music_id) + suffix_music)
-                # 删除歌手封面
-                # if singer.cover_path != '':
-                #    bucket.delete_object('singer_cover', str(singer_id) + suffix_singer_cover)
+                    bucket.delete_object('hypermusic', music_upload.name)
+                bucket.delete_object('hypermusic', music_cover.name)
 
                 # 删除歌曲,歌手对象
                 Music.objects.get(id=music_id).delete()
-
-                # Singer.object.get(name=singer_name).delete()
+                Singer.object.get(name=singer_name).delete()
                 # 删除本地文件
                 os.remove(lyrics_dir)
                 result = {'result': 0, 'message': '上传歌词失败'}
@@ -494,7 +488,7 @@ def upload_music(request):
 # 用户删除自己上传歌曲
 def del_music(request):
     if request.method == 'POST':
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT', '')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -502,7 +496,10 @@ def del_music(request):
         except Exception as e:
             result = {'result': 0, 'message': "请先登录"}
             return JsonResponse(result)
-        music_id = request.POST.get('music_id')
+        music_id = request.POST.get('music_id', '')
+        if len(music_id) == 0:
+            result = {'result': 0, 'message': '请指定要删除歌曲'}
+            return JsonResponse(result)
         if not Music.objects.filter(id=music_id).exists():
             result = {'result': 0, 'message': '歌曲不存在'}
             return JsonResponse(result)
@@ -510,18 +507,18 @@ def del_music(request):
         if music.creator != user:
             result = {'result': 0, 'message': '无权限删除歌曲'}
             return JsonResponse(result)
-        # 删除桶对象
-        bucket = Bucket()
-        # 删除封面（上传的或默认的）
-        suffix_music_cover = '.' + music.cover_path.split('.')[-1]
-        bucket.delete_object('hypermusic', str(music_id) + suffix_music_cover)
-        if music.lyrics_path != '':
-            # 删除歌词
-            suffix_lyrics = '.' + music.lyrics_path.split('.')[-1]
-            bucket.delete_object('lyrics', str(music_id) + suffix_lyrics)
-        # 删除音源
-        suffix_music = '.' + music.music_path.split('.')[-1]
-        bucket.delete_object('music', str(music_id) + suffix_music)
+        # # 删除桶对象
+        # bucket = Bucket()
+        # # 删除封面（上传的或默认的）
+        # suffix_music_cover = '.' + music.cover_path.split('.')[-1]
+        # bucket.delete_object('hypermusic', 'cover' + str(music_id) + suffix_music_cover)
+        # if music.lyrics_path != '':
+        #     # 删除歌词
+        #     suffix_lyrics = '.' + music.lyrics_path.split('.')[-1]
+        #     bucket.delete_object('hypermusic', 'lyrics' + str(music_id) + suffix_lyrics)
+        # # 删除音源
+        # suffix_music = '.' + music.music_path.split('.')[-1]
+        # bucket.delete_object('hypermusic', 'music' + str(music_id) + suffix_music)
         # 删除用户听歌记录
         UserListenHistory.objects.filter(music_id=music_id).delete()
         # 删除歌手对应歌曲
@@ -532,6 +529,7 @@ def del_music(request):
             if ml.music.filter(id=music_id).exists():
                 ml.music.remove(music)
                 ml.del_music()
+                ml.save()
         # 删除用户听歌记录
         UserListenHistory.objects.filter(music_id=music_id).delete()
         # 删除歌曲对象本身
@@ -774,13 +772,13 @@ def get_like_singer_simple(request):
 def get_recent_listen_music_list(request):
     if request.method == 'GET':
         # 检查表单信息
-        JWT = request.GET.get('JWT')
+        JWT = request.GET.get('JWT', '')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
             user = User.objects.get(id=user_id)
         except Exception as e:
-            result = {'result': 0, 'message': "请先登录!"}
+            result = {'result': 0, 'message': "请先登录"}
             return JsonResponse(result)
         history_record = user.history_record
         if not UserListenHistory.objects.filter(user_id=user_id).exists():
@@ -788,12 +786,13 @@ def get_recent_listen_music_list(request):
             return JsonResponse(result)
         history = UserListenHistory.objects.filter(user_id=user_id).all().order_by('-create_date')[:history_record]
         music_list = []
-        for music in history:
-            dic = dict()
-            get_music = Music.objects.get(id=music.id)
-            dic['id'] = get_music.id
-            dic['music_name'] = get_music.music_name
-            music_list.append(dic)
+        if history:
+            for music in history:
+                dic = dict()
+                get_music = Music.objects.get(id=music.music_id)
+                dic['id'] = get_music.id
+                dic['music_name'] = get_music.music_name
+                music_list.append(dic)
         result = {'result': 1, 'message': '成功获取用户最近播放列表', 'music_list': music_list}
         return JsonResponse(result)
     else:
@@ -805,7 +804,7 @@ def get_recent_listen_music_list(request):
 def get_most_listen_music_list(request):
     if request.method == 'GET':
         # 检查表单信息
-        JWT = request.GET.get('JWT')
+        JWT = request.GET.get('JWT', '')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -814,7 +813,7 @@ def get_most_listen_music_list(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
         get_type = request.GET.get('op')
-        if get_type == 1:
+        if get_type == '1':
             # 先找出该用户最近一周听歌记录
             monday = datetime.today()
             one_day = timedelta(days=-1)
@@ -825,7 +824,7 @@ def get_most_listen_music_list(request):
             if not listen_history.exists():
                 result = {'result': 1, 'message': '用户这周还没有听歌记录哦'}
                 return JsonResponse(result)
-        elif get_type == 2:
+        elif get_type == '2':
             # 全部时间内听歌记录
             listen_history = UserListenHistory.objects.filter(user_id=user_id). \
                                  values('music_id').annotate(times=Count('music_id')).order_by('-times')[:10]
@@ -838,11 +837,11 @@ def get_most_listen_music_list(request):
         music_list = []
         for music in listen_history:
             dic = dict()
-            get_music = Music.objects.get(id=music.id)
+            get_music = Music.objects.get(id=music['music_id'])
             dic['id'] = get_music.id
             dic['music_name'] = get_music.music_name
             # 增加用户听这首歌的次数
-            dic['user_listen_times'] = music.times
+            dic['user_listen_times'] = music['times']
             music_list.append(dic)
         if get_type == 1:
             result = {'result': 1, 'message': '成功获取用户当周听歌历史', 'music_list': music_list}
@@ -1024,7 +1023,7 @@ def get_favorites(request):
 def share_favorites(request):
     if request.method == 'POST':
         # 检查表单信息
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT', '')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -1033,16 +1032,19 @@ def share_favorites(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
         # 获取要分享的收藏夹
-        favorites_id = request.POST.get('favorites_id')
-        if not MusicList.objects.filter(id=favorites_id, is_share=False).exists():
+        favorites_id = request.POST.get('favorites_id', '')
+        if len(favorites_id) == 0:
+            result = {'result': 0, 'message': '请指定要分享的收藏夹'}
+            return JsonResponse(result)
+        if not MusicList.objects.filter(id=favorites_id, is_public=False).exists():
             result = {'result': 0, 'message': '此收藏夹不存在或已经分享'}
             return JsonResponse(result)
-        favorites_list = MusicList.objects.get(id=favorites_id, is_share=False)
+        favorites_list = MusicList.objects.get(id=favorites_id, is_public=False)
         if favorites_list.creator != user:
             result = {'result': 0, 'message': '抱歉,您非歌单创建者,无法分享此歌单'}
             return JsonResponse(result)
-        labels = request.POST.get('labels', None)
-        if labels is None:
+        labels = request.POST.getlist('labels', '')
+        if len(labels) == 0:
             result = {'result': 0, 'message': '标签不能为空'}
             return JsonResponse(result)
 
@@ -1055,31 +1057,22 @@ def share_favorites(request):
             bucket = Bucket()
             # 如果用户上传了封面
             suffix_music_list_cover = '.' + music_list_cover.name.split('.')[-1]
-            music_list_cover.name = str(favorites_id) + suffix_music_list_cover
+            music_list_cover.name = 'music_list_cover' + str(favorites_id) + suffix_music_list_cover
 
             # 审核封面
-            key = create_code()
-            upload_result = bucket.upload_file('music_list_cover', key + suffix_music_list_cover, music_list_cover.name)
+            upload_result = bucket.upload_file('hypermusic', music_list_cover.name, music_list_cover.name)
             if upload_result == -1:
                 result = {'result': 0, 'message': '上传失败'}
                 return JsonResponse(result)
             # 获取审核结果
-            audit_dic = bucket.image_audit('music_list_cover', key + suffix_music_list_cover)
+            audit_dic = bucket.image_audit('hypermusic',music_list_cover.name)
             if audit_dic.get('result') != 0:
-                bucket.delete_object('music_list_cover', key + suffix_music_list_cover)
+                bucket.delete_object('hypermusic', music_list_cover.name)
                 result = {'result': 0, 'message': '歌曲封面审核失败'}
                 return JsonResponse(result)
-            # 审核通过则删除审核对象
-            bucket.delete_object('music_list_cover', key + suffix_music_list_cover)
 
-            # 正式上传封面
-            upload_result = bucket.upload_file('music_list_cover', str(favorites_id) + suffix_music_list_cover,
-                                               music_list_cover.name)
-            if upload_result == -1:
-                result = {'result': 0, 'message': '上传封面失败'}
-                return JsonResponse(result)
             # 获取存储路径
-            music_list_cover_path = bucket.query_object('music_list_cover', str(favorites_id) + suffix_music_list_cover)
+            music_list_cover_path = bucket.query_object('hypermusic', music_list_cover.name)
             if not music_list_cover_path:
                 result = {'result': 0, 'message': '上传封面失败'}
                 return JsonResponse(result)
@@ -1102,8 +1095,10 @@ def share_favorites(request):
                 label.save()
                 label.label_music_list.add(favorites_list)
                 label.save()
-        favorites_list.is_share = True
+        favorites_list.is_public = True
         favorites_list.save()
+        result = {'result': 1, 'message': '歌单分享成功'}
+        return JsonResponse(result)
     else:
         result = {'result': 0, 'message': "请求方式错误"}
         return JsonResponse(result)
@@ -1113,7 +1108,7 @@ def share_favorites(request):
 def unshare_favorites(request):
     if request.method == 'POST':
         # 检查表单信息
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT', '')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id')
@@ -1122,11 +1117,14 @@ def unshare_favorites(request):
             result = {'result': 0, 'message': "请先登录"}
             return JsonResponse(result)
         # 获取要取消分享的收藏夹
-        favorites_id = request.POST.get('favorites_id')
-        if not Music.objects.filter(id=favorites_id, is_share=True).exists():
+        favorites_id = request.POST.get('favorites_id', '')
+        if len(favorites_id) == 0:
+            result = {'result': 0, 'message': '请指定要分享的收藏夹'}
+            return JsonResponse(result)
+        if not MusicList.objects.filter(id=favorites_id, is_public=True).exists():
             result = {'result': 0, 'message': '此歌单不存在或未分享'}
             return JsonResponse(result)
-        favorites_list = MusicList.objects.get(id=favorites_id, is_share=True)
+        favorites_list = MusicList.objects.get(id=favorites_id, is_public=True)
         if favorites_list.creator != user:
             result = {'result': 0, 'message': '抱歉,您非歌单创建者,无法取消分享此歌单'}
             return JsonResponse(result)
@@ -1135,12 +1133,12 @@ def unshare_favorites(request):
         for label in labels:
             if label.label_music_list.filter(id=favorites_id).exists():
                 label.label_music_list.remove(favorites_list)
-        # 取消分享标志
-        favorites_list.is_share = False
         # 删除此歌单对应封面
         suffix_music_list_cover = favorites_list.cover_path.split('.')[-1]
         bucket = Bucket()
-        bucket.delete_object('music_list_cover', str(favorites_id) + suffix_music_list_cover)
+        bucket.delete_object('hypermusic', 'music_list_cover' + str(favorites_id) + suffix_music_list_cover)
+        # 取消分享标志
+        favorites_list.is_public = False
         favorites_list.save()
         result = {'result': 1, 'message': '取消分享歌单成功'}
         return JsonResponse(result)
@@ -1246,7 +1244,7 @@ def unmark_music(request):
 def mark_music_list(request):
     if request.method == 'POST':
         # 检查表单信息
-        JWT = request.POST.get('JWT')
+        JWT = request.POST.get('JWT', '')
         try:
             token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
             user_id = token.get('user_id', '')
@@ -1255,12 +1253,21 @@ def mark_music_list(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
         # 要收藏的歌单id
-        music_list_id = request.POST.get('music_list_id')
-        if not MusicList.objects.filter(id=music_list_id, is_share=True).exists():
-            result = {'result': 0, 'message': '该歌单不存在'}
+        music_list_id = request.POST.get('music_list_id', '')
+        if len(music_list_id) == 0:
+            result = {'result': 0, 'message': '请指定歌单'}
+            return JsonResponse(result)
+        if not MusicList.objects.filter(id=music_list_id, is_public=True).exists():
+            result = {'result': 0, 'message': '该歌单不存在或非公开歌单'}
             return JsonResponse(result)
         # 指定的收藏夹
-        favorites_list_id = request.POST.get('favorites_list_id')
+        favorites_list_id = request.POST.get('favorites_id', '')
+        if len(music_list_id) == 0:
+            result = {'result': 0, 'message': '请指定收藏夹'}
+            return JsonResponse(result)
+        if music_list_id == favorites_list_id:
+            result = {'result': 0, 'message': '收藏夹与要收藏歌单不能相同哦'}
+            return JsonResponse(result)
         if not MusicList.objects.filter(id=favorites_list_id).exists():
             result = {'result': 0, 'message': '不存在对应收藏夹'}
             return JsonResponse(result)
@@ -1272,11 +1279,12 @@ def mark_music_list(request):
         # 获取收藏歌单
         music_list = MusicList.objects.get(id=music_list_id)
         # 遍历收藏指定歌单中的歌曲
-        music_s = music_list.music.objects.all()
+        music_s = music_list.music.all()
         for music in music_s:
             # 不存在则收藏
             # TODO 重复收藏是否报错？多对多关系add方法是沉默的
             favorites_list.music.add(music)
+            favorites_list.add_music()
         favorites_list.save()
         result = {'result': 1, 'message': '已成功收藏歌单'}
         return JsonResponse(result)
@@ -1301,10 +1309,11 @@ def set_history_record(request):
         if history_record is None:
             result = {'result': 0, 'message': '最大数量不能为空'}
             return JsonResponse(result)
-        if history_record != 10 and history_record != 20 and history_record != 50:
+        if history_record not in ['10', '20', '50']:
             result = {'result': 0, 'message': '最大数量只能为10/20/50'}
             return JsonResponse(result)
         user.history_record = history_record
+        user.save()
         result = {'result': 1, 'message': '最大记录数量设置成功'}
         return JsonResponse(result)
     else:
