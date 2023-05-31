@@ -85,7 +85,7 @@ class Complain(models.Model):
             "content": self.content,
         }
 
-#用户间的私信
+#消息
 class Message(models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -97,11 +97,11 @@ class Message(models.Model):
     object_id = models.IntegerField(verbose_name="消息对应的对象id", blank=True)
     #1-歌曲 2- 歌单 3 - 动态
     type = models.IntegerField(verbose_name="消息对应的对象种类", blank=True)
-    # 1 评论 2 点赞 3 关注 4 投诉 5 系统消息
+    # 1 评论 2 点赞 3 关注 4 投诉 5 系统消息  6-回复 7-喜爱
     message_type = models.IntegerField(verbose_name="消息种类")
     #0 - 未读 1 - 已读
     state = models.IntegerField(verbose_name="读状态", default=0)
-
+    from_object_id = models.IntegerField(verbose_name="来源id")
 
 
     def __str__(self):
@@ -109,6 +109,7 @@ class Message(models.Model):
 
 
     def to_dic(self):
+
         return {
             "id":self.id,
             "title" :self.title,
@@ -120,7 +121,7 @@ class Message(models.Model):
             "type":self.type,
             "state":self.state,
             "message_type":self.message_type,
-        }
+            }
 
 
     def to_dic_detail(self):
