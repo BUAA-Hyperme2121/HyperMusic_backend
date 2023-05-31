@@ -25,4 +25,5 @@ urlpatterns = [
     path('cancel_like/', cancel_like),
     path('ai_audit/', ai_audit),
     path('modify_comment/', modify_comment),
+    path('get_user_reply/',get_user_reply),
 ]
