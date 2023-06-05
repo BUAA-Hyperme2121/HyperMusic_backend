@@ -1,6 +1,6 @@
 from django.db import models
 from Music.models import Music, MusicList
-from User.models import User
+from User.models import User, Singer
 
 
 # Comments-0 Complains-1 Post-2
@@ -175,13 +175,13 @@ class Post(models.Model):
             object_name=object.music_name
             object_cover_path = object.cover_path
             object_owner_id = object.singer.id
-
+            object_owner_name = Singer.objects.get(id=object_owner_id).name
         elif self.type == 2:
             object = MusicList.objects.get(id=self.object_id)
             object_name = object.name
             object_cover_path = object.cover_path
             object_owner_id = object.creator.id
-
+            object_owner_name = User.objects.get(id=object_owner_id).username
         return {
             "id":self.id,
             "poster_id":self.poster_id,
@@ -195,7 +195,7 @@ class Post(models.Model):
             "poster_name":User.objects.get(id = self.poster_id).username,
             "object_name": object_name,
             "object_cover_path": object_cover_path,
-            "object_owner_name": User.objects.get(id=object_owner_id).username,
+            "object_owner_name": object_owner_name,
         }
 
 
