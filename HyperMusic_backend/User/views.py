@@ -648,6 +648,7 @@ def get_follow_list(request):
         # 检查表单信息
         JWT = request.GET.get('JWT', '')
         user = None
+        user_id = None
         if JWT != '-1':
             try:
                 token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
@@ -661,6 +662,9 @@ def get_follow_list(request):
             result = {'result': 0, 'message': '请指定用户id'}
             return JsonResponse(result)
         if get_user_id == 0:
+            if user_id is None:
+                result = {'result': 0, 'message': '未登录用户无法查看自己关注列表'}
+                return JsonResponse(result)
             get_user_id = user_id
         follow_list_get = get_follow_list_simple_user(get_user_id)
         follow_list = []
@@ -687,6 +691,7 @@ def get_fan_list(request):
         # 检查表单信息
         JWT = request.GET.get('JWT', '')
         user = None
+        user_id = None
         if JWT != "-1":
             try:
                 token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
@@ -695,7 +700,15 @@ def get_fan_list(request):
             except Exception as e:
                 result = {'result': 0, 'message': "请先登录"}
                 return JsonResponse(result)
-        get_user_id = request.GET.get('user_id')
+        get_user_id = request.GET.get('user_id', '')
+        if get_user_id == '':
+            result = {'result': 0, 'message': '请指定用户id'}
+            return JsonResponse(result)
+        if get_user_id == 0:
+            if user_id is None:
+                result = {'result': 0, 'message': '未登录用户无法查看自己粉丝列表'}
+                return JsonResponse(result)
+            get_user_id = user_id
         fan_list_get = get_fan_list_simple_user(get_user_id)
         fan_list = []
         if len(fan_list_get) != 0:
