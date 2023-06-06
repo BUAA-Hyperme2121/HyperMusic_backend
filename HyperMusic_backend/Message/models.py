@@ -103,7 +103,7 @@ class Message(models.Model):
     message_type = models.IntegerField(verbose_name="消息种类")
     #0 - 未读 1 - 已读
     state = models.IntegerField(verbose_name="读状态", default=0)
-    from_object_id = models.IntegerField(verbose_name="来源id")
+    from_object_id = models.IntegerField(verbose_name="来源id", default=0)
 
 
     def __str__(self):
