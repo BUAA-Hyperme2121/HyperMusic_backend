@@ -73,11 +73,11 @@ def like(request):
         like.save()
         if type == '1':
             post=Post.objects.get(id=object_id)
-            post.add_like()
+            post.like_num += 1
             post.save()
         elif type == '2':
             comment = Comment.objects.get(id=object_id)
-            comment.add_like()
+            comment.like_num +=1
             comment.save()
         elif type == '3':
             reply = Reply.objects.get(id=object_id)
@@ -144,7 +144,7 @@ def cre_complain(request):
         content = request.POST.get("content",'')
         type = request.POST.get("type",'')
         title = request.POST.get("title", '')
-        print(type(type))
+
 
         new_complain = Complain(poster_id=user_id, object_id=object_id, content=content, type=type, state=1)
         new_complain.save()
