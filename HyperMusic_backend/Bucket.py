@@ -5,7 +5,7 @@ import sys
 import logging
 import os
 
-#import numpy as np
+# import numpy as np
 from key import *
 
 
@@ -54,6 +54,26 @@ class Bucket:
             self.client.upload_file(
                 Bucket=bucket_name + self.app_id,
                 LocalFilePath=self.base_path + '/media/' + file_name,
+                Key=key_name,
+                PartSize=1,
+                MAXThread=10
+            )
+        except Exception:
+            return -1
+        else:
+            return 1
+
+    def download_file(self, bucket_name, key_name, file_name):
+        """
+        :param bucket_name: bucket's name
+        :param key_name: key's name in bucket
+        :param file_name: file's name in /media
+        :return: -1:create or update unsuccessfully, 1 create or update successfully
+        """
+        try:
+            self.client.download_file(
+                Bucket=bucket_name + self.app_id,
+                DestFilePath=self.base_path + '/media/' + file_name,
                 Key=key_name,
                 PartSize=1,
                 MAXThread=10
@@ -149,9 +169,6 @@ class Bucket:
                 return {'result': 1, 'job_id': job_id}
         return {'result': -1, 'job_id': None}
 
-
-
-
     def music_audit_query(self, bucket_name, key_name, jobid):
         """
         :param response: return json from outer
@@ -167,8 +184,8 @@ class Bucket:
                 response = self.client.ci_auditing_audio_query(
                     Bucket=bucket_name + self.app_id,
                     JobID=jobid,
-        #            Callback=callback,
-        #            CallbackVersion='Detail'
+                    #            Callback=callback,
+                    #            CallbackVersion='Detail'
                 )
             except Exception:
                 pass
@@ -179,6 +196,6 @@ class Bucket:
             return {'result': -1, 'job_id': None}
 
 #
-#b=Bucket()
-#print(b.base_path)
-#b.upload_file('hypermusic','p.py','example.py')
+# b=Bucket()
+# print(b.base_path)
+# b.upload_file('hypermusic','p.py','example.py')

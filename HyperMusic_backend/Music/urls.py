@@ -5,4 +5,5 @@ urlpatterns = [
     path('get_singer_info/', get_singer_info),
     path('get_music_list_info/', get_music_list_info),
     path('get_music_info/', get_music_info),
+    path('change_favorites_info/', change_favorites_info),
 ]

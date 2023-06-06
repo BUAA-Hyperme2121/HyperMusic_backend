@@ -104,7 +104,7 @@ def get_all_music(request):
         music_list = []
         for music in music_all:
             dic = dict()
-            dic['name'] = music.music_name
+            dic['music_name'] = music.music_name
             dic['id'] = music.id
             label_list = Label.objects.all()
             labels = list()
