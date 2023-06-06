@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['8.130.12.73',
                  'http://8.130.12.73/',
                  '127.0.0.1',
-                 'hypermusic.hyper2121.com',
+                 'hypermusic.hyper2121.com',            
                  ]
 
 
