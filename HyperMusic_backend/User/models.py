@@ -79,13 +79,13 @@ class User(models.Model):
 
     # 增加关注
     def add_follow(self):
-        self.fan_num += 1
+        self.follow_num += 1
         self.save(update_fields=['follow_num'])
 
     # 减少关注
     def del_follow(self):
         if self.fan_num > 0:
-            self.fan_num -= 1
+            self.follow_num -= 1
             self.save(update_fields=['follow_num'])
 
 
