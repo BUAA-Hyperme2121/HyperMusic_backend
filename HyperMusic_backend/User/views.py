@@ -799,16 +799,11 @@ def get_recent_listen_music_list(request):
 # 返回用户最近一周/全部时间内听得最多的十首歌
 def get_most_listen_music_list(request):
     if request.method == 'GET':
-        # 检查表单信息
-        JWT = request.GET.get('JWT', '')
-        try:
-            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
-            user_id = token.get('user_id')
-            user = User.objects.get(id=user_id)
-        except Exception as e:
-            result = {'result': 0, 'message': "请先登录!"}
+        user_id = request.GET.get('user_id', '')
+        if user_id == '':
+            result = {'result': 0, 'message': '请指定用户'}
             return JsonResponse(result)
-        get_type = request.GET.get('op')
+        get_type = request.GET.get('op', '')
         if get_type == '1':
             # 先找出该用户最近一周听歌记录
             monday = datetime.today()
