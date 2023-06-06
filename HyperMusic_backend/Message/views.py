@@ -530,12 +530,13 @@ def send_message(request):
         message_type = request.POST.get('message_type')
         type = request.POST.get('type')
         object_id = request.POST.get('object_id')
+        from_object_id = request.POST.get('from_object_id', '')
+
         cre_message(poster_id=poster_id, receiver_id=receiver_id, title=title, content=content,
-            type=type, object_id=object_id,message_type=message_type)
+            type=type, object_id=object_id,message_type=message_type, from_object_id=from_object_id)
 
 
-        return JsonResponse({'result': 1,
-                             'message': "消息发送成功"})
+        return JsonResponse({'result': 1, 'message': "消息发送成功"})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -877,4 +878,25 @@ def ai_audit(request):
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
 
+def get_user_reply(request):
+    if request.method == "GET":
+        JWT = request.GET.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            print(e)
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        comments = Comment.objects.filter(poster_id=user_id)
+        replys= Reply.objects.filter(root_id=-114514)
+        for x in comments:
+            replys = (replys | Reply.objects.filter(root_id=x.id))
+
+        replys = [x.to_dic() for x in replys]
+        return JsonResponse({'result':1, 'message':"请求成功", "replys":replys})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
 

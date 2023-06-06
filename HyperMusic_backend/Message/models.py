@@ -1,6 +1,6 @@
 from django.db import models
-from Music.models import Music
-from User.models import User
+from Music.models import Music, MusicList
+from User.models import User, Singer
 
 
 # Comments-0 Complains-1 Post-2
@@ -30,7 +30,8 @@ class Comment(models.Model):
             "likes": self.like_num,
             "like_num": self.like_num,
             "reply_num":self.reply_num,
-
+            "poster_avatar_path":User.objects.get(id=self.poster_id).avatar_path,
+            "poster_name":User.objects.get(id=self.poster_id).username,
         }
 
 
@@ -68,7 +69,7 @@ class Complain(models.Model):
             "state": self.state,
             "title":self.title,
             "result": self.result,
-
+            "poster_name": User.objects.get(id=self.poster_id).username,
         }
     def to_dic_detail(self):
         return {
@@ -83,9 +84,10 @@ class Complain(models.Model):
             "reason": self.reason,
             "audit_time": self.audit_time,
             "content": self.content,
+            "poster_name": User.objects.get(id=self.poster_id).username,
         }
 
-#用户间的私信
+#消息
 class Message(models.Model):
 
     id = models.AutoField(primary_key=True)
@@ -97,11 +99,11 @@ class Message(models.Model):
     object_id = models.IntegerField(verbose_name="消息对应的对象id", blank=True)
     #1-歌曲 2- 歌单 3 - 动态
     type = models.IntegerField(verbose_name="消息对应的对象种类", blank=True)
-    # 1 评论 2 点赞 3 关注 4 投诉 5 系统消息
+    # 1 评论 2 点赞 3 关注 4 投诉 5 系统消息  6-回复 7-喜爱
     message_type = models.IntegerField(verbose_name="消息种类")
     #0 - 未读 1 - 已读
     state = models.IntegerField(verbose_name="读状态", default=0)
-
+    from_object_id = models.IntegerField(verbose_name="来源id")
 
 
     def __str__(self):
@@ -109,6 +111,16 @@ class Message(models.Model):
 
 
     def to_dic(self):
+        like_info={}
+        if self.message_type == 2:
+            if type == 1:
+                like_info = Music.objects.get(id=self.object_id).to_dic()
+            elif type == 2:
+                like_info = MusicList.objects.get(id=self.object_id).to_dic()
+            elif type == 3:
+                like_info = Post.objects.get(id=self.object_id).to_dic()
+
+
         return {
             "id":self.id,
             "title" :self.title,
@@ -120,7 +132,10 @@ class Message(models.Model):
             "type":self.type,
             "state":self.state,
             "message_type":self.message_type,
-        }
+            "poster_name":User.objects.get(id=self.poster_id).username,
+            "poster_avatar_path":User.objects.get(id=self.poster_id).avatar_path,
+            "like_info":like_info,
+            }
 
 
     def to_dic_detail(self):
@@ -155,6 +170,18 @@ class Post(models.Model):
 
 
     def to_dic(self):
+        if self.type == 1:
+            object= Music.objects.get(id=self.object_id)
+            object_name=object.music_name
+            object_cover_path = object.cover_path
+            object_owner_id = object.singer.id
+            object_owner_name = Singer.objects.get(id=object_owner_id).name
+        elif self.type == 2:
+            object = MusicList.objects.get(id=self.object_id)
+            object_name = object.name
+            object_cover_path = object.cover_path
+            object_owner_id = object.creator.id
+            object_owner_name = User.objects.get(id=object_owner_id).username
         return {
             "id":self.id,
             "poster_id":self.poster_id,
@@ -164,6 +191,11 @@ class Post(models.Model):
             "comment_num":self.comment_num,
             "type":self.type,
             "object_id":self.object_id,
+            "poster_avatar_path":User.objects.get(id = self.poster_id).avatar_path,
+            "poster_name":User.objects.get(id = self.poster_id).username,
+            "object_name": object_name,
+            "object_cover_path": object_cover_path,
+            "object_owner_name": object_owner_name,
         }
 
 
@@ -190,6 +222,14 @@ class Reply(models.Model):
     isLevel2 = models.IntegerField(verbose_name="是否为二级评论（一级回复）")
 
     def to_dic(self):
+        if self.isLevel2:
+            fa_poster_id = Comment.objects.get(id=self.root_id).poster_id
+            fa_content = Comment.objects.get(id=self.root_id).content
+
+        else:
+            fa_poster_id = Reply.objects.get(id=self.fa_id).replyer_id
+            fa_content = Reply.objects.get(id=self.fa_id).content
+
         return {
             "id":self.id,
             "create_date":self.create_date,
@@ -198,7 +238,11 @@ class Reply(models.Model):
             "root_id":self.root_id,
             "fa_id":self.fa_id,
             "like_num": self.like_num,
-            "isLevel2":self.isLevel2
+            "isLevel2":self.isLevel2,
+            "poster_name":User.objects.get(id=self.replyer_id).username,
+            "poster_avatar":User.objects.get(id=self.replyer_id).avatar_path,
+            "fa_poster_name":User.objects.get(id=fa_poster_id).username,
+            "fa_content": fa_content,
         }
 
 
