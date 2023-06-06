@@ -71,15 +71,15 @@ def like(request):
         type = request.POST.get("type",'-1')
         like = Likes(user_id=user_id, object_id=object_id, type=type)
         like.save()
-        if type == 1:
-            post=Post.objects.get(id = object_id)
+        if type == '1':
+            post=Post.objects.get(id=object_id)
             post.add_like()
             post.save()
-        elif type == 2:
+        elif type == '2':
             comment = Comment.objects.get(id=object_id)
             comment.add_like()
             comment.save()
-        elif type == 3:
+        elif type == '3':
             reply = Reply.objects.get(id=object_id)
             reply.like_num +=1
             reply.save()
@@ -106,15 +106,15 @@ def cancel_like(request):
         like = Likes.objects.filter(user_id=user_id, object_id=object_id, type=type)
         like.delete()
         #减少对象点赞数
-        if type == 1:
+        if type == '1':
             post = Post.objects.get(id=object_id)
             post.like_num-=1
             post.save()
-        elif type == 2:
+        elif type == '2':
             comment = Comment.objects.get(id=object_id)
             comment.like_num-=1
             comment.save()
-        elif type == 3:
+        elif type == '3':
             reply = Reply.objects.get(id=object_id)
             reply.like_num -= 1
             reply.save()
@@ -205,14 +205,14 @@ def cre_comment(request):
         comment_id = new_comment.id
 
         #歌曲
-        if type == 1:
+        if type == '1':
             music = Music.objects.filter(id=object_id)
 
             if not music.exists():
                 return JsonResponse({'result': 0, 'message': "音乐不存在"})
             MusicToComment(music_id=object_id, comment_id=comment_id).save()
         #歌单
-        elif type == 2:
+        elif type == '2':
             musiclist = MusicList.objects.filter(id=object_id)
 
             if not musiclist.exists():
@@ -221,7 +221,7 @@ def cre_comment(request):
             MusicListToComplain(musiclist_id=object_id, comment_id=comment_id).save()
 
         #动态
-        elif type == 3:
+        elif type == '3':
             post = Post.objects.filter(id=object_id)
 
             if not post.exists():
@@ -812,12 +812,12 @@ def audit(request):
 
             object_id = complain.object_id
             #删除音乐
-            if type == 1:
+            if type == '1':
                 music = Music.objects.get(id=object_id)
                 music.delete()
 
             #隐藏歌单
-            elif type == 2:
+            elif type == '2':
                 musiclist = MusicList.objects.get(id=object_id)
                 musiclist.is_public = False
                 musiclist.save()
