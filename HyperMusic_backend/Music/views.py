@@ -77,24 +77,7 @@ def get_music_info(request):
             like_list = MusicList.objects.get(id=user.like_list)
             if like_list.music.filter(id=music_id).exists():
                 music_info['is_like'] = True
-
-        # 处理歌词
-        if music.lyrics_path != '':
-            bucket = Bucket()
-            key_name = "lyrics" + str(music_id) + '.lrc'
-            download_result = bucket.download_file('hypermusic', key_name, key_name)
-            if download_result == -1:
-                result = {'result': 0, 'message': '歌词下载失败'}
-                return JsonResponse(result)
-            dir = os.path.join(MEDIA_ROOT, key_name)
-            lyrics = []
-            with open(dir, encoding='utf-8', mode='r') as ff:
-                line = ff.readline()
-                while line:
-                    line = re.sub(r'\[.*]', '', line)
-                    lyrics.append(line.strip())
-                    line = ff.readline()
-
+        # 处理标签
         labels = Label.objects.all()
         labels_name = []
         for label in labels:
