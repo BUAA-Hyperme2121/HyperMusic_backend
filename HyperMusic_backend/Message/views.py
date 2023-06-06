@@ -252,6 +252,8 @@ def cre_post(request):
         object_id = request.POST.get('object_id','-1')
         post = Post(poster_id=poster_id, content=content, type=type, object_id=object_id)
         post.save()
+        user.post_num+=1
+        user.save()
         return JsonResponse({"result": 1, "message": "创建动态成功"})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
@@ -459,13 +461,13 @@ def get_follow_post(request):
             posts = [x.to_dic() for x in posts]
             #获取此用户下的所有动态，添加读状态
             for x in posts:
-                if Likes.objects.filter(user_id=user_id, type=1, object_id=x['object_id']).exists():
+                if Likes.objects.filter(user_id=user_id, type=1, object_id=x['id']).exists():
                     x['is_liked'] = 1
                 else:
                     x['is_liked'] = 0
                 follower_posts.append(x)
         #按日期降序排序
-        follower_posts = sorted(follower_posts, key=lambda i: i['create_date'],reverse=True)
+        follower_posts = sorted(follower_posts, key=lambda i: i['create_date'], reverse=True)
         return JsonResponse({'result':1, 'message':"获取成功", 'posts':follower_posts})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
@@ -493,7 +495,7 @@ def get_user_post(request):
         posts = []
         #添加当前登录用户是否点赞状态
         for x in tmp:
-            if Likes.objects.filter(user_id=user_id, type=1, object_id=x['object_id']).exists():
+            if Likes.objects.filter(user_id=user_id, type=1, object_id=x['id']).exists():
                 x['is_liked'] = 1
             else:
                 x['is_liked'] = 0
