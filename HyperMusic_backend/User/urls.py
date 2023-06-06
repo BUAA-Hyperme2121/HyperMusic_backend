@@ -27,4 +27,5 @@ urlpatterns = [
     path('set_history_record/', set_history_record),
     path('play_music/', play_music),
     path('like_or_unlike_music/', like_or_unlike_music),
+    path('del_favorites/', del_favorites),
 ]

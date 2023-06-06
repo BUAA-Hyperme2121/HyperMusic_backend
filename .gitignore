@@ -161,3 +161,5 @@ cython_debug/
 
 
 key.py
+Hypermusic_backend/key.py
+HyperMusic_backend/*/migrations/*.py
