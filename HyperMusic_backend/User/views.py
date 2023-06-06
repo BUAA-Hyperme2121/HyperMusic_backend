@@ -661,7 +661,7 @@ def get_follow_list(request):
         if get_user_id == '':
             result = {'result': 0, 'message': '请指定用户id'}
             return JsonResponse(result)
-        if get_user_id == 0:
+        if get_user_id == '0':
             if user_id is None:
                 result = {'result': 0, 'message': '未登录用户无法查看自己关注列表'}
                 return JsonResponse(result)
@@ -704,7 +704,7 @@ def get_fan_list(request):
         if get_user_id == '':
             result = {'result': 0, 'message': '请指定用户id'}
             return JsonResponse(result)
-        if get_user_id == 0:
+        if get_user_id == '0':
             if user_id is None:
                 result = {'result': 0, 'message': '未登录用户无法查看自己粉丝列表'}
                 return JsonResponse(result)
@@ -1360,6 +1360,7 @@ def play_music(request):
         # 检查表单信息
         JWT = request.POST.get('JWT')
         user = None
+        user_id = None
         if JWT != '-1':
             try:
                 token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
@@ -1377,9 +1378,12 @@ def play_music(request):
             return JsonResponse(result)
         music = Music.objects.get(id=music_id)
         music.add_listen_times()
-        # 若为登录用户,需要添加播放记录
+        # 若为登录用户,需要添加播放记录;游客播放记录id记为0
         if user:
             history = UserListenHistory(user_id=user_id, music_id=music_id)
+            history.save()
+        else:
+            history = UserListenHistory(user_id=0, music_id=music_id)
             history.save()
         result = {'result': 1, 'message': '成功播放歌曲'}
         return JsonResponse(result)

@@ -149,8 +149,13 @@ def change_favorites_info(request):
         music_list_cover = request.POST.get('cover', None)
         # 修改标签
         labels = request.POST.getlist('labels', None)
-        #
-        if labels:
+        old_labels = request.POST.getlist('old_labels', None)
+        print(len(old_labels))
+        for old_label in old_labels:
+            # 不在新标签中就删掉
+            if old_label not in labels:
+                Label.objects.get(label_name=old_label).label_music_list.remove(favorites)
+        if labels and old_labels:
             # 已经存在就加入
             for label_name in labels:
                 # 判断是否默认标签, 若不是则转为其他
