@@ -200,7 +200,7 @@ def change_info(request):
 
         location = request.POST.get('location', '')
         gender = request.POST.get('gender', '')
-        introduction = request.POST.get('introduction','')
+        introduction = request.POST.get('introduction', '')
         if len(gender) == 0:
             gender = '未知'
         if len(introduction) == 0:
@@ -656,7 +656,12 @@ def get_follow_list(request):
             except Exception as e:
                 result = {'result': 0, 'message': "请先登录"}
                 return JsonResponse(result)
-        get_user_id = request.GET.get('user_id')
+        get_user_id = request.GET.get('user_id', '')
+        if get_user_id == '':
+            result = {'result': 0, 'message': '请指定用户id'}
+            return JsonResponse(result)
+        if get_user_id == 0:
+            get_user_id = user_id
         follow_list_get = get_follow_list_simple_user(get_user_id)
         follow_list = []
         if len(follow_list_get) != 0:
@@ -1033,6 +1038,27 @@ def create_favorites(request):
             # 删除本地文件
             os.remove(music_list_cover_dir)
 
+        # 处理标签
+        labels = request.POST.getlist('labels', None)
+        if labels is None:
+            result = {'result': 0, 'message': '请提供收藏夹标签'}
+            return JsonResponse(result)
+        # 已经存在就加入
+        for label_name in labels:
+            # 判断是否默认标签, 若不是则转为其他
+            if label_name not in music_list_labels:
+                label_name = '其他'
+            if Label.objects.filter(label_name=label_name).exists():
+                label = Label.objects.get(label_name=label_name)
+                label.label_music_list.add(new_favorites)
+                label.save()
+            # 不存在就新建标签
+            else:
+                label = Label(label_name=label_name)
+                label.save()
+                label.label_music_list.add(new_favorites)
+                label.save()
+
         result = {'result': 1, 'message': '收藏夹创建成功'}
         return JsonResponse(result)
     else:
@@ -1088,58 +1114,7 @@ def share_favorites(request):
         if favorites_list.creator != user:
             result = {'result': 0, 'message': '抱歉,您非歌单创建者,无法分享此歌单'}
             return JsonResponse(result)
-        labels = request.POST.getlist('labels', '')
-        if len(labels) == 0:
-            result = {'result': 0, 'message': '标签不能为空'}
-            return JsonResponse(result)
-
-        # # 处理上传歌单封面
-        # music_list_cover = request.FILES.get('music_list_front', None)
-        # if music_list_cover is None:
-        #     # TODO 采用默认封面
-        #     pass
-        # else:
-        #     bucket = Bucket()
-        #     # 如果用户上传了封面
-        #     suffix_music_list_cover = '.' + music_list_cover.name.split('.')[-1]
-        #     music_list_cover.name = 'music_list_cover' + str(favorites_id) + suffix_music_list_cover
-        #
-        #     # 审核封面
-        #     upload_result = bucket.upload_file('hypermusic', music_list_cover.name, music_list_cover.name)
-        #     if upload_result == -1:
-        #         result = {'result': 0, 'message': '上传失败'}
-        #         return JsonResponse(result)
-        #     # 获取审核结果
-        #     audit_dic = bucket.image_audit('hypermusic',music_list_cover.name)
-        #     if audit_dic.get('result') != 0:
-        #         bucket.delete_object('hypermusic', music_list_cover.name)
-        #         result = {'result': 0, 'message': '歌曲封面审核失败'}
-        #         return JsonResponse(result)
-        #
-        #     # 获取存储路径
-        #     music_list_cover_path = bucket.query_object('hypermusic', music_list_cover.name)
-        #     if not music_list_cover_path:
-        #         result = {'result': 0, 'message': '上传封面失败'}
-        #         return JsonResponse(result)
-        #     favorites_list.cover_path = music_list_cover_path
-        #     favorites_list.save()
-
-        # 标签
-        # 已经存在就加入
-        for label_name in labels:
-            # 判断是否默认标签, 若不是则转为其他
-            if label_name not in music_list_labels:
-                label_name = '其他'
-            if Label.objects.filter(label_name=label_name).exists():
-                label = Label.objects.get(label_name=label_name)
-                label.label_music_list.add(favorites_list)
-                label.save()
-            # 不存在就新建标签
-            else:
-                label = Label(label_name=label_name)
-                label.save()
-                label.label_music_list.add(favorites_list)
-                label.save()
+        # 标记公开
         favorites_list.is_public = True
         favorites_list.save()
         result = {'result': 1, 'message': '歌单分享成功'}
@@ -1391,14 +1366,13 @@ def play_music(request):
         music.add_listen_times()
         # 若为登录用户,需要添加播放记录
         if user:
-            history = UserListenHistory(user_id=user_id,music_id=music_id)
+            history = UserListenHistory(user_id=user_id, music_id=music_id)
             history.save()
         result = {'result': 1, 'message': '成功播放歌曲'}
         return JsonResponse(result)
     else:
         result = {'result': 0, 'message': "请求方式错误"}
         return JsonResponse(result)
-
 
 
 # 用户删除其创建的收藏夹

@@ -16,6 +16,11 @@ from User.models import Singer, UserListenHistory, User
 
 # Create your views here.
 
+
+# 歌单默认标签
+music_list_labels = ['怀旧', '浪漫', '伤感', '放松', '治愈']
+
+
 # 获取某一歌单信息
 def get_music_list_info(request):
     if request.method == 'GET':
@@ -142,6 +147,25 @@ def change_favorites_info(request):
         if description != '':
             favorites.description = description
         music_list_cover = request.POST.get('cover', None)
+        # 修改标签
+        labels = request.POST.getlist('labels', None)
+        #
+        if labels:
+            # 已经存在就加入
+            for label_name in labels:
+                # 判断是否默认标签, 若不是则转为其他
+                if label_name not in music_list_labels:
+                    label_name = '其他'
+                if Label.objects.filter(label_name=label_name).exists():
+                    label = Label.objects.get(label_name=label_name)
+                    label.label_music_list.add(favorites)
+                    label.save()
+                # 不存在就新建标签
+                else:
+                    label = Label(label_name=label_name)
+                    label.save()
+                    label.label_music_list.add(favorites)
+                    label.save()
         # 修改封面
         if music_list_cover:
             bucket = Bucket()
