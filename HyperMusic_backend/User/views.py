@@ -661,7 +661,7 @@ def get_follow_list(request):
         if get_user_id == '':
             result = {'result': 0, 'message': '请指定用户id'}
             return JsonResponse(result)
-        if get_user_id == 0:
+        if get_user_id == '0':
             if user_id is None:
                 result = {'result': 0, 'message': '未登录用户无法查看自己关注列表'}
                 return JsonResponse(result)
@@ -704,7 +704,7 @@ def get_fan_list(request):
         if get_user_id == '':
             result = {'result': 0, 'message': '请指定用户id'}
             return JsonResponse(result)
-        if get_user_id == 0:
+        if get_user_id == '0':
             if user_id is None:
                 result = {'result': 0, 'message': '未登录用户无法查看自己粉丝列表'}
                 return JsonResponse(result)
