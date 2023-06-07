@@ -71,7 +71,7 @@ class MusicList(models.Model):
     is_public = models.BooleanField(default=False)
 
     # 封面路径
-    cover_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Music_Cover.png')
+    cover_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_MusicList_Cover.png')
     # 可选信息: 歌单简介
     description = models.TextField(max_length=200, default='此歌单还没有介绍哦')
 
