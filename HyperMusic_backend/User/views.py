@@ -1475,10 +1475,10 @@ def get_user_music_list(request):
             return JsonResponse(result)
         else:
             # 查看别人的
-            if not MusicList.objects.filter(creator=user, is_public=True).exists():
+            if not MusicList.objects.filter(creator=get_user, is_public=True).exists():
                 result = {'result': 1, 'message': '此用户目前没有公开歌单', 'music_list': [], 'music_list_num': 0}
                 return JsonResponse(result)
-            get_music_list = MusicList.objects.filter(creator_id=user_id, is_public=True).all()
+            get_music_list = MusicList.objects.filter(creator=get_user, is_public=True).all()
             create_music_list = [x.to_dic() for x in get_music_list]
             playlist_num = len(create_music_list)
             result = {'result': 1, 'message': '获取用户创建收藏夹成功', 'music_list': create_music_list,
