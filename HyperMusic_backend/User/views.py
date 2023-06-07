@@ -86,7 +86,7 @@ def register(request):
             return JsonResponse(result)
 
         password = trans_password(password_1)
-        user = User(username=username, password=password)
+        user = User(username=username, password=password, email=email)
         user.save()
         # 默认给用户创建个人喜爱列表,type 2表示喜欢歌单列表
         like_list = MusicList(creator=user, name=username + '喜爱的歌曲列表', type=2)
