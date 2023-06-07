@@ -875,13 +875,13 @@ def audit(request):
 
             object_id = complain.object_id
             #删除音乐
-            if type == '1':
+            if type == 1:
                 music = Music.objects.get(id=object_id)
                 music.delete()
                 content = "你的歌曲" + music.music_name + "被人投诉，现已删除"
                 receiver_id = music.creator.id
             #隐藏歌单
-            elif type == '2':
+            elif type == 2:
                 musiclist = MusicList.objects.get(id=object_id)
                 musiclist.is_public = False
                 musiclist.save()
@@ -889,6 +889,7 @@ def audit(request):
                 content = "你的歌单" + musiclist.name + "被人投诉，现已不被公开"
             #
             # TODO
+
             cre_message(poster_id=5, receiver_id=receiver_id ,message_type=5, content=content, title="", type=0, object_id = 0)
 
             return JsonResponse({'result':1, 'message':"审核结果为：不通过"})
