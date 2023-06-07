@@ -9,7 +9,7 @@ from Music.models import *
 from Message.models import *
 from User.models import User,UserToFollow
 from django.utils import timezone
-from django.sh
+
 
 def get_follow_list_simple_user(user_id):
     return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
