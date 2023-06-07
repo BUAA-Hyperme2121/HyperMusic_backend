@@ -60,6 +60,12 @@ class Complain(models.Model):
 
 
     def to_dic(self):
+        if self.type == 1:
+            music = Music.objects.get(id=self.object_id)
+            owner_name = music.creator.username
+        else:
+            musiclist = MusicList.objects.get(id=self.object_id)
+            owner_name = musiclist.creator.username
         return {
             "id": self.id,
             "create_date": self.create_date,
@@ -70,8 +76,19 @@ class Complain(models.Model):
             "title":self.title,
             "result": self.result,
             "poster_name": User.objects.get(id=self.poster_id).username,
+            "owner_name": owner_name,
         }
     def to_dic_detail(self):
+        if self.type == 1:
+            music = Music.objects.get(id=self.object_id)
+            owner_name = music.creator.username
+            object_name = music.music_name
+            object_cover_path = music.cover_path
+        else:
+            musiclist = MusicList.objects.get(id=self.object_id)
+            owner_name = musiclist.creator.username
+            object_name = musiclist.name
+            object_cover_path = musiclist.cover_path
         return {
             "id": self.id,
             "create_date": self.create_date,
@@ -85,6 +102,9 @@ class Complain(models.Model):
             "audit_time": self.audit_time,
             "content": self.content,
             "poster_name": User.objects.get(id=self.poster_id).username,
+            "object_owner_name": owner_name,
+            "object_name":object_name,
+            "object_cover_path":object_cover_path,
         }
 
 #消息
