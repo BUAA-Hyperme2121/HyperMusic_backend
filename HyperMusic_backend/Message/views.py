@@ -426,7 +426,17 @@ def list_user_comment(request):
             return JsonResponse(result)
 
         comments = Comment.objects.filter(poster_id=user_id).order_by('-create_date')
-        comments = [x.to_dic() for x in comments]
+        tmp = comments
+        comments = []
+        for x in tmp:
+            dict = x.to_dic()
+
+            like = Likes.objects.filter(user_id=user_id, type=2, object_id=dict.get('id'))
+            if like.exists():
+                dict['is_liked'] = 1
+            else:
+                dict['is_liked'] = 0
+            comments.append(dict)
 
         return JsonResponse({'result': 1,
                              'message': "获取成功成功",
@@ -945,7 +955,18 @@ def get_user_reply(request):
         for x in comments:
             replys = (replys | Reply.objects.filter(root_id=x.id))
 
-        replys = [x.to_dic() for x in replys]
+        tmp = replys
+        replys = []
+        for x in tmp:
+            dict = x.to_dic()
+
+            like = Likes.objects.filter(user_id=user_id, type=3, object_id=dict.get('id'))
+            if like.exists():
+                dict['is_liked'] = 1
+            else:
+                dict['is_liked'] = 0
+            comments.append(dict)
+
         return JsonResponse({'result':1, 'message':"请求成功", "replys":replys})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
