@@ -61,7 +61,7 @@ def get_all_music_list(request):
             label_list = Label.objects.all()
             labels = list()
             for label in label_list:
-                if label.label_music_list.filter(id=ml.id):
+                if label.label_music_list.filter(id=ml.id).exists():
                     labels.append(label.label_name)
             dic['labels'] = labels
             dic['cover_path'] = ml.cover_path
@@ -109,7 +109,7 @@ def get_all_music(request):
             label_list = Label.objects.all()
             labels = list()
             for label in label_list:
-                if label.label_music.filter(id=music.id):
+                if label.label_music.filter(id=music.id).exists():
                     labels.append(label.label_name)
             dic['labels'] = labels
             dic['cover_path'] = music.cover_path
