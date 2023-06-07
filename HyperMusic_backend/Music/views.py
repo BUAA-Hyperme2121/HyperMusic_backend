@@ -77,6 +77,7 @@ def get_music_info(request):
         music = Music.objects.get(id=music_id)
         music_info = music.to_dic()
         music_info['is_like'] = False
+        music_info['creator_id'] = music.creator.id
         # 为登录用户
         if user:
             like_list = MusicList.objects.get(id=user.like_list)
