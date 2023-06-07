@@ -104,6 +104,9 @@ def cancel_like(request):
         type = request.POST.get("type",'-1')
         #消除点赞关系
         like = Likes.objects.filter(user_id=user_id, object_id=object_id, type=type)
+        if not like.exists():
+            result = {'result': 0, 'message': "未点赞"}
+            return JsonResponse(result)
         like.delete()
         #减少对象点赞数
         if type == '1':
@@ -146,7 +149,7 @@ def cre_complain(request):
         title = request.POST.get("title", '')
 
 
-        new_complain = Complain(poster_id=user_id, object_id=object_id, content=content, type=type, state=1)
+        new_complain = Complain(poster_id=user_id, object_id=object_id, content=content, type=type, state=1,title=title)
         new_complain.save()
         complain_id = new_complain.id
         #存储外表关系
@@ -521,10 +524,6 @@ def send_message(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
 
-        if not user.is_admin:
-            result = {'result': 0, 'message': "没有访问权限"}
-            return JsonResponse(result)
-
         poster_id = request.POST.get('poster_id')
         receiver_id = request.POST.get('receiver_id')
         title = request.POST.get('title')
@@ -875,7 +874,9 @@ def ai_audit(request):
                 music.save()
                 return JsonResponse({"message":"通过审核",'job_id':job_id})
             #TODO 审核未通过
-
+            else:
+                Message(title="音乐审核未通过", receiver_id=music.creator.id, content="你上传的歌曲"+ music.music_name +"审核未通过，已经删除", message_type=5).save()
+                return JsonResponse({"message": "未通过审核，上传视频删除", 'job_id': job_id})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -902,3 +903,67 @@ def get_user_reply(request):
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
+
+def set_read(request):
+    if request.method == "POST":
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            print(e)
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        message_id = request.POST.get('message_id')
+        message = Message.objects.get(id=message_id)
+        message.state = 1
+        message.save()
+        return JsonResponse({'result': 1, 'message': "设置消息已读成功"})
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+def set_read_all(request):
+    if request.method == "POST":
+        JWT = request.POST.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            print(e)
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+
+        messages = Message.objects.filter(receiver_id=user_id)
+        messages.update(state=1)
+
+        return JsonResponse({'result': 1, 'message': "设置消息已读成功"})
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+def get_unread_num(request):
+
+    if request.method == "GET":
+        JWT = request.GET.get('JWT')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+
+            user_id = token.get('user_id')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            print(e)
+            result = {'result': 0, 'message': "请先登录!"}
+            return JsonResponse(result)
+        messages = Message.objects.filter(receiver_id=user_id, state=0)
+        num = messages.count()
+        return JsonResponse({'result': 1, 'message': "成功获取未读消息数量", "unread_num":num})
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
