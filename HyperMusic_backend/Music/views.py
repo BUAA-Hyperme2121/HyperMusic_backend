@@ -221,3 +221,26 @@ def change_favorites_info(request):
     else:
         result = {'result': 0, 'message': '请求方式错误'}
         return JsonResponse(result)
+
+
+# 获取用户上传歌曲
+def get_upload_music(request):
+    if request.method == 'GET':
+        # 检查表单信息
+        JWT = request.GET.get('JWT', '')
+        try:
+            token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+            user_id = token.get('user_id', '')
+            user = User.objects.get(id=user_id)
+        except Exception as e:
+            result = {'result': 0, 'message': "请先登录"}
+            return JsonResponse(result)
+        music_all = Music.objects.filter(creator=user).all()
+        music_list = []
+        for music in music_all:
+            music_list.append(music.to_dic())
+        result = {'result': 1, 'message': '获取上传歌曲成功', 'music_list': music_list}
+        return JsonResponse(result)
+    else:
+        result = {'result': 0, 'message': "请求方式错误"}
+        return JsonResponse(result)
