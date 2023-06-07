@@ -32,8 +32,6 @@ def trans_password(password):
     return transed_password
 
 
-
-
 # 注册
 def register(request):
     if request.method == 'POST':
@@ -144,15 +142,15 @@ def find_password(request):
         if verify_code(email, sms_code) != 1:
             result = {'result': 0, 'message': '未知错误'}
             return JsonResponse(result)
-        user = User.objects.filter(username=username, email=email)
+        user = User.objects.filter(email=email)
         if not user.exists():
             return JsonResponse({'result': 0, 'message': '用户名或邮箱错误'})
         if new_password2 != new_password:
-            return JsonResponse({'result':0, 'message':'两次输入密码不同'})
+            return JsonResponse({'result': 0, 'message': '两次输入密码不同'})
         user = user[0]
         user.password = trans_password(new_password)
         user.save()
-        return JsonResponse({'result':1, 'message':'成功修改密码'})
+        return JsonResponse({'result': 1, 'message': '成功修改密码'})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
@@ -816,7 +814,8 @@ def get_recent_listen_music_list(request):
         if not UserListenHistory.objects.filter(user_id=user_id).exists():
             result = {'result': 1, 'message': '此用户目前还没有听歌'}
             return JsonResponse(result)
-        history = UserListenHistory.objects.filter(user_id=user_id).values('music_id').annotate(rank=Max('create_date')).order_by('-rank')[:history_record]
+        history = UserListenHistory.objects.filter(user_id=user_id).values('music_id').annotate(
+            rank=Max('create_date')).order_by('-rank')[:history_record]
         music_list = []
         if history:
             for music in history:
@@ -1437,6 +1436,54 @@ def del_favorites(request):
         favorites.delete()
         result = {'result': 1, 'message': '删除收藏夹成功'}
         return JsonResponse(result)
+    else:
+        result = {'result': 0, 'message': "请求方式错误"}
+        return JsonResponse(result)
+
+
+# 获取指定用户歌单
+def get_user_music_list(request):
+    if request.method == 'GET':
+        # 检查表单信息
+        JWT = request.GET.get('JWT', '')
+        if JWT != '-1':
+            try:
+                token = jwt.decode(JWT, 'secret', algorithms=['HS256'])
+                user_id = token.get('user_id')
+                user = User.objects.get(id=user_id)
+            except Exception as e:
+                result = {'result': 0, 'message': "请先登录"}
+                return JsonResponse(result)
+        user_id = request.GET.get('user_id', '')
+        if user_id == '':
+            result = {'result': 0, 'message': '请指定用户'}
+            return JsonResponse(result)
+        if not User.objects.filter(id=user_id).exists():
+            result = {'result': 0, 'message': '该用户不存在'}
+            return JsonResponse(result)
+        get_user = User.objects.get(id=user_id)
+        if user.id == get_user.id:
+            # 查看自己的，所有歌单
+            if not MusicList.objects.filter(creator=user).exists():
+                result = {'result': 1, 'message': '此用户目前没有创建歌单', 'music_list': [], 'music_list_num': 0}
+                return JsonResponse(result)
+            get_music_list = MusicList.objects.filter(creator_id=user_id).all()
+            create_music_list = [x.to_dic() for x in get_music_list]
+            playlist_num = len(create_music_list)
+            result = {'result': 1, 'message': '获取用户创建收藏夹成功', 'music_list': create_music_list,
+                      'music_list_num': playlist_num}
+            return JsonResponse(result)
+        else:
+            # 查看别人的
+            if not MusicList.objects.filter(creator=user, is_public=True).exists():
+                result = {'result': 1, 'message': '此用户目前没有公开歌单', 'music_list': [], 'music_list_num': 0}
+                return JsonResponse(result)
+            get_music_list = MusicList.objects.filter(creator_id=user_id, is_public=True).all()
+            create_music_list = [x.to_dic() for x in get_music_list]
+            playlist_num = len(create_music_list)
+            result = {'result': 1, 'message': '获取用户创建收藏夹成功', 'music_list': create_music_list,
+                      'music_list_num': playlist_num}
+            return JsonResponse(result)
     else:
         result = {'result': 0, 'message': "请求方式错误"}
         return JsonResponse(result)
