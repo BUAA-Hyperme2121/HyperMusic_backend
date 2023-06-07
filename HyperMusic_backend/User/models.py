@@ -26,7 +26,7 @@ class User(models.Model):
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     create_date = models.DateTimeField('创建时间', auto_now_add=True)  # 头像,个人简介,所在地, 性别
-
+    email = models.CharField(max_length=100,default='')
     # 维护信息
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
@@ -63,7 +63,8 @@ class User(models.Model):
             'post_num': self.post_num,
             'history_record': self.history_record,
             'is_singer': self.is_singer,
-            'is_admin': self.is_admin
+            'is_admin': self.is_admin,
+            'email':self.email,
         }
 
     # 增加粉丝

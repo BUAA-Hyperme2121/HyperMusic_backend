@@ -28,4 +28,5 @@ urlpatterns = [
     path('play_music/', play_music),
     path('like_or_unlike_music/', like_or_unlike_music),
     path('del_favorites/', del_favorites),
+    path('find_password/', find_password),
 ]

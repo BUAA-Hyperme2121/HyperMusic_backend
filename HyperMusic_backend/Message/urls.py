@@ -29,4 +29,5 @@ urlpatterns = [
     path('get_unread_num/',get_unread_num),
     path('set_read/', set_read),
     path('set_read_all/', set_read_all),
+    path('send_email_find_password/', send_email_find_password),
 ]

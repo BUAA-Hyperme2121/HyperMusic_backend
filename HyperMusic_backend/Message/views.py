@@ -10,6 +10,7 @@ from Message.models import *
 from User.models import User,UserToFollow
 from django.utils import timezone
 
+
 def get_follow_list_simple_user(user_id):
     return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
 
@@ -770,6 +771,42 @@ def send_email_register(request):
 
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
+def send_email_find_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        sms_code = '%06d' % random.randint(0, 999999)
+
+        #验证码是否已经存在
+        if verify_code(email, sms_code) != 0:
+
+            #未超时，不可发送
+            if verify_code(email, sms_code) == 1:
+                return JsonResponse({'result':0, 'message':'验证码已发送，请勿短期重复发送'})
+            #已超时，删除重发
+            elif verify_code(email, sms_code) == 2:
+                code = VerifyCode.objects.get(email, sms_code)
+                code.delete()
+        title='这是一封来自Hypermusic的邮件，帮助你找回密码'
+        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为两分钟，请及时进行输入已找回密码。".format(sms_code)
+        try:
+            res = send_sms_code(email, title, content)
+        except Exception as e:
+            return JsonResponse({'result':0, 'message':"邮箱错误"})
+
+        if res == 1:
+            code = VerifyCode(email=email, num=sms_code)
+            code.save()
+            return JsonResponse({'result': 1, 'message': "发送邮件成功"})
+        else:
+            return JsonResponse({'result': 0, 'message': "邮件发送异常"})
+
+
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
 
 
 def audit(request):
