@@ -9,11 +9,9 @@ from Music.models import *
 from Message.models import *
 from User.models import User,UserToFollow
 from django.utils import timezone
-<<<<<<< HEAD
 
-=======
 from django.template.loader import render_to_string
->>>>>>> dev1
+
 
 def get_follow_list_simple_user(user_id):
     return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
@@ -409,7 +407,7 @@ def list_object_comment(request):
             else:
                 dict['is_liked'] = 0
             comments.append(dict)
-        return JsonResponse({'result': 0,
+        return JsonResponse({'result': 1,
                              'message': "获取成功成功",
                              'music_comment_list': comments})
 
@@ -574,7 +572,13 @@ def get_user_message(request):
 
 
         messages = Message.objects.filter(receiver_id=user.id).order_by('-create_date')
-        messages = [x.to_dic() for x in messages]
+
+        tmp = messages
+        messages = []
+        #2 点赞 3 关注 5 系统消息
+        for x in tmp:
+            if x.message_type == 2 or x.message_type == 3 or x.message_type == 5:
+                messages.append(x.to_dic())
 
 
 
@@ -969,9 +973,9 @@ def get_user_reply(request):
                 dict['is_liked'] = 1
             else:
                 dict['is_liked'] = 0
-            comments.append(dict)
+            replys.append(dict)
 
-        return JsonResponse({'result':1, 'message':"请求成功", "replys":replys})
+        return JsonResponse({'result':1, 'message':"请求成功", "replys": replys})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
