@@ -149,7 +149,7 @@ def cre_complain(request):
         title = request.POST.get("title", '')
 
 
-        new_complain = Complain(poster_id=user_id, object_id=object_id, content=content, type=type, state=1)
+        new_complain = Complain(poster_id=user_id, object_id=object_id, content=content, type=type, state=1,title=title)
         new_complain.save()
         complain_id = new_complain.id
         #存储外表关系
@@ -522,10 +522,6 @@ def send_message(request):
             user = User.objects.get(id=user_id)
         except Exception as e:
             result = {'result': 0, 'message': "请先登录!"}
-            return JsonResponse(result)
-
-        if not user.is_admin:
-            result = {'result': 0, 'message': "没有访问权限"}
             return JsonResponse(result)
 
         poster_id = request.POST.get('poster_id')
