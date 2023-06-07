@@ -9,7 +9,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 
 from Bucket import Bucket
-from HyperMusic_backend.settings import MEDIA_ROOT
+from HyperMusic_backend.settings import MEDIA_ROOT, MUSIC_LIST_COVER_DEFAULT_PATH
 from Music.models import MusicList, SingerToMusic, Music, Label
 from User.models import Singer, UserListenHistory, User
 
@@ -214,6 +214,11 @@ def change_favorites_info(request):
                     os.remove(music_list_cover_dir)
                     result = {'result': 0, 'message': '上传封面失败'}
                     return JsonResponse(result)
+                # 判断是否默认封面，若不是，删除以前存储的，否则存储名重复
+                if favorites.cover_path != MUSIC_LIST_COVER_DEFAULT_PATH:
+                    suffix = '.' + favorites.cover_path.split('.')[-1]
+                    name = 'music_list_cover' + str(user.id) + suffix
+                    bucket.delete_object('hypermusic', name)
                 favorites.cover_path = cover_path
                 # 删除本地文件
                 os.remove(music_list_cover_dir)

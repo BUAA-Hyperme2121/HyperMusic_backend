@@ -38,14 +38,6 @@ def trans_password(password):
     return transed_password
 
 
-def create_code(random_length=8):
-    str_code = ''
-    chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789'
-    length = len(chars) - 1
-    random = Random()
-    for i in range(random_length):
-        str_code += chars[random.randint(0, length)]
-    return str_code
 
 
 # 注册
@@ -206,7 +198,6 @@ def change_info(request):
                     destination.write(chunk)
 
             bucket = Bucket()
-            key = create_code()
 
             # 上传审核
             upload_result = bucket.upload_file('hypermusic', avatar.name, avatar.name)
@@ -222,14 +213,17 @@ def change_info(request):
                 result = {'result': 0, 'message': '审核不通过', 'user': user.to_dic()}
                 return JsonResponse(result)
 
-            # TODO 判断是否默认头像，若不是，删除以前存储的，否则存储名重复
-
             # 获取存储路径
             avatar_path = bucket.query_object('hypermusic', avatar.name)
             if not avatar_path:
                 os.remove(avatar_dir)
                 result = {'result': 0, 'message': '上传失败'}
                 return JsonResponse(result)
+            # 判断是否默认头像，若不是，删除以前存储的，否则存储名重复
+            if user.avatar_path != USER_AVATAR_DEFAULT_PATH:
+                suffix = '.' + user.avatar_path.split('.')[-1]
+                name = 'avatar' + str(user.id) + suffix
+                bucket.delete_object('hypermusic', name)
             user.avatar_path = avatar_path
             user.save()
             os.remove(avatar_dir)
@@ -237,16 +231,20 @@ def change_info(request):
         location = request.POST.get('location', '')
         gender = request.POST.get('gender', '')
         introduction = request.POST.get('introduction', '')
+        email = request.POST.get('email', '')
         if len(gender) == 0:
             gender = '未知'
         if len(introduction) == 0:
             introduction = '这个人很懒，什么都没有留下'
         if len(location) == 0:
             location = '未知'
+        if len(email) == 0:
+            email = '保持神秘'
         user.username = username
         user.gender = gender
         user.location = location
         user.introduction = introduction
+        user.email = email
         user.save()
 
         result = {'result': 1, 'message': '修改个人信息成功'}
@@ -308,7 +306,6 @@ def upload_music(request):
         bucket = Bucket()
 
         music_id = music.id
-        suffix_music_cover = ''
         # 如果用户上传了封面
         if music_cover:
             if music_cover.size > 2 * 1024 * 1024:
@@ -422,8 +419,6 @@ def upload_music(request):
             result = {'result': 0, 'message': '歌曲自动审核失败'}
             return JsonResponse(result)
         JobToMusic(job_id=jobid, music_id=music_id).save()
-
-        # TODO 设置歌手默认封面,歌曲默认封面
 
         # 处理用户上传歌词
         if lyrics:
