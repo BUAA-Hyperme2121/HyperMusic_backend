@@ -3,13 +3,17 @@ import random
 from datetime import datetime
 
 import jwt
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from django.http import JsonResponse
 from Music.models import *
 from Message.models import *
 from User.models import User,UserToFollow
 from django.utils import timezone
+<<<<<<< HEAD
 
+=======
+from django.template.loader import render_to_string
+>>>>>>> dev1
 
 def get_follow_list_simple_user(user_id):
     return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
@@ -426,7 +430,17 @@ def list_user_comment(request):
             return JsonResponse(result)
 
         comments = Comment.objects.filter(poster_id=user_id).order_by('-create_date')
-        comments = [x.to_dic() for x in comments]
+        tmp = comments
+        comments = []
+        for x in tmp:
+            dict = x.to_dic()
+
+            like = Likes.objects.filter(user_id=user_id, type=2, object_id=dict.get('id'))
+            if like.exists():
+                dict['is_liked'] = 1
+            else:
+                dict['is_liked'] = 0
+            comments.append(dict)
 
         return JsonResponse({'result': 1,
                              'message': "获取成功成功",
@@ -590,6 +604,8 @@ def del_comment(request):
         if comment.poster_id != user_id:
             return JsonResponse({'result': 0, 'message': "不是评论的发出者"})
         comment.delete()
+        replys = Reply.objects.filter(root_id=comment_id)
+        replys.delete()
 
         return JsonResponse({'result': 1, 'message': "删除成功"})
     else:
@@ -741,7 +757,7 @@ def send_sms_code(html ,to_email, title, sms_code):
                        [to_email])
 
     msg.content_subtype = 'html'
-    send_status = msg.send()
+    send_status = msg.send(fail_silently=False)
 
     return send_status
 
@@ -762,7 +778,7 @@ def send_email_register(request):
                 code = VerifyCode.objects.get(email, sms_code)
                 code.delete()
         title='欢迎注册HyperMuisc音乐平台'
-        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为三十分钟，请及时进行验证。".format(sms_code)
+
         try:
             res = send_sms_code('email_register.html', email, title, sms_code,)
         except Exception as e:
@@ -943,7 +959,18 @@ def get_user_reply(request):
         for x in comments:
             replys = (replys | Reply.objects.filter(root_id=x.id))
 
-        replys = [x.to_dic() for x in replys]
+        tmp = replys
+        replys = []
+        for x in tmp:
+            dict = x.to_dic()
+
+            like = Likes.objects.filter(user_id=user_id, type=3, object_id=dict.get('id'))
+            if like.exists():
+                dict['is_liked'] = 1
+            else:
+                dict['is_liked'] = 0
+            comments.append(dict)
+
         return JsonResponse({'result':1, 'message':"请求成功", "replys":replys})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})

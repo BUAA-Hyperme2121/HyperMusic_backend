@@ -10,7 +10,7 @@ from Music.models import *
 def music_search(request):
     if request.method == 'GET':
         keywords = request.GET.get('keywords')
-        musics= Music.objects.filter(music_name__icontains=keywords).order_by('-create_date')
+        musics= Music.objects.filter(music_name__icontains=keywords, is_audit=True).order_by('-create_date')
 
         musics= [ x.to_dic() for x in musics]
         return JsonResponse({  'result': 1, 'message':'搜索音乐成功', 'musics':musics    })
@@ -20,7 +20,7 @@ def music_search(request):
 def musiclist_search(request):
     if request.method == "GET":
         keywords = request.GET.get('keywords')
-        musiclists = MusicList.objects.filter(name__icontains=keywords).order_by('-create_date')
+        musiclists = MusicList.objects.filter(name__icontains=keywords, is_public=True).order_by('-create_date')
 
         musiclists = [x.to_dic() for x in musiclists]
         return JsonResponse({'result': 1, 'message': '搜索歌单成功', 'musiclists': musiclists})
