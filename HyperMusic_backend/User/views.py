@@ -124,7 +124,7 @@ def login(request):
 def find_password(request):
     if request.method == 'POST':
 
-        username = request.POST.get('username')
+        
         new_password = request.POST.get('new_password')
         new_password2 = request.POST.get('new_password2')
 
