@@ -405,7 +405,7 @@ def list_object_comment(request):
             else:
                 dict['is_liked'] = 0
             comments.append(dict)
-        return JsonResponse({'result': 0,
+        return JsonResponse({'result': 1,
                              'message': "获取成功成功",
                              'music_comment_list': comments})
 
