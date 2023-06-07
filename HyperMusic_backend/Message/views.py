@@ -532,7 +532,7 @@ def send_message(request):
         message_type = request.POST.get('message_type')
         type = request.POST.get('type')
         object_id = request.POST.get('object_id')
-        from_object_id = request.POST.get('from_object_id', '')
+        from_object_id = request.POST.get('from_object_id', '0')
 
         cre_message(poster_id=poster_id, receiver_id=receiver_id, title=title, content=content,
             type=type, object_id=object_id,message_type=message_type, from_object_id=from_object_id)
