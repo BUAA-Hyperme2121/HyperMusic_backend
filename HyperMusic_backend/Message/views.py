@@ -437,7 +437,7 @@ def list_user_comment(request):
 
 
 #创建一条信息
-def cre_message(poster_id, receiver_id, title, content, message_type, type, object_id, from_object_id):
+def cre_message(poster_id, receiver_id, title, content, message_type, type, object_id, from_object_id=0):
     new_message = Message(poster_id=poster_id, receiver_id=receiver_id, title=title, content=content,
                           message_type=message_type, type=type, object_id=object_id, from_object_id=from_object_id)
     new_message.save()
