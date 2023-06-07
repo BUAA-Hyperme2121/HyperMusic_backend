@@ -466,7 +466,6 @@ def upload_music(request):
         if user.username == singer_name:
             music.is_original = True
             music.save()
-        print(music.id)
         # 歌曲标签
         for label_name in labels_music:
             if label_name not in music_labels:
