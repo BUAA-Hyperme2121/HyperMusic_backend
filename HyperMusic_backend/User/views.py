@@ -23,12 +23,6 @@ singer_labels = ['华语男歌手', '华语女歌手', '华语乐队',
                  '日韩男歌手', '日韩女歌手', '日韩乐队']
 
 
-def check_password(password):
-    if not str.isalnum(password):
-        return False
-    if len(password) < 8 or len(password) > 18:
-        return False
-    return True
 
 
 # 加密
@@ -50,9 +44,9 @@ def register(request):
         if len(username) == 0 or len(password_1) == 0 or len(password_2) == 0:
             result = {'result': 0, 'message': '用户名与密码不允许为空'}
             return JsonResponse(result)
-        if not check_password(password_1):
-            result = {'result': 0, 'message': '密码不合法'}
-            return JsonResponse(result)
+        #if not check_password(password_1):
+        #    result = {'result': 0, 'message': '密码不合法'}
+        #    return JsonResponse(result)
         if User.objects.filter(username=username).exists():
             result = {'result': 0, 'message': '用户名已存在'}
             return JsonResponse(result)
@@ -130,7 +124,7 @@ def login(request):
 def find_password(request):
     if request.method == 'POST':
 
-        username = request.POST.get('username')
+        
         new_password = request.POST.get('new_password')
         new_password2 = request.POST.get('new_password2')
 

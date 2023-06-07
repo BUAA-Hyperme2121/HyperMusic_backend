@@ -755,7 +755,7 @@ def send_email_register(request):
                 code = VerifyCode.objects.get(email, sms_code)
                 code.delete()
         title='欢迎注册HyperMuisc音乐平台'
-        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为两分钟，请及时进行验证。".format(sms_code)
+        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为三十分钟，请及时进行验证。".format(sms_code)
         try:
             res = send_sms_code(email, title,content)
         except Exception as e:
@@ -789,7 +789,7 @@ def send_email_find_password(request):
                 code = VerifyCode.objects.get(email, sms_code)
                 code.delete()
         title='这是一封来自Hypermusic的邮件，帮助你找回密码'
-        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为两分钟，请及时进行输入已找回密码。".format(sms_code)
+        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为三十分钟，请及时进行输入已找回密码。".format(sms_code)
         try:
             res = send_sms_code(email, title, content)
         except Exception as e:
