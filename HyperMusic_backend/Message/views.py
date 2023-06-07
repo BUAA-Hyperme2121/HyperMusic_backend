@@ -407,7 +407,7 @@ def list_object_comment(request):
             else:
                 dict['is_liked'] = 0
             comments.append(dict)
-        return JsonResponse({'result': 0,
+        return JsonResponse({'result': 1,
                              'message': "获取成功成功",
                              'music_comment_list': comments})
 
@@ -572,7 +572,13 @@ def get_user_message(request):
 
 
         messages = Message.objects.filter(receiver_id=user.id).order_by('-create_date')
-        messages = [x.to_dic() for x in messages]
+
+        tmp = messages
+        messages = []
+        #2 点赞 3 关注 5 系统消息
+        for x in tmp:
+            if x.message_type == 2 or x.message_type == 3 or x.message_type == 5:
+                messages.append(x.to_dic())
 
 
 
@@ -870,16 +876,22 @@ def audit(request):
 
             object_id = complain.object_id
             #删除音乐
-            if type == '1':
+            if type == 1:
                 music = Music.objects.get(id=object_id)
                 music.delete()
-
+                content = "你的歌曲" + music.music_name + "被人投诉，现已删除"
+                receiver_id = music.creator.id
             #隐藏歌单
-            elif type == '2':
+            elif type == 2:
                 musiclist = MusicList.objects.get(id=object_id)
                 musiclist.is_public = False
                 musiclist.save()
+                receiver_id = musiclist.creator.id
+                content = "你的歌单" + musiclist.name + "被人投诉，现已不被公开"
+            #
+            # TODO
 
+            cre_message(poster_id=5, receiver_id=receiver_id ,message_type=5, content=content, title="", type=0, object_id = 0)
 
             return JsonResponse({'result':1, 'message':"审核结果为：不通过"})
     else:
@@ -953,23 +965,25 @@ def get_user_reply(request):
             result = {'result': 0, 'message': "请先登录!"}
             return JsonResponse(result)
         comments = Comment.objects.filter(poster_id=user_id)
-        replys= Reply.objects.filter(root_id=-114514)
-        for x in comments:
-            replys = (replys | Reply.objects.filter(root_id=x.id))
+        messages = Message.objects.filter(receiver_id=user.id).order_by('-create_date')
 
-        tmp = replys
-        replys = []
+        tmp = messages
         for x in tmp:
             dict = x.to_dic()
+            dict['reply_info'] = ''
+            dict['comment_info'] = ''
+            if x.message_type == 1:
+                reply = Reply.objects.get(id=x.object_id)
+                dict['reply_info'] = reply.to_dic()
+            elif x.message_type == 2:
+                comment = Comment.objects
 
-            like = Likes.objects.filter(user_id=user_id, type=3, object_id=dict.get('id'))
-            if like.exists():
-                dict['is_liked'] = 1
-            else:
-                dict['is_liked'] = 0
-            comments.append(dict)
 
-        return JsonResponse({'result':1, 'message':"请求成功", "replys":replys})
+
+
+            replys.append(dict)
+
+        return JsonResponse({'result':1, 'message':"请求成功", "replys": replys})
     else:
         return JsonResponse({'result': 0, 'message': "请求方式错误"})
 
