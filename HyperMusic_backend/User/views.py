@@ -142,7 +142,7 @@ def find_password(request):
         if verify_code(email, sms_code) != 1:
             result = {'result': 0, 'message': '未知错误'}
             return JsonResponse(result)
-        user = User.objects.filter(username=username, email=email)
+        user = User.objects.filter(email=email)
         if not user.exists():
             return JsonResponse({'result': 0, 'message': '用户名或邮箱错误'})
         if new_password2 != new_password:
