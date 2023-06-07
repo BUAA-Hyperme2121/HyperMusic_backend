@@ -9,7 +9,7 @@ from django.db.models import Count
 from django.http import JsonResponse
 
 from Bucket import Bucket
-from HyperMusic_backend.settings import MEDIA_ROOT
+from HyperMusic_backend.settings import MEDIA_ROOT, MUSIC_LIST_COVER_DEFAULT_PATH
 from Music.models import MusicList, SingerToMusic, Music, Label
 from User.models import Singer, UserListenHistory, User
 
@@ -33,11 +33,6 @@ def get_music_list_info(request):
             return JsonResponse(result)
         get_list = MusicList.objects.get(id=music_list_id)
         music_list_info = get_list.to_dic()
-        if not get_list.music.exists():
-            result = {'result': 1, 'message': '成功获取歌单', 'music_list_info': music_list_info,
-                      'music_list': '此歌单尚无歌曲'}
-            return JsonResponse(result)
-        music_list = [x.to_dic() for x in get_list.music.all()]
         # 寻找标签
         labels = Label.objects.all()
         labels_name = []
@@ -45,6 +40,11 @@ def get_music_list_info(request):
             if label.label_music_list.filter(id=music_list_id).exists():
                 labels_name.append(label.label_name)
         music_list_info['labels'] = labels_name
+        if not get_list.music.exists():
+            result = {'result': 1, 'message': '成功获取歌单', 'music_list_info': music_list_info,
+                      'music_list': '此歌单尚无歌曲'}
+            return JsonResponse(result)
+        music_list = [x.to_dic() for x in get_list.music.all()]
         result = {'result': 1, 'message': '成功获取歌单', 'music_list_info': music_list_info, 'music_list': music_list}
         return JsonResponse(result)
 

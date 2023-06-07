@@ -4,7 +4,7 @@ from datetime import *
 from random import Random
 
 import jwt
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.http import JsonResponse
 
 from Bucket import *
@@ -32,14 +32,6 @@ def trans_password(password):
     return transed_password
 
 
-def create_code(random_length=8):
-    str_code = ''
-    chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789'
-    length = len(chars) - 1
-    random = Random()
-    for i in range(random_length):
-        str_code += chars[random.randint(0, length)]
-    return str_code
 
 
 # 注册
@@ -80,7 +72,7 @@ def register(request):
             return JsonResponse(result)
 
         password = trans_password(password_1)
-        user = User(username=username, password=password)
+        user = User(username=username, password=password, email=email)
         user.save()
         # 默认给用户创建个人喜爱列表,type 2表示喜欢歌单列表
         like_list = MusicList(creator=user, name=username + '喜爱的歌曲列表', type=2)
@@ -129,6 +121,42 @@ def login(request):
         return JsonResponse(result)
 
 
+def find_password(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        new_password = request.POST.get('new_password')
+        new_password2 = request.POST.get('new_password2')
+
+        email = request.POST.get('email')
+        sms_code = request.POST.get('sms_code')
+        if len(email) == 0:
+            result = {'result': 0, 'message': '邮箱不允许为空'}
+            return JsonResponse(result)
+
+        # 邮箱验证
+        if verify_code(email, sms_code) == 0:
+            result = {'result': 0, 'message': '验证码错误，请重新输入'}
+            return JsonResponse(result)
+        elif verify_code(email, sms_code) == 2:
+            result = {'result': 0, 'message': '验证码已失效，请重新获取验证码'}
+            return JsonResponse(result)
+        if verify_code(email, sms_code) != 1:
+            result = {'result': 0, 'message': '未知错误'}
+            return JsonResponse(result)
+        user = User.objects.filter(username=username, email=email)
+        if not user.exists():
+            return JsonResponse({'result': 0, 'message': '用户名或邮箱错误'})
+        if new_password2 != new_password:
+            return JsonResponse({'result':0, 'message':'两次输入密码不同'})
+        user = user[0]
+        user.password = trans_password(new_password)
+        user.save()
+        return JsonResponse({'result':1, 'message':'成功修改密码'})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
 # 修改个人信息
 def change_info(request):
     if request.method == 'POST':
@@ -164,7 +192,6 @@ def change_info(request):
                     destination.write(chunk)
 
             bucket = Bucket()
-            key = create_code()
 
             # 上传审核
             upload_result = bucket.upload_file('hypermusic', avatar.name, avatar.name)
@@ -180,8 +207,6 @@ def change_info(request):
                 result = {'result': 0, 'message': '审核不通过', 'user': user.to_dic()}
                 return JsonResponse(result)
 
-            # TODO 判断是否默认头像，若不是，删除以前存储的，否则存储名重复
-
             # 获取存储路径
             avatar_path = bucket.query_object('hypermusic', avatar.name)
             if not avatar_path:
@@ -195,16 +220,20 @@ def change_info(request):
         location = request.POST.get('location', '')
         gender = request.POST.get('gender', '')
         introduction = request.POST.get('introduction', '')
+        email = request.POST.get('email', '')
         if len(gender) == 0:
             gender = '未知'
         if len(introduction) == 0:
             introduction = '这个人很懒，什么都没有留下'
         if len(location) == 0:
             location = '未知'
+        if len(email) == 0:
+            email = '保持神秘'
         user.username = username
         user.gender = gender
         user.location = location
         user.introduction = introduction
+        user.email = email
         user.save()
 
         result = {'result': 1, 'message': '修改个人信息成功'}
@@ -266,7 +295,6 @@ def upload_music(request):
         bucket = Bucket()
 
         music_id = music.id
-        suffix_music_cover = ''
         # 如果用户上传了封面
         if music_cover:
             if music_cover.size > 2 * 1024 * 1024:
@@ -380,8 +408,6 @@ def upload_music(request):
             result = {'result': 0, 'message': '歌曲自动审核失败'}
             return JsonResponse(result)
         JobToMusic(job_id=jobid, music_id=music_id).save()
-
-        # TODO 设置歌手默认封面,歌曲默认封面
 
         # 处理用户上传歌词
         if lyrics:
@@ -791,12 +817,12 @@ def get_recent_listen_music_list(request):
         if not UserListenHistory.objects.filter(user_id=user_id).exists():
             result = {'result': 1, 'message': '此用户目前还没有听歌'}
             return JsonResponse(result)
-        history = UserListenHistory.objects.filter(user_id=user_id).all().order_by('-create_date')[:history_record]
+        history = UserListenHistory.objects.filter(user_id=user_id).values('music_id').annotate(rank=Max('create_date')).order_by('-rank')[:history_record]
         music_list = []
         if history:
             for music in history:
                 dic = dict()
-                get_music = Music.objects.get(id=music.music_id)
+                get_music = Music.objects.get(id=music['music_id'])
                 dic['id'] = get_music.id
                 dic['music_name'] = get_music.music_name
                 dic['singer_name'] = get_music.singer.name

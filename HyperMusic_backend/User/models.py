@@ -1,5 +1,5 @@
 from django.db import models
-
+from HyperMusic_backend.settings import USER_AVATAR_DEFAULT_PATH, SINGER_COVER_DEFAULT_PATH
 
 # Create your models here.
 
@@ -9,7 +9,7 @@ class Singer(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     introduction = models.TextField(max_length=150, default='暂无介绍')
-    cover_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Singer_Avator.png')
+    cover_path = models.CharField(max_length=100, default=SINGER_COVER_DEFAULT_PATH)
 
     def to_dic(self):
         return {
@@ -26,14 +26,14 @@ class User(models.Model):
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     create_date = models.DateTimeField('创建时间', auto_now_add=True)  # 头像,个人简介,所在地, 性别
-
+    email = models.CharField(max_length=100,default='')
     # 维护信息
     follow_num = models.IntegerField(default=0)
     fan_num = models.IntegerField(default=0)
     like_list = models.IntegerField(verbose_name="个人喜爱歌单id", default=0)
 
     # 头像路径
-    avatar_path = models.CharField(max_length=100, default='https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_User_Avator.png')
+    avatar_path = models.CharField(max_length=100, default=USER_AVATAR_DEFAULT_PATH)
 
     # 可选信息: 简介,所在地,性别
     introduction = models.TextField(max_length=150, default='这个人很懒，什么也没有留下')
@@ -63,7 +63,8 @@ class User(models.Model):
             'post_num': self.post_num,
             'history_record': self.history_record,
             'is_singer': self.is_singer,
-            'is_admin': self.is_admin
+            'is_admin': self.is_admin,
+            'email':self.email,
         }
 
     # 增加粉丝

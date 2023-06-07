@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['8.130.12.73',
                  'hypermusic.hyper2121.com'
                  ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -57,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -110,7 +109,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HyperMusic_backend.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -124,7 +122,6 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -144,7 +141,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -155,7 +151,6 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 
 USE_TZ = False
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -176,3 +171,8 @@ EMAIL_HOST_USER = '2522820243@qq.com'
 EMAIL_HOST_PASSWORD = 'zubatifpgdqddibb'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+
+USER_AVATAR_DEFAULT_PATH = 'https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_User_Avator.png'
+SINGER_COVER_DEFAULT_PATH = 'https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Singer_Avator.png'
+MUSIC_COVER_DEFAULT_PATH = 'https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_Music_Cover.png'
+MUSIC_LIST_COVER_DEFAULT_PATH = 'https://hypermusic-1317300880.cos.ap-beijing.myqcloud.com/Default_MusicList_Cover.png'
