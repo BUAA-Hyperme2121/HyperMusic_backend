@@ -219,11 +219,6 @@ def change_info(request):
                 os.remove(avatar_dir)
                 result = {'result': 0, 'message': '上传失败'}
                 return JsonResponse(result)
-            # 判断是否默认头像，若不是，删除以前存储的，否则存储名重复
-            if user.avatar_path != USER_AVATAR_DEFAULT_PATH:
-                suffix = '.' + user.avatar_path.split('.')[-1]
-                name = 'avatar' + str(user.id) + suffix
-                bucket.delete_object('hypermusic', name)
             user.avatar_path = avatar_path
             user.save()
             os.remove(avatar_dir)
