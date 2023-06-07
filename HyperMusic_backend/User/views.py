@@ -4,7 +4,7 @@ from datetime import *
 from random import Random
 
 import jwt
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.http import JsonResponse
 
 from Bucket import *
@@ -797,12 +797,12 @@ def get_recent_listen_music_list(request):
         if not UserListenHistory.objects.filter(user_id=user_id).exists():
             result = {'result': 1, 'message': '此用户目前还没有听歌'}
             return JsonResponse(result)
-        history = UserListenHistory.objects.filter(user_id=user_id).all().order_by('-create_date')[:history_record]
+        history = UserListenHistory.objects.filter(user_id=user_id).values('music_id').annotate(rank=Max('create_date')).order_by('-rank')[:history_record]
         music_list = []
         if history:
             for music in history:
                 dic = dict()
-                get_music = Music.objects.get(id=music.music_id)
+                get_music = Music.objects.get(id=music['music_id'])
                 dic['id'] = get_music.id
                 dic['music_name'] = get_music.music_name
                 dic['singer_name'] = get_music.singer.name
