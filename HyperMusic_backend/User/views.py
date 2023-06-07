@@ -135,6 +135,42 @@ def login(request):
         return JsonResponse(result)
 
 
+def find_password(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        new_password = request.POST.get('new_password')
+        new_password2 = request.POST.get('new_password2')
+
+        email = request.POST.get('email')
+        sms_code = request.POST.get('sms_code')
+        if len(email) == 0:
+            result = {'result': 0, 'message': '邮箱不允许为空'}
+            return JsonResponse(result)
+
+        # 邮箱验证
+        if verify_code(email, sms_code) == 0:
+            result = {'result': 0, 'message': '验证码错误，请重新输入'}
+            return JsonResponse(result)
+        elif verify_code(email, sms_code) == 2:
+            result = {'result': 0, 'message': '验证码已失效，请重新获取验证码'}
+            return JsonResponse(result)
+        if verify_code(email, sms_code) != 1:
+            result = {'result': 0, 'message': '未知错误'}
+            return JsonResponse(result)
+        user = User.objects.filter(username=username, email=email)
+        if not user.exists():
+            return JsonResponse({'result': 0, 'message': '用户名或邮箱错误'})
+        if new_password2 != new_password:
+            return JsonResponse({'result':0, 'message':'两次输入密码不同'})
+        user = user[0]
+        user.password = trans_password(new_password)
+        user.save()
+        return JsonResponse({'result':1, 'message':'成功修改密码'})
+    else:
+        return JsonResponse({'result': 0, 'message': "请求方式错误"})
+
+
 # 修改个人信息
 def change_info(request):
     if request.method == 'POST':
