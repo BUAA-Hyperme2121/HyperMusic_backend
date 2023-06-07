@@ -9,7 +9,7 @@ from Music.models import *
 from Message.models import *
 from User.models import User,UserToFollow
 from django.utils import timezone
-
+from django.sh
 
 def get_follow_list_simple_user(user_id):
     return [x.follow_id for x in UserToFollow.objects.filter(user_id=user_id)]
@@ -437,9 +437,9 @@ def list_user_comment(request):
 
 
 #创建一条信息
-def cre_message(poster_id, receiver_id, title, content, message_type, type, object_id):
+def cre_message(poster_id, receiver_id, title, content, message_type, type, object_id, from_object_id):
     new_message = Message(poster_id=poster_id, receiver_id=receiver_id, title=title, content=content,
-                          message_type=message_type, type=type, object_id=object_id)
+                          message_type=message_type, type=type, object_id=object_id, from_object_id=from_object_id)
     new_message.save()
     UTM=UserToMessage(user_id=receiver_id, message_id=new_message.id)
     UTM.save()
@@ -721,20 +721,27 @@ def verify_code(email, sms_code):
     return 1
 
 
-def send_sms_code(to_email, title, content):
+
+def send_sms_code(html ,to_email, title, sms_code):
     """
     发送邮箱验证码
     :param to_mail: 发到这个邮箱
     :return: 成功：0 失败 -1
     """
     # 生成邮箱验证码
+    data = {'sms_code': sms_code }
+    html_content=render_to_string(html, data)
 
     EMAIL_FROM = "2522820243@qq.com"  # 邮箱来自
     email_title = title
 
-    email_body = content
+    msg = EmailMessage(email_title,
+                       html_content,
+                       EMAIL_FROM,
+                       [to_email])
 
-    send_status = send_mail(email_title, email_body, EMAIL_FROM, [to_email])
+    msg.content_subtype = 'html'
+    send_status = msg.send()
 
     return send_status
 
@@ -757,8 +764,9 @@ def send_email_register(request):
         title='欢迎注册HyperMuisc音乐平台'
         content="您的邮箱注册验证码为：{0}, 该验证码有效时间为三十分钟，请及时进行验证。".format(sms_code)
         try:
-            res = send_sms_code(email, title,content)
+            res = send_sms_code('email_register.html', email, title, sms_code,)
         except Exception as e:
+            print(e)
             return JsonResponse({'result':0, 'message':"邮箱错误"})
 
         if res == 1:
@@ -789,9 +797,9 @@ def send_email_find_password(request):
                 code = VerifyCode.objects.get(email, sms_code)
                 code.delete()
         title='这是一封来自Hypermusic的邮件，帮助你找回密码'
-        content="您的邮箱注册验证码为：{0}, 该验证码有效时间为三十分钟，请及时进行输入已找回密码。".format(sms_code)
+
         try:
-            res = send_sms_code(email, title, content)
+            res = send_sms_code('email_findpassword.html', email, title, sms_code)
         except Exception as e:
             return JsonResponse({'result':0, 'message':"邮箱错误"})
 
