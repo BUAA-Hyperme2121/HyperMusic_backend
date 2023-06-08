@@ -296,7 +296,7 @@ def get_singer_style(request):
 def get_some_music_list(request):
     if request.method == 'GET':
         # 获取公开的收藏夹
-        music_list_get = MusicList.objects.filter(type=1, is_public=True).all()[3:7]
+        music_list_get = MusicList.objects.filter(type=1, is_public=True).all()[3:8]
         music_list_all = []
         for ml in music_list_get:
             dic = dict()
