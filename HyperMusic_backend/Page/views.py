@@ -290,3 +290,77 @@ def get_singer_style(request):
     else:
         result = {'result': 0, 'message': '请求方式错误!'}
         return JsonResponse(result)
+
+
+# 获取3-7歌单列表
+def get_some_music_list(request):
+    if request.method == 'GET':
+        # 获取公开的收藏夹
+        music_list_get = MusicList.objects.filter(type=1, is_public=True).all()[3:7]
+        music_list_all = []
+        for ml in music_list_get:
+            dic = dict()
+            dic['name'] = ml.name
+            dic['id'] = ml.id
+            dic['creator_id'] = ml.creator.id
+            label_list = Label.objects.all()
+            labels = list()
+            for label in label_list:
+                if label.label_music_list.filter(id=ml.id).exists():
+                    labels.append(label.label_name)
+            dic['labels'] = labels
+            dic['cover_path'] = ml.cover_path
+            music_list_all.append(dic)
+        result = {'result': 1, 'message': '获取一些歌单成功', 'type': 2, 'music_list_all': music_list_all}
+        return JsonResponse(result)
+    else:
+        result = {'result': 0, 'message': '请求方式错误!'}
+        return JsonResponse(result)
+
+
+# 获取6-10歌手列表
+def get_some_singer(request):
+    if request.method == 'GET':
+        singers = Singer.objects.all()[6:11]
+        singer_list = []
+        for singer in singers:
+            dic = dict()
+            dic['id'] = singer.id
+            dic['name'] = singer.name
+            label_list = Label.objects.all()
+            labels = list()
+            for label in label_list:
+                if label.label_singer.filter(id=singer.id):
+                    labels.append(label.label_name)
+            dic['labels'] = labels
+            dic['cover_path'] = singer.cover_path
+            singer_list.append(dic)
+        result = {'result': 1, 'message': '获取一些歌手成功', 'type': 3, 'singer_list': singer_list}
+        return JsonResponse(result)
+    else:
+        result = {'result': 0, 'message': '请求方式错误!'}
+        return JsonResponse(result)
+
+
+# 获取8-12歌曲
+def get_some_music(request):
+    if request.method == 'GET':
+        music_all = Music.objects.all()[8:13]
+        music_list = []
+        for music in music_all:
+            dic = dict()
+            dic['music_name'] = music.music_name
+            dic['id'] = music.id
+            label_list = Label.objects.all()
+            labels = list()
+            for label in label_list:
+                if label.label_music.filter(id=music.id).exists():
+                    labels.append(label.label_name)
+            dic['labels'] = labels
+            dic['cover_path'] = music.cover_path
+            music_list.append(dic)
+        result = {'result': 1, 'message': '获取一些歌曲成功', 'type': 1, 'music_list': music_list}
+        return JsonResponse(result)
+    else:
+        result = {'result': 0, 'message': '请求方式错误!'}
+        return JsonResponse(result)

@@ -12,4 +12,7 @@ urlpatterns = [
     path('get_original_music_rank/', get_original_music_rank),
     path('get_all_music/', get_all_music),
     path('get_all_singer/', get_all_singer),
+    path('get_some_singer/', get_some_singer),
+    path('get_some_music/', get_some_music),
+    path('get_some_music_list/', get_some_music_list),
 ]
