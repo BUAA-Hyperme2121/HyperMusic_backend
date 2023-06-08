@@ -61,11 +61,20 @@ class Complain(models.Model):
 
     def to_dic(self):
         if self.type == 1:
-            music = Music.objects.get(id=self.object_id)
-            owner_name = music.creator.username
+            music = Music.objects.filter(id=self.object_id)
+            if music.exists():
+                music=music[0]
+                owner_name = music.creator.username
+            else:
+                owner_name = "歌曲已下架，无法显示"
         else:
-            musiclist = MusicList.objects.get(id=self.object_id)
-            owner_name = musiclist.creator.username
+            musiclist = MusicList.objects.filter(id=self.object_id)
+            if musiclist.exists():
+                musiclist=musiclist[0]
+                owner_name = musiclist.creator.username
+            else:
+                owner_name = "歌单已下架，无法显示"
+
         return {
             "id": self.id,
             "create_date": self.create_date,
@@ -191,17 +200,34 @@ class Post(models.Model):
 
     def to_dic(self):
         if self.type == 1:
-            object= Music.objects.get(id=self.object_id)
-            object_name=object.music_name
-            object_cover_path = object.cover_path
-            object_owner_id = object.singer.id
-            object_owner_name = Singer.objects.get(id=object_owner_id).name
+
+            object= Music.objects.filter(id=self.object_id)
+            if object.exists():
+                object=object[0]
+                object_name=object.music_name
+                object_cover_path = object.cover_path
+                object_owner_id = object.singer.id
+                object_owner_name = Singer.objects.get(id=object_owner_id).name
+            else:
+                object_name = "已下架不存在"
+                object_cover_path = ""
+                object_owner_id = ""
+                object_owner_name = "已下架不存在"
         elif self.type == 2:
+
             object = MusicList.objects.get(id=self.object_id)
-            object_name = object.name
-            object_cover_path = object.cover_path
-            object_owner_id = object.creator.id
-            object_owner_name = User.objects.get(id=object_owner_id).username
+            if object.exists():
+                object=object[0]
+                object_name = object.name
+                object_cover_path = object.cover_path
+                object_owner_id = object.creator.id
+                object_owner_name = User.objects.get(id=object_owner_id).username
+            else:
+                object_name = "已下架不存在"
+                object_cover_path = ""
+                object_owner_id = ""
+                object_owner_name = "已下架不存在"
+
         return {
             "id":self.id,
             "poster_id":self.poster_id,
